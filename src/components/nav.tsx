@@ -7,7 +7,6 @@ const Nav = () => {
   const links = [
     { name: "Home", url: "/" },
     { name: "Why Cuttr", url: "/whyUs" },
-    { name: "Pricing", url: "/pricing" },
     { name: "FAQs", url: "/faqs" },
   ];
 
@@ -16,7 +15,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="sticky w-screen z-20 top-0 left-0 flex items-center justify-start md:justify-evenly p-3 shadow-inset rounded-lg backdrop-blur-sm">
+    <nav className="w-screen flex items-center justify-start md:justify-evenly p-3 shadow-md shadow-accent rounded-lg md:backdrop-blur-sm">
       <h1 className="font-bold tracking-tighter text-accent text-4xl h-[50px] px-2">
         Cuttr
       </h1>
@@ -27,7 +26,7 @@ const Nav = () => {
           {!open ? <img src={hamMenu} /> : <img src={closeMenu} />}
         </div>
         <div
-          className={`fixed z-10 w-screen h-screen shadow-inset rounded-lg text-2xl text-text flex items-center justify-center flex-col backdrop-blur-lg transition-all ${
+          className={`bg-[rgba(0,0,0,0.3)] fixed z-10 w-screen h-screen shadow-inset rounded-lg text-2xl text-text flex items-center justify-center flex-col backdrop-blur-sm transition-all ${
             open ? "left-0 top-0" : "left-[100vw] -top-[100vw]"
           }`}
         >
@@ -45,7 +44,6 @@ const Nav = () => {
         </div>
       </div>
 
-
       {/* desktop nav */}
       <div className="hidden text-text md:flex justify-around items-start w-[55%] text-xl">
         <ul className="text-text text-center flex items-center justify-evenly leading-loose">
@@ -56,7 +54,7 @@ const Nav = () => {
           ))}
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">
-          <button className="mx-5 px-5">Login</button>
+          <button className="mx-2 px-5">Login</button>
           <button className="px-5">Sign Up</button>
         </div>
       </div>

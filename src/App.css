@@ -6,3 +6,19 @@
   box-sizing: border-box !important;
   font-family: 'Montserrat', sans-serif;
 }
+
+/* hero animation section */
+.bounce {
+  animation: myBounce 1.22s infinite;
+}
+
+@keyframes myBounce {
+  0%, 100% {
+    transform: translateY(-25%) scale(155%);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+  50% {
+    transform: translateY(15%) scale(125%);
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
