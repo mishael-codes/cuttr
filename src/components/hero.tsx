@@ -3,7 +3,7 @@ import * as Icon from "react-feather";
 
 const Hero = () => {
   return (
-    <div className="w-full text-center text-text relative z-0 pt-24 flex flex-col items-center">
+    <div className="w-full h-screen text-center text-text relative z-0 pt-24 flex flex-col items-center">
       <div>
         <h1 className="font-bold text-4xl md:text-5xl md:w-[800px]">
           Unleash the Power of <span className="text-accent">Conciseness</span>{" "}
