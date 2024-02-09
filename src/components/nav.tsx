@@ -6,8 +6,8 @@ const Nav = () => {
   const [open, setOpen] = useState(false);
   const links = [
     { name: "Home", url: "/" },
-    { name: "Why Cuttr", url: "/whyUs" },
-    { name: "FAQs", url: "/faqs" },
+    { name: "Why Cuttr", url: "#whyUs" },
+    { name: "FAQs", url: "#faqs" },
   ];
 
   const showNav = () => {
@@ -15,8 +15,8 @@ const Nav = () => {
   };
 
   return (
-    <nav className="w-screen flex items-center justify-start md:justify-evenly p-3 shadow-md shadow-accent rounded-lg md:backdrop-blur-sm">
-      <h1 className="font-bold tracking-tighter text-accent text-4xl h-[50px] px-2">
+    <nav className="w-full flex items-center justify-start md:justify-evenly p-3 shadow-md shadow-accent rounded-lg md:backdrop-blur-sm">
+      <h1 className="w-[25%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2">
         Cuttr
       </h1>
 
@@ -45,7 +45,7 @@ const Nav = () => {
       </div>
 
       {/* desktop nav */}
-      <div className="hidden text-text md:flex justify-around items-start w-[55%] text-xl">
+      <div className="w-[75%] hidden text-text md:flex justify-around items-start text-xl">
         <ul className="text-text text-center flex items-center justify-evenly leading-loose">
           {links.map((link) => (
             <li key={link.url} className="mx-1 px-3">
@@ -54,7 +54,7 @@ const Nav = () => {
           ))}
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">
-          <button className="mx-2 px-5">Login</button>
+          <button className="mr-2 md:mr-0 px-5">Login</button>
           <button className="px-5">Sign Up</button>
         </div>
       </div>
