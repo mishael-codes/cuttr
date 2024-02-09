@@ -32,7 +32,7 @@ const WhyUs = () => {
         {reasons.map((reason) => (
           <div
             key={reason.title}
-            className="flex items-center justify-center flex-col w-96 h-96 p-4 bg-accent rounded-lg shadow-md text-background"
+            className="flex items-center justify-center flex-col w-80 h-80 p-4 bg-accent rounded-lg shadow-md text-background"
           >
             <h2 className="text-2xl font-bold">{reason.title}</h2>
             <p className="text-center">{reason.desc}</p>

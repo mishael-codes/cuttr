@@ -3,7 +3,7 @@ import * as Icon from "react-feather";
 
 const Hero = () => {
   return (
-    <div className="w-full h-screen text-center text-text relative z-0 pt-24 flex flex-col items-center">
+    <div className="w-full h-screen text-center text-text relative z-0 pt-14 px-5 flex flex-col items-center">
       <div>
         <h1 className="font-bold text-4xl md:text-5xl md:w-[800px]">
           Unleash the Power of <span className="text-accent">Conciseness</span>{" "}
@@ -34,10 +34,10 @@ const Hero = () => {
           type="url"
           name="url"
           id="url"
-          className="w-96 h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
+          className="w-80 h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
           placeholder="https://www.example.com"
         />
-        <button className="rounded-lg w-96 bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent">
+        <button className="rounded-lg w-80 bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent">
           Shorten
         </button>
       </div>
