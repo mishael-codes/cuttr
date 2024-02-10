@@ -2,6 +2,7 @@ import Nav from "../components/nav.tsx"
 import Hero from "../components/hero.tsx";
 import WhyUs from "../components/whyUs.tsx";
 import Faqs from "../components/faqs.tsx";
+import Footer from "../components/footer.tsx";
 
 const Home = () => {
   return(
@@ -10,6 +11,7 @@ const Home = () => {
       <Hero />
       <WhyUs />
       <Faqs />
+      <Footer />
     </div>
   )
 }

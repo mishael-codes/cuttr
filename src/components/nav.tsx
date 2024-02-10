@@ -1,3 +1,4 @@
+import * as Icon from "react-feather"
 import { useState } from "react";
 import hamMenu from "../assets/icons/burger-menu.svg";
 import closeMenu from "../assets/icons/close.svg";
@@ -16,8 +17,8 @@ const Nav = () => {
 
   return (
     <nav className="w-full flex items-center justify-start md:justify-evenly p-3 shadow-md shadow-accent rounded-lg md:backdrop-blur-sm">
-      <h1 className="w-[25%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2">
-        Cuttr
+      <h1 className="md:w-[25%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2 flex items-baseline">
+        Cuttr <Icon.Link size="30px" />
       </h1>
 
       {/* Mobile nav */}

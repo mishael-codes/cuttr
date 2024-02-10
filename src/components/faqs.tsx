@@ -46,7 +46,7 @@ const Faqs = () => {
     <div className="mt-10 flex items-center justify-center flex-col">
       <div id="faqs" className="w-[50px] h-[50px]"></div>
       <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-6 after:top-8 after:rounded-lg">Faqs</h3>
-      <div className="text-text pt-5 h-screen md:w-[50%] transition-all">
+      <div className="text-text pt-5 md:w-[50%] transition-all">
         {faqs.map((faq) => (
           <div key={faq.question} className="border-b p-3">
             <div
