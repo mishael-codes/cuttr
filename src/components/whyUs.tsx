@@ -1,3 +1,5 @@
+import * as Icon from "react-feather";
+
 const WhyUs = () => {
   const reasons = [
     {
@@ -25,9 +27,9 @@ const WhyUs = () => {
   return (
     <div className="flex items-center justify-center flex-col w-screen">
       <div id="whyUs" className="w-[50px] h-[50px]"></div>
-      <h1 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[5px] after:bg-accent after:-z-10 after:left-11 after:top-7">
+      <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-11 after:top-8 after:rounded-lg">
         Why Cuttr
-      </h1>
+      </h3>
       <div className="w-fit mt-14 grid place-items-center justify-center gap-5 md:gap-16 md:grid-cols-2 lg:grid-cols-3">
         {reasons.map((reason) => (
           <div
@@ -39,6 +41,12 @@ const WhyUs = () => {
           </div>
         ))}
       </div>
+      <a href="">
+        <button className="flex items-center justify-center mt-10 rounded-lg w-80 bg-accent font-bold text-background p-3 border border-accent hover:bg-transparent hover:text-accent transition-all">
+          Get Started
+          <Icon.ChevronsRight className="ml-2" />
+        </button>
+      </a>
     </div>
   );
 };
