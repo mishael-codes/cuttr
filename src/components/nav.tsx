@@ -38,8 +38,8 @@ const Nav = () => {
             ))}
           </ul>
           <div className="buttons flex items-center justify-center flex-col mt-24">
-            <button>Login</button>
-            <button>Sign Up</button>
+            <button>Sign In</button>
+            <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</button>
           </div>
         </div>
       </div>
@@ -54,8 +54,8 @@ const Nav = () => {
           ))}
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">
-          <button className="mr-2 md:mr-0 px-5">Login</button>
-          <button className="px-5">Sign Up</button>
+          <button className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all">Sign In</button>
+          <button className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</button>
         </div>
       </div>
     </nav>
