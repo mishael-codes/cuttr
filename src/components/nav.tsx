@@ -34,7 +34,7 @@ const Nav = () => {
           <ul className="text-center leading-loose">
             {links.map((link) => (
               <li key={link.url}>
-                <a href={link.url}>{link.name}</a>
+                <a onClick={() => {setOpen(!open)}} href={link.url}>{link.name}</a>
               </li>
             ))}
           </ul>
