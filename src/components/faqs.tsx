@@ -1,7 +1,9 @@
 import * as Icon from "react-feather";
 
 const Faqs = () => {
-  const toggleContent = (e) => {
+  const toggleContent = (e: Element) => {
+    console.log(e);
+    
     const arrow = e.target.children[1];
     const content = e.target.nextElementSibling;
     content.classList.toggle("h-0");
