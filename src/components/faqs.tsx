@@ -1,14 +1,14 @@
 import * as Icon from "react-feather";
 
 const Faqs = () => {
-  const toggleContent = (e: Element) => {
+  const toggleContent = (e: React.MouseEvent<HTMLDivElement>) => {
     console.log(e);
     
-    const arrow = e.target.children[1];
-    const content = e.target.nextElementSibling;
+    const arrow = e.currentTarget.querySelector(".arrow-icon");
+    const content = e.currentTarget.nextElementSibling as HTMLParagraphElement;
     content.classList.toggle("h-0");
     content.classList.toggle("overflow-hidden");
-    arrow.classList.toggle("rotate-180");
+    arrow?.classList.toggle("rotate-180");
   };
 
   const faqs = [
@@ -56,7 +56,7 @@ const Faqs = () => {
               className="flex items-center justify-between"
             >
               <p className="py-4">{faq.question}</p>
-              <Icon.ChevronDown className="transition-all" size="30px" />
+              <Icon.ChevronDown className="arrow-icon transition-all" size="30px" />
             </div>
             <p className="h-0 overflow-hidden">{faq.answer}</p>
           </div>
