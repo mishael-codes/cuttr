@@ -33,7 +33,7 @@ const WhyUs = () => {
   return (
     <div className="flex items-center justify-center flex-col w-screen">
       <div id="whyUs" className="w-[50px] h-[50px]"></div>
-      <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-11 after:top-8 after:rounded-lg">
+      <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Why Cuttr
       </h3>
       <div className="w-fit mt-14 grid place-items-center justify-center gap-5 md:gap-7 md:grid-cols-2 lg:grid-cols-3 shadow-[5px_5px_20px_rgba(25, 5, 44,1)]">
