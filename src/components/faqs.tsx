@@ -2,8 +2,6 @@ import * as Icon from "react-feather";
 
 const Faqs = () => {
   const toggleContent = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e);
-    
     const arrow = e.currentTarget.querySelector(".arrow-icon");
     const content = e.currentTarget.nextElementSibling as HTMLParagraphElement;
     content.classList.toggle("h-0");
@@ -47,7 +45,9 @@ const Faqs = () => {
   return (
     <div className="mt-10 flex items-center justify-center flex-col">
       <div id="faqs" className="w-[50px] h-[50px]"></div>
-      <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-6 after:top-8 after:rounded-lg">Faqs</h3>
+      <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-6 after:top-8 after:rounded-lg">
+        Faqs
+      </h3>
       <div className="text-text pt-5 md:w-[50%] cursor-pointer">
         {faqs.map((faq) => (
           <div key={faq.question} className="border-b p-3">
@@ -56,7 +56,10 @@ const Faqs = () => {
               className="flex items-center justify-between"
             >
               <p className="py-4">{faq.question}</p>
-              <Icon.ChevronDown className="arrow-icon transition-all" size="30px" />
+              <Icon.ChevronDown
+                className="arrow-icon transition-all"
+                size="30px"
+              />
             </div>
             <p className="h-0 overflow-hidden transition-all">{faq.answer}</p>
           </div>
