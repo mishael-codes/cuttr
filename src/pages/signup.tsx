@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  onAuthStateChanged,
+} from "firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,83 +28,116 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setIsLoadingText] = useState("Sign Up")
 
+  useEffect(() => {
+    if(isLoading){
+      setIsLoadingText("...")
+    }else {
+      setIsLoadingText("Sign Up")
+    }
+  }, [isLoading])
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   // const analytics = getAnalytics(app);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
-    setEmail(newEmail)
-  }
+    setEmail(newEmail);
+  };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
-    setPassword(newPassword)
-  }
+    setPassword(newPassword);
+  };
 
-  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConfirmPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const confirmPassword = e.target.value;
     setConfirmPassword(confirmPassword);
-  }
+  };
 
-
-  const registerUser = (
-    e: React.FormEvent
-  ) => {
+  const registerUser = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     // validating email
-    if (!email){
+    if (!email) {
+      setIsLoading(false)
       alert("Email is required");
       return false;
-    }else if(!/^\S+@\S+\.\S+$/.test(email)){
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setIsLoading(false)
       alert("Email is invalid");
       return false;
     }
 
-    if(!password){
+    if (!password) {
       alert("Password is required");
+      setIsLoading(false)
       return;
-    }else if(password.length < 6){
+    } else if (password.length < 6) {
       alert("Password must be at least 6 characters");
       return;
     }
 
-    if(!confirmPassword){
+    if (!confirmPassword) {
+      setIsLoading(false)
       alert("Confirm Password is required");
       return;
-    }else if(password !== confirmPassword){
+    } else if (password !== confirmPassword) {
+      setIsLoading(false)
       alert("Passwords do not match");
       return;
     }
 
-    
     const auth = getAuth(app);
-    createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
         // ...
-        console.log(user); 
+        console.log(user);
         alert("User signed up successfully");
+        setIsLoading(false)
+        if (auth.currentUser) {
+          sendEmailVerification(auth.currentUser).then(() => {
+            // Email verification sent!
+            // ...
+            alert("Email verification sent!");
+          });
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // ..
         console.log(errorCode, errorMessage);
-        
       });
 
-      return false
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user.email); 
+      }
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setIsLoading(false)
+    });
+
+    return false;
   };
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-evenly">
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign Up
       </h2>
-      <form className="w-full flex flex-col items-center justify-center" onSubmit={registerUser}>
+      <form
+        className="w-full flex flex-col items-center justify-center"
+        onSubmit={registerUser}
+      >
         <label
           className="flex flex-col mt-4 text-text font-semibold"
           htmlFor="email"
@@ -150,7 +188,7 @@ const SignUp = () => {
           type="submit"
           className="w-80 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all"
         >
-          Sign Up
+          {loadingText}
         </button>
       </form>
       <p className="text-text">
