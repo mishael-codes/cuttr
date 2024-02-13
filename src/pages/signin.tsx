@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const SignIn = () => {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-evenly">
@@ -35,6 +37,7 @@ const SignIn = () => {
           Sign Up
         </button>
       </form>
+      <p className="text-text">Don&apos;t have an account? <Link to="/signup" className="text-accent underline underline-offset-2">Sign Up here</Link></p>
     </div>
   );
 };

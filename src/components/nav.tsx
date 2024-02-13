@@ -1,7 +1,8 @@
-import * as Icon from "react-feather"
 import { useState } from "react";
-import hamMenu from "../assets/icons/burger-menu.svg";
+import * as Icon from "react-feather"
+import { Link } from "react-router-dom";
 import closeMenu from "../assets/icons/close.svg";
+import hamMenu from "../assets/icons/burger-menu.svg";
 
 const Nav = () => {
   const [open, setOpen] = useState(false);
@@ -39,8 +40,10 @@ const Nav = () => {
             ))}
           </ul>
           <div className="buttons flex items-center justify-center flex-col mt-24">
-            <button>Sign In</button>
-            <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</button>
+            {/* <button>Sign In</button> */}
+            <Link to="/signin"> Sign In</Link>
+            <Link to="/signup" className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"> Sign Up</Link>
+            {/* <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</button> */}
           </div>
         </div>
       </div>
@@ -55,8 +58,8 @@ const Nav = () => {
           ))}
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">
-          <button className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all">Sign In</button>
-          <button className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</button>
+          <Link to="/signin" className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all">Sign In</Link>
+          <Link to="/signup" className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</Link>
         </div>
       </div>
     </nav>

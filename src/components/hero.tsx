@@ -1,5 +1,5 @@
-import { TypeAnimation } from "react-type-animation";
 import * as Icon from "react-feather";
+import { TypeAnimation } from "react-type-animation";
 
 const Hero = () => {
   return (
