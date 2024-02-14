@@ -105,8 +105,7 @@ const SignUp = () => {
         if (auth.currentUser) {
           sendEmailVerification(auth.currentUser).then(() => {
             // Email verification sent!
-            // ...
-            alert("Email verification sent!");
+            location.href = "/";
           });
         }
       })
