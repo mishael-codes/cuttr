@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Loader from "../components/loader/loader";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
@@ -29,15 +30,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingText, setIsLoadingText] = useState("Sign Up")
-
-  useEffect(() => {
-    if(isLoading){
-      setIsLoadingText("...")
-    }else {
-      setIsLoadingText("Sign Up")
-    }
-  }, [isLoading])
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   // const analytics = getAnalytics(app);
@@ -65,18 +57,19 @@ const SignUp = () => {
 
     // validating email
     if (!email) {
-      setIsLoading(false)
+      setIsLoading(false);
       alert("Email is required");
       return false;
     } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setIsLoading(false)
+      setIsLoading(false);
       alert("Email is invalid");
       return false;
     }
 
+    // validating password
     if (!password) {
       alert("Password is required");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     } else if (password.length < 6) {
       alert("Password must be at least 6 characters");
@@ -84,11 +77,11 @@ const SignUp = () => {
     }
 
     if (!confirmPassword) {
-      setIsLoading(false)
+      setIsLoading(false);
       alert("Confirm Password is required");
       return;
     } else if (password !== confirmPassword) {
-      setIsLoading(false)
+      setIsLoading(false);
       alert("Passwords do not match");
       return;
     }
@@ -101,7 +94,7 @@ const SignUp = () => {
         // ...
         console.log(user);
         alert("User signed up successfully");
-        setIsLoading(false)
+        setIsLoading(false);
         if (auth.currentUser) {
           sendEmailVerification(auth.currentUser).then(() => {
             // Email verification sent!
@@ -118,12 +111,12 @@ const SignUp = () => {
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user.email); 
+        console.log(user.email);
       }
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      setIsLoading(false)
+      setIsLoading(false);
     });
 
     return false;
@@ -185,9 +178,9 @@ const SignUp = () => {
         </label>
         <button
           type="submit"
-          className="w-80 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all"
+          className="relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all"
         >
-          {loadingText}
+          {isLoading ? <Loader /> : "Sign Up"}
         </button>
       </form>
       <p className="text-text">
