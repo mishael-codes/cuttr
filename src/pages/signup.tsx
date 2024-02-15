@@ -30,6 +30,9 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [emailError, setEmailError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
+  const [confirmPasswordError, setConfirmPasswordError] = useState("")
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   // const analytics = getAnalytics(app);
@@ -37,11 +40,13 @@ const SignUp = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
+    setEmailError("")
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
+    setPasswordError("")
   };
 
   const handleConfirmPasswordChange = (
@@ -49,45 +54,48 @@ const SignUp = () => {
   ) => {
     const confirmPassword = e.target.value;
     setConfirmPassword(confirmPassword);
+    setConfirmPasswordError("")
   };
 
-  const registerUser = async (e: React.FormEvent) => {
+  const registerUser = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     // validating email
     if (!email) {
       setIsLoading(false);
-      alert("Email is required");
+      setEmailError("Email is required")
       return false;
     } else if (!/^\S+@\S+\.\S+$/.test(email)) {
       setIsLoading(false);
-      alert("Email is invalid");
+      setEmailError("Email is invalid")
       return false;
     }
 
     // validating password
     if (!password) {
-      alert("Password is required");
       setIsLoading(false);
+      setPasswordError("Password is required");
       return;
     } else if (password.length < 6) {
-      alert("Password must be at least 6 characters");
+      setIsLoading(false)
+      setPasswordError("Password must be at least 6 characters");
       return;
     }
 
+    // validating confirm password
     if (!confirmPassword) {
       setIsLoading(false);
-      alert("Confirm Password is required");
+      setConfirmPasswordError("Confirm Password  is required");
       return;
     } else if (password !== confirmPassword) {
       setIsLoading(false);
-      alert("Passwords do not match");
+      setConfirmPasswordError("Passwords do not match");
       return;
     }
 
     const auth = getAuth(app);
-    await createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
@@ -144,6 +152,7 @@ const SignUp = () => {
             onChange={handleEmailChange}
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
+          <p className="text-red-500 font-thin text-xs">{emailError ? emailError : ""}</p>
         </label>
         <label
           className="flex flex-col mt-4 text-text font-semibold"
@@ -159,6 +168,7 @@ const SignUp = () => {
             onChange={handlePasswordChange}
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
+          <p className="text-red-500 font-thin text-xs">{passwordError ? passwordError : ""}</p>
         </label>
 
         <label
@@ -175,6 +185,7 @@ const SignUp = () => {
             onChange={handleConfirmPasswordChange}
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
+          <p className="text-red-500 font-thin text-xs">{confirmPasswordError ? confirmPasswordError : ""}</p>
         </label>
         <button
           type="submit"
