@@ -189,7 +189,7 @@ const SignUp = () => {
         </label>
         <button
           type="submit"
-          className="relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all"
+          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all ${isLoading ? 'cursor-not-allowed bg-transparent' : ''}`}
         >
           {isLoading ? <Loader /> : "Sign Up"}
         </button>
