@@ -1,6 +1,7 @@
 import { useState } from "react";
 const NotFound = () => {
   const [count, setCount] = useState(5);
+  const [seconds, setSeconds] = useState("seconds");
 
   const Redirect = () => {
     setTimeout(() => {
@@ -10,10 +11,14 @@ const NotFound = () => {
     setInterval(() => {
       setCount(count - 1);
     }, 1000);
-
+    
+    if (count === 1) {
+      setSeconds("second");
+    }
+    
     return (
       <div className="mt-5 w-[350px] text-center">
-        <p>Redirecting to Cuttr in {count} seconds...</p>
+        <p>Redirecting to Cuttr in {count} {seconds}...</p>
       </div>
     );
   };
