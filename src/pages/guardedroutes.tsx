@@ -28,11 +28,11 @@ const GuardedRoutes = () => {
       if (!user) {
         navigate("/signin");
       } else {
-        navigate("/dashboard");
+        window.location.pathname === "/dashboard" ? navigate("/dashboard") : navigate("/settings");
       }
     });
   }, []);
-  
+
   return (
     <div className="h-screen text-text flex flex-col md:flex-row">
       <h1 className="text-accent p-5 font-bold border-b border-accent rounded-lg md:hidden">
