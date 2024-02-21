@@ -43,3 +43,7 @@ body{
   background-color: var(--accent);
   border-radius: 10px;
 }
+
+a.active{
+  color: var(--accent);
+}

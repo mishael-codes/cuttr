@@ -20,21 +20,23 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [emailError, setEmailError] = useState("")
-  const [passwordError, setPasswordError] = useState("")
-  const [confirmPasswordError, setConfirmPasswordError] = useState("")
-  
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [errorModal, setErrorModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("")
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
-    setEmailError("")
+    setEmailError("");
+    setErrorModal(false)
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
-    setPasswordError("")
+    setPasswordError("");
   };
 
   const handleConfirmPasswordChange = (
@@ -42,7 +44,7 @@ const SignUp = () => {
   ) => {
     const confirmPassword = e.target.value;
     setConfirmPassword(confirmPassword);
-    setConfirmPasswordError("")
+    setConfirmPasswordError("");
   };
 
   const registerUser = (e: React.FormEvent) => {
@@ -52,11 +54,11 @@ const SignUp = () => {
     // validating email
     if (!email) {
       setIsLoading(false);
-      setEmailError("Email is required")
+      setEmailError("Email is required");
       return false;
     } else if (!/^\S+@\S+\.\S+$/.test(email)) {
       setIsLoading(false);
-      setEmailError("Email is invalid")
+      setEmailError("Email is invalid");
       return false;
     }
 
@@ -66,7 +68,7 @@ const SignUp = () => {
       setPasswordError("Password is required");
       return;
     } else if (password.length < 6) {
-      setIsLoading(false)
+      setIsLoading(false);
       setPasswordError("Password must be at least 6 characters");
       return;
     }
@@ -100,12 +102,12 @@ const SignUp = () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        console.log(errorCode, errorMessage);
+        if (errorCode === "auth/email-already-in-use") {
+          setIsLoading(false);
+          setErrorModal(true)
+          setModalMessage("Email is already in use")
+        }
       });
-
-    
 
     return false;
   };
@@ -114,6 +116,7 @@ const SignUp = () => {
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign Up
       </h2>
+      <div>{errorModal ? <p className="text-red-400">{modalMessage}</p> : ""}</div>
       <form
         className="w-full flex flex-col items-center justify-center"
         onSubmit={registerUser}
@@ -134,7 +137,9 @@ const SignUp = () => {
             autoFocus
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
-          <p className="text-red-500 font-thin text-xs">{emailError ? emailError : ""}</p>
+          <p className="text-red-500 font-thin text-xs">
+            {emailError ? emailError : ""}
+          </p>
         </label>
         <label
           className="flex flex-col mt-4 text-text font-semibold"
@@ -151,7 +156,9 @@ const SignUp = () => {
             autoComplete="current-password"
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
-          <p className="text-red-500 font-thin text-xs">{passwordError ? passwordError : ""}</p>
+          <p className="text-red-500 font-thin text-xs">
+            {passwordError ? passwordError : ""}
+          </p>
         </label>
 
         <label
@@ -169,11 +176,15 @@ const SignUp = () => {
             autoComplete="current-password"
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
-          <p className="text-red-500 font-thin text-xs">{confirmPasswordError ? confirmPasswordError : ""}</p>
+          <p className="text-red-500 font-thin text-xs">
+            {confirmPasswordError ? confirmPasswordError : ""}
+          </p>
         </label>
         <button
           type="submit"
-          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all ${isLoading ? 'cursor-not-allowed bg-transparent' : ''}`}
+          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all ${
+            isLoading ? "cursor-not-allowed bg-transparent" : ""
+          }`}
         >
           {isLoading ? <Loader /> : "Sign Up"}
         </button>

@@ -5,6 +5,7 @@ import SignIn from "./pages/signin";
 import NotFound from "./pages/notfound";
 import GuardedRoutes from "./pages/guardedroutes";
 import Dashboard from "./guarded/dashboard";
+import Settings from "./guarded/settings";
 import "./App.css";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -40,6 +41,7 @@ function App() {
         <Route path="signin" element={<SignIn />} />
         <Route element={<GuardedRoutes />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

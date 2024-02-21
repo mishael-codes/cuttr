@@ -2,26 +2,25 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader/loader";
-import {
-  getAuth,
-  signInWithEmailAndPassword
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = () => {
-
   // State variables
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  
+  const [errorModal, setErrorModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("")
+
   const navigate = useNavigate();
   // Handle email input change
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
     setEmailError("");
+    setErrorModal(false)
   };
 
   // Handle password input change
@@ -29,6 +28,7 @@ const SignIn = () => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setPasswordError("");
+    setErrorModal(false)
   };
 
   // Sign in user
@@ -72,25 +72,22 @@ const SignIn = () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(`${errorCode} \n ${errorMessage}`);
-      });
+        console.log(errorCode);
 
-    // Listen for user state changes
-    /* onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user.email);
-        setEmail("");
-        setPassword("");
-        setIsLoading(false);
-      }
-    }); */
+        if (errorCode === "auth/invalid-credential") {
+          setIsLoading(false);
+          setErrorModal(true)
+          setModalMessage("Invalid login credentials")
+        }
+      });
   };
+
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-evenly">
+    <div className="w-screen h-screen flex flex-col items-center justify-evenly relative">
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign In
       </h2>
+      <div>{errorModal ? <p className="text-text">{modalMessage}</p> : ""}</div>
       <form
         className="w-full flex flex-col items-center justify-center"
         onSubmit={signInUser}
