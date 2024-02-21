@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../components/loader/loader";
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
-  onAuthStateChanged,
 } from "firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -16,15 +14,7 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const SignUp = () => {
-  const firebaseConfig = {
-    apiKey: "AIzaSyB6pHje3a6b_TL5QGVIiZ-9m-73IsjE6cs",
-    authDomain: "cuttr-c1515.firebaseapp.com",
-    projectId: "cuttr-c1515",
-    storageBucket: "cuttr-c1515.appspot.com",
-    messagingSenderId: "179583977080",
-    appId: "1:179583977080:web:7a52382ef91964690a4f8d",
-    measurementId: "G-9RBDMNLCRQ",
-  };
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,9 +23,7 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
   const [confirmPasswordError, setConfirmPasswordError] = useState("")
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  // const analytics = getAnalytics(app);
+  
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
@@ -94,7 +82,7 @@ const SignUp = () => {
       return;
     }
 
-    const auth = getAuth(app);
+    const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
@@ -106,7 +94,7 @@ const SignUp = () => {
         if (auth.currentUser) {
           sendEmailVerification(auth.currentUser).then(() => {
             // Email verification sent!
-            location.href = "/";
+            navigate("/dashboard");
           });
         }
       })
@@ -117,15 +105,7 @@ const SignUp = () => {
         console.log(errorCode, errorMessage);
       });
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user.email);
-      }
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setIsLoading(false);
-    });
+    
 
     return false;
   };
@@ -150,6 +130,8 @@ const SignUp = () => {
             value={email}
             placeholder="johndoe@gmail.com"
             onChange={handleEmailChange}
+            autoComplete="email"
+            autoFocus
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">{emailError ? emailError : ""}</p>
@@ -166,6 +148,7 @@ const SignUp = () => {
             placeholder="********"
             value={password}
             onChange={handlePasswordChange}
+            autoComplete="current-password"
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">{passwordError ? passwordError : ""}</p>
@@ -183,6 +166,7 @@ const SignUp = () => {
             placeholder="********"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
+            autoComplete="current-password"
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">{confirmPasswordError ? confirmPasswordError : ""}</p>

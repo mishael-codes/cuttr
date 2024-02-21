@@ -1,24 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader/loader";
-import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
+  signInWithEmailAndPassword
 } from "firebase/auth";
 
 const SignIn = () => {
-  // My web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyB6pHje3a6b_TL5QGVIiZ-9m-73IsjE6cs",
-    authDomain: "cuttr-c1515.firebaseapp.com",
-    projectId: "cuttr-c1515",
-    storageBucket: "cuttr-c1515.appspot.com",
-    messagingSenderId: "179583977080",
-    appId: "1:179583977080:web:7a52382ef91964690a4f8d",
-    measurementId: "G-9RBDMNLCRQ",
-  };
 
   // State variables
   const [email, setEmail] = useState("");
@@ -26,10 +15,8 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
-  // initialize Firebase
-  const app = initializeApp(firebaseConfig);
-
+  
+  const navigate = useNavigate();
   // Handle email input change
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
@@ -71,11 +58,12 @@ const SignIn = () => {
       return false;
     }
 
-    const auth = getAuth(app);
+    const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        navigate("/dashboard");
         // ...
         console.log(user);
         user;
@@ -89,14 +77,14 @@ const SignIn = () => {
       });
 
     // Listen for user state changes
-    onAuthStateChanged(auth, (user) => {
+    /* onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log(user.email);
         setEmail("");
         setPassword("");
         setIsLoading(false);
       }
-    });
+    }); */
   };
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-evenly">
@@ -119,6 +107,8 @@ const SignIn = () => {
             value={email}
             onChange={handleEmailChange}
             placeholder="johndoe@gmail.com"
+            autoComplete="email"
+            autoFocus
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
@@ -137,6 +127,7 @@ const SignIn = () => {
             value={password}
             onChange={handlePasswordChange}
             placeholder="********"
+            autoComplete="current-password"
             className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
