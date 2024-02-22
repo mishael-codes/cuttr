@@ -71,7 +71,7 @@ const Settings = () => {
         </button>
       </form>
 
-      <div className="w-screen flex items-center justify-center flex-col absolute bottom-">
+      <div className="w-screen flex items-center justify-center flex-col absolute bottom-10">
         <button
           onClick={handleSignOut}
           className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
