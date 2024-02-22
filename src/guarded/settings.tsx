@@ -88,6 +88,7 @@ const Settings = () => {
             placeholder="******"
             className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5 cursor-not-allowed"
             onChange={handleChange}
+            disabled
           />
         </label>
         <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">
