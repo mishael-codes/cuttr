@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, updateProfile, signOut, deleteUser } from "firebase/auth";
+import { getAuth, updateProfile, signOut } from "firebase/auth";
 
 const Settings = () => {
   // get auth instance
@@ -43,14 +43,14 @@ const Settings = () => {
   };
 
   // delete user account
-  const handledeleteUser = () => {
+  /* const handledeleteUser = () => {
     const user = auth.currentUser;
     if (user) {
       deleteUser(user).then(() => {
         navigate("/signup");
       });
     }
-  };
+  }; */
 
   return (
     <div>
@@ -71,19 +71,19 @@ const Settings = () => {
         </button>
       </form>
 
-      <div className="w-screen flex items-center justify-center flex-col absolute bottom-10">
+      <div className="w-screen flex items-center justify-center flex-col absolute bottom-">
         <button
           onClick={handleSignOut}
           className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
         >
           Sign Out
         </button>
-        <button
+        {/* <button
           onClick={handledeleteUser}
           className="rounded-lg bg-red-700 font-bold text-white p-3 mt-4 border border-red-700 hover:bg-transparent hover:text-red-700 hover:bg-white transition-all"
         >
           Delete Account
-        </button>
+        </button> */}
       </div>
     </div>
   );
