@@ -31,7 +31,7 @@ const GuardedRoutes = () => {
         window.location.pathname === "/dashboard" ? navigate("/dashboard") : navigate("/settings");
       }
     });
-  }, []);
+  }, [auth, navigate]);
 
   return (
     <div className="h-screen text-text flex flex-col md:flex-row">

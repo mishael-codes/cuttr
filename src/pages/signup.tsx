@@ -91,7 +91,6 @@ const SignUp = () => {
         const user = userCredential.user;
         // ...
         console.log(user);
-        alert("User signed up successfully");
         setIsLoading(false);
         if (auth.currentUser) {
           sendEmailVerification(auth.currentUser).then(() => {
@@ -106,6 +105,10 @@ const SignUp = () => {
           setIsLoading(false);
           setErrorModal(true)
           setModalMessage("Email is already in use")
+        } else if (errorCode === "auth/network-request-failed"){
+          setIsLoading(false);
+          setErrorModal(true)
+          setModalMessage("Network error, please try again later")
         }
       });
 

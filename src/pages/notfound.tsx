@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const NotFound = () => {
   const [count, setCount] = useState(5);
   const [seconds, setSeconds] = useState("seconds");
 
   const Redirect = () => {
+    const navigate = useNavigate();
     setTimeout(() => {
-      window.location.href = "/";
+      navigate("/");
     }, 4000);
 
     setInterval(() => {

@@ -78,6 +78,10 @@ const SignIn = () => {
           setIsLoading(false);
           setErrorModal(true)
           setModalMessage("Invalid login credentials")
+        } else if (errorCode === "auth/network-request-failed"){
+          setIsLoading(false);
+          setErrorModal(true)
+          setModalMessage("Network error, please try again later")
         }
       });
   };
