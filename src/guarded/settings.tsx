@@ -54,18 +54,42 @@ const Settings = () => {
 
   return (
     <div>
-      <p>Welcome {auth.currentUser?.displayName}</p>
-      <h1>This is the settings page</h1>
-      <form onSubmit={handleUpdateProfile}>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          placeholder="Johnie"
-          className="h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5"
-          onChange={handleChange}
-          value={userName}
-        />
+      <h1 className="ps-4 pt-2">Welcome {auth.currentUser?.displayName},</h1>
+      <form onSubmit={handleUpdateProfile} className="ps-8 pt-4">
+        <label htmlFor="username" className="flex flex-col mb-5">
+          Update your username
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Johnie"
+            className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5"
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="email" className="flex flex-col mb-5">
+          Update your email
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="johndoe@gmail.com"
+            className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5 cursor-not-allowed"
+            onChange={handleChange}
+            disabled
+          />
+        </label>
+        <label htmlFor="password" className="flex flex-col mb-5">
+          Reset your password
+          <input
+            type="text"
+            name="password"
+            id="password"
+            placeholder="******"
+            className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5 cursor-not-allowed"
+            onChange={handleChange}
+          />
+        </label>
         <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">
           Save
         </button>
