@@ -9,7 +9,7 @@ import Settings from "./guarded/settings";
 import "./App.css";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection } from "firebase/firestore";
 import { useEffect } from "react";
 
 function App() {
@@ -24,8 +24,13 @@ function App() {
   };
 
   const app = initializeApp(firebaseConfig);
+
+  // firestore instance
   const db = getFirestore(app);
   
+  // collection reference
+  const colRef = collection(db, "urls");
+
   const auth = getAuth(app);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
