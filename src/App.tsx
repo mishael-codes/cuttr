@@ -9,6 +9,7 @@ import Settings from "./guarded/settings";
 import "./App.css";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import { useEffect } from "react";
 
 function App() {
@@ -21,7 +22,10 @@ function App() {
     appId: "1:179583977080:web:7a52382ef91964690a4f8d",
     measurementId: "G-9RBDMNLCRQ",
   };
+
   const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  
   const auth = getAuth(app);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
