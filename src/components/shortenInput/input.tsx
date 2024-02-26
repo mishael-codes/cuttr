@@ -30,7 +30,7 @@ const InputLongLink = ({ text }: { text: string }) => {
   return (
     <div className="mt-10 flex items-center justify-center flex-col">
       <p>{text}</p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col">
         <input
           type="url"
           name="url"
