@@ -1,11 +1,13 @@
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useState } from "react";
+import Loader from "../loader/loader";
 import { nanoid } from "nanoid";
 
 const InputLongLink = ({ text }: { text: string }) => {
   const [input, setInput] = useState("");
   const [shortLink, setShortLink] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -21,6 +23,7 @@ const InputLongLink = ({ text }: { text: string }) => {
     e.preventDefault();
 
     if (!user) {
+      setIsLoading(true);
       const slug = nanoid(5); //generates a random 5 character string
       try {
         await addDoc(colRefs, {
@@ -28,9 +31,20 @@ const InputLongLink = ({ text }: { text: string }) => {
           slug: slug,
         });
         setShortLink(`${window.location.origin}/${slug}`);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
+    }
+  };
+
+  const handleCopy = () => {
+    try {
+      navigator.clipboard.writeText(shortLink);
+      alert("Link copied to clipboard");
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -46,12 +60,30 @@ const InputLongLink = ({ text }: { text: string }) => {
           className="w-80 h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
           placeholder="https://www.example.com"
         />
-        <button className="w-80 rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">
-          Shorten
+        <button
+          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-3 mb-5 border border-accent hover:bg-transparent hover:text-accent transition-all ${
+            isLoading ? "cursor-not-allowed bg-transparent" : ""
+          }`}
+        >
+          {isLoading ? <Loader /> : "Shorten"}
         </button>
       </form>
       {/* render the short link if the input is not empty  */}
-      <a href={shortLink}>{shortLink ? shortLink : ""}</a>
+      {shortLink ? (
+        <div className="flex items-center justify-center mt-5">
+          <a href={shortLink} className="p-3 hover:text-accent">
+            {shortLink ? shortLink : ""}
+          </a>
+          <button
+            onClick={handleCopy}
+            className="rounded-lg bg-accent font-bold text-background p-3 border border-accent hover:bg-transparent hover:text-accent transition-all"
+          >
+            Copy
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
