@@ -2,7 +2,6 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useState } from "react";
 import { nanoid } from "nanoid";
-import { doc, getDoc } from "firebase/firestore";
 
 const InputLongLink = ({ text }: { text: string }) => {
   const [input, setInput] = useState("");
@@ -31,16 +30,6 @@ const InputLongLink = ({ text }: { text: string }) => {
         setShortLink(`${window.location.origin}/${slug}`);
       } catch (error) {
         console.log(error);
-      }
-      console.log(user);
-      const docRef = doc(db, "urls", slug);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
       }
     }
   };
