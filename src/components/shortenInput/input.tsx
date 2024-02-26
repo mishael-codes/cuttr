@@ -61,7 +61,7 @@ const InputLongLink = ({ text }: { text: string }) => {
           placeholder="https://www.example.com"
         />
         <button
-          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-3 mb-5 border border-accent hover:bg-transparent hover:text-accent transition-all ${
+          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-3 mb-5 border border-accent hover:bg-transparent hover:text-accent transition-all active:translate-y-1 ${
             isLoading ? "cursor-not-allowed bg-transparent" : ""
           }`}
         >
@@ -71,12 +71,12 @@ const InputLongLink = ({ text }: { text: string }) => {
       {/* render the short link if the input is not empty  */}
       {shortLink ? (
         <div className="flex items-center justify-center mt-5">
-          <a href={shortLink} className="p-3 hover:text-accent">
+          <a href={shortLink} className="p-3 hover:text-accent bg-shadow rounded-lg mr-3 shadow-sm shadow-accent">
             {shortLink ? shortLink : ""}
           </a>
           <button
             onClick={handleCopy}
-            className="rounded-lg bg-accent font-bold text-background p-3 border border-accent hover:bg-transparent hover:text-accent transition-all"
+            className="rounded-lg bg-accent font-bold text-background p-3 border border-accent hover:bg-transparent hover:text-accent transition-all active:translate-y-1"
           >
             Copy
           </button>
