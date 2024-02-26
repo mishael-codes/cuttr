@@ -11,6 +11,7 @@ const InputLongLink = ({ text }: { text: string }) => {
 
   const auth = getAuth();
   const user = auth.currentUser;
+  const userId = user?.uid;
 
   const db = getFirestore();
   const colRefs = collection(db, "urls");
@@ -35,6 +36,25 @@ const InputLongLink = ({ text }: { text: string }) => {
       } catch (error) {
         console.log(error);
         setIsLoading(false);
+      }
+    } else if (user) {
+      setIsLoading(true);
+      const slug = nanoid(5);
+      const userDocRef = userId
+        ? collection(db, "user-collection", userId, "slug")
+        : "";
+      if (userDocRef) {
+        try {
+          await addDoc(userDocRef, {
+            slug: slug,
+            url: input,
+          });
+          setShortLink(`${window.location.origin}/${slug}`);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
+        }
       }
     }
   };
@@ -71,7 +91,10 @@ const InputLongLink = ({ text }: { text: string }) => {
       {/* render the short link if the input is not empty  */}
       {shortLink ? (
         <div className="flex items-center justify-center mt-5">
-          <a href={shortLink} className="p-3 hover:text-accent bg-shadow rounded-lg mr-3 shadow-sm shadow-accent">
+          <a
+            href={shortLink}
+            className="p-3 hover:text-accent bg-shadow rounded-lg mr-3 shadow-sm shadow-accent"
+          >
             {shortLink ? shortLink : ""}
           </a>
           <button
