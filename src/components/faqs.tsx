@@ -1,6 +1,6 @@
 import * as Icon from "react-feather";
 
-const Faqs = () => {
+const Faqs: React.FC = () => {
   const toggleContent = (e: React.MouseEvent<HTMLDivElement>) => {
     const arrow = e.currentTarget.querySelector(".arrow-icon");
     const content = e.currentTarget.nextElementSibling as HTMLParagraphElement;

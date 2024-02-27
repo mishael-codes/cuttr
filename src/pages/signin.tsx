@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader/loader";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
   // State variables
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

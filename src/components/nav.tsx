@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import closeMenu from "../assets/icons/close.svg";
 import hamMenu from "../assets/icons/burger-menu.svg";
 
-const Nav = () => {
+const Nav: React.FC = () => {
   const [open, setOpen] = useState(false);
   const links = [
     { name: "Home", url: "/" },

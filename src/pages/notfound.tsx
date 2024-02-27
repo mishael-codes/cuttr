@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const NotFound = () => {
+const NotFound: React.FC = () => {
   const [count, setCount] = useState(5);
   const [seconds, setSeconds] = useState("seconds");
 
-  const Redirect = () => {
+  const Redirect: React.FC = () => {
     const navigate = useNavigate();
     setTimeout(() => {
       navigate("/");

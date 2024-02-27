@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, updateProfile, signOut } from "firebase/auth";
 
-const Settings = () => {
+const Settings: React.FC = () => {
   // get auth instance
   const auth = getAuth();
 

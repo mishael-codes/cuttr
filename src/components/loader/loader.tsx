@@ -1,6 +1,6 @@
 import "./loader.css"
 
-const Loader = () => {
+const Loader: React.FC = () => {
   return (
     <div>
       <span className="loader"></span>

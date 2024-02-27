@@ -4,7 +4,7 @@ import WhyUs from "../components/whyUs.tsx";
 import Faqs from "../components/faqs.tsx";
 import Footer from "../components/footer.tsx";
 
-const Home = () => {
+const Home: React.FC = () => {
   return(
     <div className="overflow-hidden w-full">
       <Nav />

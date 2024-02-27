@@ -1,6 +1,6 @@
 import * as Icon from "react-feather";
 
-const WhyUs = () => {
+const WhyUs: React.FC = () => {
   const reasons = [
     {
       

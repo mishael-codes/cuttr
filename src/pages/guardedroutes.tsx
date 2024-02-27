@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import hamMenu from "../assets/icons/burger-menu.svg";
 import closeMenu from "../assets/icons/close.svg";
 
-const GuardedRoutes = () => {
+const GuardedRoutes: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("Dashboard");
 

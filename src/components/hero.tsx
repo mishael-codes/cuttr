@@ -2,7 +2,7 @@ import * as Icon from "react-feather";
 import { TypeAnimation } from "react-type-animation";
 import InputLongLink from "./shortenInput/input";
 
-const Hero = () => {
+const Hero: React.FC = () => {
   return (
     <div className="w-full h-screen text-center text-text relative z-0 pt-14 px-5 flex flex-col items-center">
       <div>

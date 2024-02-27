@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 
-const Redirect = () => {
+const Redirect: React.FC = () => {
   const { slug } = useParams(); // Extract slug from URL params
 
   useEffect(() => {
