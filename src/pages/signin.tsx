@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader/loader";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../firebase/auth";
 
 const SignIn: React.FC = () => {
   // State variables
@@ -58,7 +59,6 @@ const SignIn: React.FC = () => {
       return false;
     }
 
-    const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -67,7 +67,6 @@ const SignIn: React.FC = () => {
         // ...
         console.log(user);
         user;
-        alert("The user is signed in successfully");
         setIsLoading(false);
       })
       .catch((error) => {

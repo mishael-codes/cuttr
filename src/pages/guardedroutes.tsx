@@ -1,6 +1,7 @@
 import { Outlet, useNavigate, NavLink } from "react-router-dom";
 // import useAuth from "../hooks/useAuth";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import auth from "../firebase/auth";
 import { useEffect, useState } from "react";
 import hamMenu from "../assets/icons/burger-menu.svg";
 import closeMenu from "../assets/icons/close.svg";
@@ -18,7 +19,6 @@ const GuardedRoutes: React.FC = () => {
     { name: "Settings", url: "/settings" },
   ];
   const navigate = useNavigate();
-  const auth = getAuth();
   useEffect(() => {
     if (window.location.pathname === "/settings") {
       setTitle("Settings");
@@ -31,7 +31,7 @@ const GuardedRoutes: React.FC = () => {
         window.location.pathname === "/dashboard" ? navigate("/dashboard") : navigate("/settings");
       }
     });
-  }, [auth, navigate]);
+  }, [navigate]);
 
   return (
     <div className="h-screen text-text flex flex-col md:flex-row">

@@ -14,48 +14,13 @@ import Redirect from "./components/shortenInput/redirect";
 import "./App.css";
 
 // firebase imports
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import auth from "./firebase/auth";
 
 // react hooks import
 import { useEffect } from "react";
 
 function App() {
-  const firebaseConfig = {
-    apiKey: "AIzaSyB6pHje3a6b_TL5QGVIiZ-9m-73IsjE6cs",
-    authDomain: "cuttr-c1515.firebaseapp.com",
-    projectId: "cuttr-c1515",
-    storageBucket: "cuttr-c1515.appspot.com",
-    messagingSenderId: "179583977080",
-    appId: "1:179583977080:web:7a52382ef91964690a4f8d",
-    measurementId: "G-9RBDMNLCRQ",
-  };
-
-  // initialize firebase app
-  const app = initializeApp(firebaseConfig);
-
-  // firestore instance
-  const db = getFirestore(app);
-
-  // collection reference
-  const colRef = collection(db, "urls");
-
-  // get all documents from the collection
-  getDocs(colRef)
-    .then((querySnapshot) => {
-      const urls: Array<object> = [];
-      querySnapshot.docs.forEach((doc) => {
-        urls.push({ ...doc.data(), id: doc.id});
-      });
-      console.log(urls);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  // auth instance
-  const auth = getAuth(app);
 
   // checking if user is signed in
   useEffect(() => {

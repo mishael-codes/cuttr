@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import Loader from "../components/loader/loader";
 // Import the functions you need from the SDKs you need
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
+import auth from "../firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
 
 // My web app's Firebase configuration
@@ -82,7 +82,6 @@ const SignUp: React.FC = () => {
       return;
     }
 
-    const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
