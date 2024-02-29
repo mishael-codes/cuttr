@@ -21,7 +21,6 @@ import auth from "./firebase/auth";
 import { useEffect } from "react";
 
 function App() {
-
   // checking if user is signed in
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

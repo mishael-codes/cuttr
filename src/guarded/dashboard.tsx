@@ -8,7 +8,7 @@ const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
   // const [url, setUrl] = useState("")
   // const [slug, setSlug] = useState("")
-  const [arr, setArr] = useState<Array<{ id: string; url: string; slug: string }>>([]);
+  const [arr, setArr] = useState<Array<{ id: string; url: string; shortLink: string }>>([]);
 
 
   useEffect(() => {
@@ -27,10 +27,10 @@ const Dashboard: React.FC = () => {
           getDocs(userDocRef)
             .then((querySnapshot) => {
               if (querySnapshot) {
-                const urls: Array<{ id: string; url: string; slug: string }> = []; // Define the type of the 'urls' array
+                const urls: Array<{ id: string; url: string; shortLink: string }> = []; // Define the type of the 'urls' array
                 querySnapshot.docs.forEach((doc) => {
-                  const { url, slug } = doc.data(); // Destructure the 'url' and 'slug' properties from 'doc.data()'
-                  urls.push({ ...doc.data(), id: doc.id, url, slug }); // Include the 'url' and 'slug' properties in the object being pushed to 'urls' array
+                  const { url, shortLink } = doc.data(); // Destructure the 'url' and 'slug' properties from 'doc.data()'
+                  urls.push({ ...doc.data(), id: doc.id, url, shortLink }); // Include the 'url' and 'slug' properties in the object being pushed to 'urls' array
                 });
                 console.log(urls);
                 setArr(urls);
@@ -64,7 +64,7 @@ const Dashboard: React.FC = () => {
               className="flex flex-col shadow shadow-accent p-5 rounded-lg"
             >
               <a href={item.url}>{item.url}</a>
-              <a href={item.slug}>{item.slug}</a>
+              <a href={item.shortLink}>{item.shortLink}</a>
             </li>
           ))
         )}

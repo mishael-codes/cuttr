@@ -1,5 +1,6 @@
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import db from "../../firebase/firestore";
+import auth from "../../firebase/auth";
 import { useState } from "react";
 import Loader from "../loader/loader";
 import { nanoid } from "nanoid";
@@ -9,11 +10,10 @@ const InputLongLink = ({ text }: { text: string }) => {
   const [shortLink, setShortLink] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const auth = getAuth();
   const user = auth.currentUser;
   const userId = user?.uid;
+  const userDocRef = userId ? collection(db, "user-collection", userId, "slug") : "";
 
-  const db = getFirestore();
   const colRefs = collection(db, "urls");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,9 +23,9 @@ const InputLongLink = ({ text }: { text: string }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const slug = nanoid(5); //generates a random 5 character string
     if (!user) {
       setIsLoading(true);
-      const slug = nanoid(5); //generates a random 5 character string
       try {
         await addDoc(colRefs, {
           url: input,
@@ -37,24 +37,22 @@ const InputLongLink = ({ text }: { text: string }) => {
         console.log(error);
         setIsLoading(false);
       }
-    } else if (user) {
+    } else if (user && userId) {
       setIsLoading(true);
-      const slug = nanoid(5);
-      const userDocRef = userId
-        ? collection(db, "user-collection", userId, "slug")
-        : "";
-      if (userDocRef) {
+      console.log(userDocRef);
+      if(userDocRef){
         try {
           await addDoc(userDocRef, {
             slug: slug,
             url: input,
+            shortLink: `${window.location.origin}/${slug}`,
           });
-          setShortLink(`${window.location.origin}/${slug}`);
-          setIsLoading(false);
-        } catch (error) {
-          console.log(error);
-          setIsLoading(false);
-        }
+        setShortLink(`${window.location.origin}/${slug}`);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
       }
     }
   };
