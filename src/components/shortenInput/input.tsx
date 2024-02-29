@@ -39,7 +39,16 @@ const InputLongLink = ({ text }: { text: string }) => {
       }
     } else if (user && userId) {
       setIsLoading(true);
-      console.log(userDocRef);
+      try {
+        await addDoc(colRefs, {
+          url: input,
+          slug: slug,
+          userId: userId,
+        });
+      } catch (error) {
+        console.log(error); 
+      }
+      
       if(userDocRef){
         try {
           await addDoc(userDocRef, {
