@@ -9,7 +9,6 @@ const Redirect = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-
       const colRef = collection(db, "urls");
 
       try {

@@ -1,11 +1,11 @@
-import Nav from "../components/nav.tsx"
+import Nav from "../components/nav.tsx";
 import Hero from "../components/hero.tsx";
 import WhyUs from "../components/whyUs.tsx";
 import Faqs from "../components/faqs.tsx";
 import Footer from "../components/footer.tsx";
 
 const Home: React.FC = () => {
-  return(
+  return (
     <div className="overflow-hidden w-full">
       <Nav />
       <Hero />
@@ -13,6 +13,6 @@ const Home: React.FC = () => {
       <Faqs />
       <Footer />
     </div>
-  )
-}
-export default Home
+  );
+};
+export default Home;

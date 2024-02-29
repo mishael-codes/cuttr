@@ -1,4 +1,4 @@
-import "./loader.css"
+import "./loader.css";
 
 const Loader: React.FC = () => {
   return (

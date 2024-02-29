@@ -27,7 +27,7 @@ const Hero: React.FC = () => {
           Links, Expand Your Reach!
         </p>
       </div>
-      <InputLongLink text="Get your shortened url now!!"/>
+      <InputLongLink text="Get your shortened url now!!" />
       <div className="my-16 text-accent">
         <a href="#whyUs" className="bounce">
           <Icon.ChevronsDown className="bounce" />

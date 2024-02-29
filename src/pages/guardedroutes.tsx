@@ -28,7 +28,9 @@ const GuardedRoutes: React.FC = () => {
       if (!user) {
         navigate("/signin");
       } else {
-        window.location.pathname === "/dashboard" ? navigate("/dashboard") : navigate("/settings");
+        window.location.pathname === "/dashboard"
+          ? navigate("/dashboard")
+          : navigate("/settings");
       }
     });
   }, [navigate]);

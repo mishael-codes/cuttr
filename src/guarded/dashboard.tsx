@@ -8,8 +8,9 @@ const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
   // const [url, setUrl] = useState("")
   // const [slug, setSlug] = useState("")
-  const [arr, setArr] = useState<Array<{ id: string; url: string; shortLink: string }>>([]);
-
+  const [arr, setArr] = useState<
+    Array<{ id: string; url: string; shortLink: string }>
+  >([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -27,7 +28,11 @@ const Dashboard: React.FC = () => {
           getDocs(userDocRef)
             .then((querySnapshot) => {
               if (querySnapshot) {
-                const urls: Array<{ id: string; url: string; shortLink: string }> = []; // Define the type of the 'urls' array
+                const urls: Array<{
+                  id: string;
+                  url: string;
+                  shortLink: string;
+                }> = []; // Define the type of the 'urls' array
                 querySnapshot.docs.forEach((doc) => {
                   const { url, shortLink } = doc.data(); // Destructure the 'url' and 'slug' properties from 'doc.data()'
                   urls.push({ ...doc.data(), id: doc.id, url, shortLink }); // Include the 'url' and 'slug' properties in the object being pushed to 'urls' array
@@ -55,19 +60,19 @@ const Dashboard: React.FC = () => {
       <div className="w-screen flex flex-col items-center mt-7 ml-4">
         <h3 className="self-start font-semibold mb-5 pl-4">My Links</h3>
         <ul className="grid md:grid-cols-2 gap-5">
-        {arr.length === 0 ? (
-          <li key="no-links-yet">You have no links yet</li>
-        ) : (
-          arr.map((item) => (
-            <li
-              key={item.id}
-              className="flex flex-col shadow shadow-accent p-5 rounded-lg"
-            >
-              <a href={item.url}>{item.url}</a>
-              <a href={item.shortLink}>{item.shortLink}</a>
-            </li>
-          ))
-        )}
+          {arr.length === 0 ? (
+            <li key="no-links-yet">You have no links yet</li>
+          ) : (
+            arr.map((item) => (
+              <li
+                key={item.id}
+                className="flex flex-col shadow shadow-accent p-5 rounded-lg"
+              >
+                <a href={item.url}>{item.url}</a>
+                <a href={item.shortLink}>{item.shortLink}</a>
+              </li>
+            ))
+          )}
         </ul>
       </div>
     </div>

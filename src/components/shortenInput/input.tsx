@@ -12,7 +12,9 @@ const InputLongLink = ({ text }: { text: string }) => {
 
   const user = auth.currentUser;
   const userId = user?.uid;
-  const userDocRef = userId ? collection(db, "user-collection", userId, "slug") : "";
+  const userDocRef = userId
+    ? collection(db, "user-collection", userId, "slug")
+    : "";
 
   const colRefs = collection(db, "urls");
 
@@ -46,22 +48,22 @@ const InputLongLink = ({ text }: { text: string }) => {
           userId: userId,
         });
       } catch (error) {
-        console.log(error); 
+        console.log(error);
       }
-      
-      if(userDocRef){
+
+      if (userDocRef) {
         try {
           await addDoc(userDocRef, {
             slug: slug,
             url: input,
             shortLink: `${window.location.origin}/${slug}`,
           });
-        setShortLink(`${window.location.origin}/${slug}`);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
+          setShortLink(`${window.location.origin}/${slug}`);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
+        }
       }
     }
   };

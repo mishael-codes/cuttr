@@ -13,7 +13,7 @@ const SignIn: React.FC = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errorModal, setErrorModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("")
+  const [modalMessage, setModalMessage] = useState("");
 
   const navigate = useNavigate();
   // Handle email input change
@@ -21,7 +21,7 @@ const SignIn: React.FC = () => {
     const newEmail = e.target.value;
     setEmail(newEmail);
     setEmailError("");
-    setErrorModal(false)
+    setErrorModal(false);
   };
 
   // Handle password input change
@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setPasswordError("");
-    setErrorModal(false)
+    setErrorModal(false);
   };
 
   // Sign in user
@@ -75,12 +75,12 @@ const SignIn: React.FC = () => {
 
         if (errorCode === "auth/invalid-credential") {
           setIsLoading(false);
-          setErrorModal(true)
-          setModalMessage("Invalid login credentials")
-        } else if (errorCode === "auth/network-request-failed"){
+          setErrorModal(true);
+          setModalMessage("Invalid login credentials");
+        } else if (errorCode === "auth/network-request-failed") {
           setIsLoading(false);
-          setErrorModal(true)
-          setModalMessage("Network error, please try again later")
+          setErrorModal(true);
+          setModalMessage("Network error, please try again later");
         }
       });
   };

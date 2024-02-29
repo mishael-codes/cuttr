@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as Icon from "react-feather"
+import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 import closeMenu from "../assets/icons/close.svg";
 import hamMenu from "../assets/icons/burger-menu.svg";
@@ -35,14 +35,27 @@ const Nav: React.FC = () => {
           <ul className="text-center leading-loose">
             {links.map((link) => (
               <li key={link.url}>
-                <a onClick={() => {setOpen(!open)}} href={link.url}>{link.name}</a>
+                <a
+                  onClick={() => {
+                    setOpen(!open);
+                  }}
+                  href={link.url}
+                >
+                  {link.name}
+                </a>
               </li>
             ))}
           </ul>
           <div className="buttons flex items-center justify-center flex-col mt-24">
             {/* <button>Sign In</button> */}
             <Link to="/signin"> Sign In</Link>
-            <Link to="/signup" className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"> Sign Up</Link>
+            <Link
+              to="/signup"
+              className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
+            >
+              {" "}
+              Sign Up
+            </Link>
             {/* <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</button> */}
           </div>
         </div>
@@ -58,8 +71,18 @@ const Nav: React.FC = () => {
           ))}
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">
-          <Link to="/signin" className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all">Sign In</Link>
-          <Link to="/signup" className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</Link>
+          <Link
+            to="/signin"
+            className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all"
+          >
+            Sign In
+          </Link>
+          <Link
+            to="/signup"
+            className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all"
+          >
+            Sign Up
+          </Link>
         </div>
       </div>
     </nav>

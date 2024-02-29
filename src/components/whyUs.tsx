@@ -3,8 +3,7 @@ import * as Icon from "react-feather";
 const WhyUs: React.FC = () => {
   const reasons = [
     {
-      
-      icon:  <Icon.Share2 size="50px" />,
+      icon: <Icon.Share2 size="50px" />,
       title: "Shareability",
       desc: "Cuttr links are snappy and shareable, making them easy to share on social media platforms.",
     },

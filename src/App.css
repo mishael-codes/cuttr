@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
-:root{
+:root {
   --bg: hsl(265, 11%, 22%);
   --accent: hsl(45, 70%, 56%);
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box !important;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   scroll-behavior: smooth;
 }
 
-body{
+body {
   overflow-x: hidden;
 }
 
@@ -23,13 +23,14 @@ body{
 }
 
 @keyframes myBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(-25%) scale(155%);
-    animation-timing-function: cubic-bezier(0.8,0,1,1);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
   }
   50% {
     transform: translateY(15%) scale(125%);
-    animation-timing-function: cubic-bezier(0,0,0.2,1);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
 
@@ -44,6 +45,6 @@ body{
   border-radius: 10px;
 }
 
-a.active{
+a.active {
   color: var(--accent);
 }

@@ -22,13 +22,13 @@ const SignUp: React.FC = () => {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [errorModal, setErrorModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("")
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
     setEmailError("");
-    setErrorModal(false)
+    setErrorModal(false);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,12 +100,12 @@ const SignUp: React.FC = () => {
         const errorCode = error.code;
         if (errorCode === "auth/email-already-in-use") {
           setIsLoading(false);
-          setErrorModal(true)
-          setModalMessage("Email is already in use")
-        } else if (errorCode === "auth/network-request-failed"){
+          setErrorModal(true);
+          setModalMessage("Email is already in use");
+        } else if (errorCode === "auth/network-request-failed") {
           setIsLoading(false);
-          setErrorModal(true)
-          setModalMessage("Network error, please try again later")
+          setErrorModal(true);
+          setModalMessage("Network error, please try again later");
         }
       });
 
@@ -116,7 +116,9 @@ const SignUp: React.FC = () => {
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign Up
       </h2>
-      <div>{errorModal ? <p className="text-red-400">{modalMessage}</p> : ""}</div>
+      <div>
+        {errorModal ? <p className="text-red-400">{modalMessage}</p> : ""}
+      </div>
       <form
         className="w-full flex flex-col items-center justify-center"
         onSubmit={registerUser}
