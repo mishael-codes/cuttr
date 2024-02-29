@@ -6,11 +6,15 @@ import db from "../firebase/firestore";
 import InputLongLink from "../components/shortenInput/input";
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
-  // const [url, setUrl] = useState("")
-  // const [slug, setSlug] = useState("")
   const [arr, setArr] = useState<
     Array<{ id: string; url: string; shortLink: string }>
   >([]);
+
+  const truncate = (str: string, n: number) => {
+    const truncatedString: string =
+      str.length > n ? str.substring(0, n - 1) + "..." : str;
+    return truncatedString;
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -57,19 +61,19 @@ const Dashboard: React.FC = () => {
         Welcome <span className="text-xl">{userName}</span>,
       </h1>
       <InputLongLink text="Shorten a link" />{" "}
-      <div className="w-screen flex flex-col items-center mt-7 ml-4">
+      <div className="w-screen flex flex-col items-center justify-center mt-7 ml-4 md:ml-0">
         <h3 className="self-start font-semibold mb-5 pl-4">My Links</h3>
-        <ul className="grid md:grid-cols-2 gap-5">
+        <ul className="grid md:grid-cols-3 gap-5">
           {arr.length === 0 ? (
             <li key="no-links-yet">You have no links yet</li>
           ) : (
             arr.map((item) => (
               <li
                 key={item.id}
-                className="flex flex-col shadow shadow-accent p-5 rounded-lg"
+                className="flex flex-col shadow shadow-accent p-5 rounded-lg w-60 md:w-80 overflow-hidden"
               >
-                <a href={item.url}>{item.url}</a>
-                <a href={item.shortLink}>{item.shortLink}</a>
+                <a href={item.url}>{truncate(item.url, 26)}</a>
+                <a href={item.shortLink}>{truncate(item.shortLink, 26)}</a>
               </li>
             ))
           )}
