@@ -56,13 +56,13 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center mt-7 ml-4">
+    <div className="flex flex-col items-center mt-7">
       <h1 className="self-start md:self-center text-2xl font-bold pl-4">
         Welcome <span className="text-xl">{userName}</span>,
       </h1>
       <InputLongLink text="Shorten a link" />{" "}
-      <div className="w-screen flex flex-col items-center justify-center mt-7 ml-4 md:ml-0">
-        <h3 className="self-start font-semibold mb-5 pl-4">My Links</h3>
+      <div className="w-full flex flex-col items-center mt-7 mb-12">
+        <h3 className="self-start font-semibold mb-5 text-xl pl-4">My Links</h3>
         <ul className="grid md:grid-cols-3 gap-5">
           {arr.length === 0 ? (
             <li key="no-links-yet">You have no links yet</li>
@@ -70,10 +70,10 @@ const Dashboard: React.FC = () => {
             arr.map((item) => (
               <li
                 key={item.id}
-                className="flex flex-col shadow shadow-accent p-5 rounded-lg w-60 md:w-80 overflow-hidden"
+                className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden"
               >
-                <a href={item.url}>{truncate(item.url, 26)}</a>
-                <a href={item.shortLink}>{truncate(item.shortLink, 26)}</a>
+                <a href={item.url}><span className="font-semibold text-lg">Long Url: </span>{truncate(item.url, 20)}</a>
+                <a href={item.shortLink}><span className="font-semibold text-lg">Short Url:</span> {truncate(item.shortLink, 20)}</a>
               </li>
             ))
           )}

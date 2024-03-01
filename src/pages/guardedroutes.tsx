@@ -36,7 +36,7 @@ const GuardedRoutes: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="h-screen text-text flex flex-col md:flex-row">
+    <div className="min-h-screen text-text flex flex-col md:flex-row">
       <h1 className="text-accent p-5 font-bold border-b border-accent rounded-lg md:hidden">
         {title}
       </h1>
