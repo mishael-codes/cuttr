@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase/firestore";
 import InputLongLink from "../components/shortenInput/input";
+
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [arr, setArr] = useState<
-    Array<{ id: string; url: string; shortLink: string }>
+    Array<{ id: string; url: string; shortLink: string; qrCodeData: string }>
   >([]);
 
+  // shorten link length in their respective containers
   const truncate = (str: string, n: number) => {
     const truncatedString: string =
       str.length > n ? str.substring(0, n - 1) + "..." : str;
@@ -36,15 +38,19 @@ const Dashboard: React.FC = () => {
                   id: string;
                   url: string;
                   shortLink: string;
+                  qrCodeData: string;
                 }> = []; // Define the type of the 'urls' array
                 querySnapshot.docs.forEach((doc) => {
-                  const { url, shortLink } = doc.data(); // Destructure the 'url' and 'slug' properties from 'doc.data()'
-                  urls.push({ ...doc.data(), id: doc.id, url, shortLink }); // Include the 'url' and 'slug' properties in the object being pushed to 'urls' array
+                  const { url, shortLink, qrCodeData } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
+                  urls.push({
+                    ...doc.data(),
+                    id: doc.id,
+                    url,
+                    shortLink,
+                    qrCodeData,
+                  }); // Include the 'url' and 'slug' and 'qrCodeData' properties in the object being pushed to 'urls' array
                 });
-                console.log(urls);
                 setArr(urls);
-                /* setUrl(url)
-              setSlug(slug) */
               }
             })
             .catch((error) => {
@@ -72,8 +78,24 @@ const Dashboard: React.FC = () => {
                 key={item.id}
                 className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden"
               >
-                <a href={item.url}><span className="font-semibold text-lg">Long Url: </span>{truncate(item.url, 20)}</a>
-                <a href={item.shortLink}><span className="font-semibold text-lg">Short Url:</span> {truncate(item.shortLink, 20)}</a>
+                <a href={item.url}>
+                  <span className="font-semibold text-lg">Long Url: </span>
+                  {truncate(item.url, 20)}
+                </a>
+                <a href={item.shortLink}>
+                  <span className="font-semibold text-lg">Short Url:</span>{" "}
+                  {truncate(item.shortLink, 20)}
+                </a>
+                {item.qrCodeData && (
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-lg">QR Code:</span>
+                    <img
+                      src={item.qrCodeData}
+                      alt={`QR Code for ${item.shortLink}`}
+                      className="mt-2 w-32 h-32 self-center"
+                    />
+                  </div>
+                )}
               </li>
             ))
           )}

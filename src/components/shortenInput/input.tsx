@@ -21,10 +21,11 @@ const InputLongLink = ({ text }: { text: string }) => {
 
   const generateQrCode = async (url: string) => {
     try {
-      const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url)}`;
+      const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+        url
+      )}`;
       const res = await fetch(apiUrl);
-      const qr = await res.blob();
-      return URL.createObjectURL(qr);
+      return res.url;
     } catch (error) {
       console.log(error);
     }
