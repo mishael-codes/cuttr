@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
 
   const handleEditUrls = () => {
     setEditUrls(!editUrls);
-  }
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -87,7 +87,14 @@ const Dashboard: React.FC = () => {
                 <span className="font-semibold text-md flex items-center justify-between">
                   <div>
                     Long Url:{" "}
-                    <a href={item.url} className="font-medium" contentEditable={editUrls ? true : false}>
+                    <a
+                      href={item.url}
+                      className="font-medium"
+                      target="_blank"
+                      rel="noreferrer"
+                      contentEditable={editUrls ? true : false}
+                      autoFocus={editUrls ? true : false}
+                    >
                       {!editUrls ? truncate(item.url, 20) : item.url}
                     </a>
                   </div>
@@ -95,7 +102,13 @@ const Dashboard: React.FC = () => {
                 <span className="font-semibold text-md flex items-center justify-between">
                   <div>
                     Short Url:{" "}
-                    <a href={item.shortLink} className="font-medium">
+                    <a
+                      href={item.shortLink}
+                      className="font-medium"
+                      target="_blank"
+                      rel="noreferrer"
+                      contentEditable={editUrls ? true : false}
+                    >
                       {truncate(item.shortLink, 20)}
                     </a>
                   </div>
@@ -110,7 +123,10 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                 )}
-                  <Icon.Edit3 className="cursor-pointer" onClick={handleEditUrls}/>
+                <Icon.Edit3
+                  className="cursor-pointer"
+                  onClick={handleEditUrls}
+                />
               </li>
             ))
           )}

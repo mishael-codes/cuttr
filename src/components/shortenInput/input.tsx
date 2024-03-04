@@ -125,6 +125,8 @@ const InputLongLink = ({ text }: { text: string }) => {
             <a
               href={shortLink}
               className="p-3 hover:text-accent bg-shadow rounded-lg mr-3 shadow-sm shadow-accent"
+              target="_blank"
+              rel="noreferrer"
             >
               {shortLink ? shortLink : ""}
             </a>
