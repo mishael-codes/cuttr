@@ -23,7 +23,7 @@ const InputLongLink = ({ text }: { text: string }) => {
     try {
       const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
         url
-      )}`;
+      )}&color=ddb640&bgcolor=37323e&margin=10`;
       const res = await fetch(apiUrl);
       return res.url;
     } catch (error) {

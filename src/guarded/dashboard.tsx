@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase/firestore";
 import InputLongLink from "../components/shortenInput/input";
+import * as Icon from "react-feather";
 
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
+  const [editUrls, setEditUrls] = useState(false);
   const [arr, setArr] = useState<
     Array<{ id: string; url: string; shortLink: string; qrCodeData: string }>
   >([]);
@@ -17,6 +19,10 @@ const Dashboard: React.FC = () => {
       str.length > n ? str.substring(0, n - 1) + "..." : str;
     return truncatedString;
   };
+
+  const handleEditUrls = () => {
+    setEditUrls(!editUrls);
+  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -78,24 +84,33 @@ const Dashboard: React.FC = () => {
                 key={item.id}
                 className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden"
               >
-                <a href={item.url}>
-                  <span className="font-semibold text-lg">Long Url: </span>
-                  {truncate(item.url, 20)}
-                </a>
-                <a href={item.shortLink}>
-                  <span className="font-semibold text-lg">Short Url:</span>{" "}
-                  {truncate(item.shortLink, 20)}
-                </a>
+                <span className="font-semibold text-md flex items-center justify-between">
+                  <div>
+                    Long Url:{" "}
+                    <a href={item.url} className="font-medium" contentEditable={editUrls ? true : false}>
+                      {!editUrls ? truncate(item.url, 20) : item.url}
+                    </a>
+                  </div>
+                </span>
+                <span className="font-semibold text-md flex items-center justify-between">
+                  <div>
+                    Short Url:{" "}
+                    <a href={item.shortLink} className="font-medium">
+                      {truncate(item.shortLink, 20)}
+                    </a>
+                  </div>
+                </span>
                 {item.qrCodeData && (
                   <div className="flex flex-col">
                     <span className="font-semibold text-lg">QR Code:</span>
                     <img
                       src={item.qrCodeData}
                       alt={`QR Code for ${item.shortLink}`}
-                      className="mt-2 w-32 h-32 self-center"
+                      className="mt-2 w-32 h-32 self-center shadow-[3px_3px_5px_#ddb640] rounded-lg p-1"
                     />
                   </div>
                 )}
+                  <Icon.Edit3 className="cursor-pointer" onClick={handleEditUrls}/>
               </li>
             ))
           )}
