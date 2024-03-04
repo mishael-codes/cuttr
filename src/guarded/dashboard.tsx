@@ -25,6 +25,24 @@ const Dashboard: React.FC = () => {
     setEditUrls(!editUrls);
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = (centerY - y) / 10;
+    const rotateY = (centerX - x) / 10;
+
+    e.currentTarget.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.transform = "rotateX(0deg) rotateY(0deg)";
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -68,8 +86,7 @@ const Dashboard: React.FC = () => {
     });
   }, []);
 
-  return (
-    navigator.onLine ? 
+  return navigator.onLine ? (
     <div className="flex flex-col items-center mt-7">
       <h1 className="self-start md:self-center text-2xl font-bold pl-4">
         Welcome <span className="text-xl">{userName}</span>,
@@ -85,6 +102,8 @@ const Dashboard: React.FC = () => {
               <li
                 key={item.id}
                 className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
               >
                 <span className="font-semibold text-md flex items-center justify-between">
                   <div>
@@ -133,8 +152,10 @@ const Dashboard: React.FC = () => {
             ))
           )}
         </ul>
-        </div>
-      </div>: <Offline />
+      </div>
+    </div>
+  ) : (
+    <Offline />
   );
 };
 
