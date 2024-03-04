@@ -23,14 +23,16 @@ import { useEffect } from "react";
 function App() {
   // checking if user is signed in
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        console.log("User is not signed in");
-      } else {
-        // const uid = user.uid;
-        console.log("User is signed in");
-      }
-    });
+    if (navigator.onLine) {
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          console.log("User is not signed in");
+        } else {
+          // const uid = user.uid;
+          console.log("User is signed in");
+        }
+      });
+    } else console.log("You are offline");
   });
 
   return (

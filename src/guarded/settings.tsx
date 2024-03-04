@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, updateProfile, signOut } from "firebase/auth";
+import Offline from "../pages/offline";
 
 const Settings: React.FC = () => {
   // get auth instance
@@ -53,64 +54,64 @@ const Settings: React.FC = () => {
   }; */
 
   return (
-    <div>
-      <h1 className="ps-4 pt-2">Welcome {auth.currentUser?.displayName},</h1>
-      <form onSubmit={handleUpdateProfile} className="ps-8 pt-4">
-        <label htmlFor="username" className="flex flex-col mb-5">
-          Update your username
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Johnie"
-            className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5"
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="email" className="flex flex-col mb-5">
-          Update your email
-          <input
-            type="text"
-            name="email"
-            id="email"
-            placeholder="johndoe@gmail.com"
-            className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5 cursor-not-allowed"
-            onChange={handleChange}
-            disabled
-          />
-        </label>
-        <label htmlFor="password" className="flex flex-col mb-5">
-          Reset your password
-          <input
-            type="text"
-            name="password"
-            id="password"
-            placeholder="******"
-            className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5 cursor-not-allowed"
-            onChange={handleChange}
-            disabled
-          />
-        </label>
-        <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">
-          Save
-        </button>
-      </form>
+    navigator.onLine ? <div>
+    <h1 className="ps-4 pt-2">Welcome {auth.currentUser?.displayName},</h1>
+    <form onSubmit={handleUpdateProfile} className="ps-8 pt-4">
+      <label htmlFor="username" className="flex flex-col mb-5">
+        Update your username
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Johnie"
+          className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5"
+          onChange={handleChange}
+        />
+      </label>
+      <label htmlFor="email" className="flex flex-col mb-5">
+        Update your email
+        <input
+          type="text"
+          name="email"
+          id="email"
+          placeholder="johndoe@gmail.com"
+          className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5 cursor-not-allowed"
+          onChange={handleChange}
+          disabled
+        />
+      </label>
+      <label htmlFor="password" className="flex flex-col mb-5">
+        Reset your password
+        <input
+          type="text"
+          name="password"
+          id="password"
+          placeholder="******"
+          className="h-4 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2 mr-5 cursor-not-allowed"
+          onChange={handleChange}
+          disabled
+        />
+      </label>
+      <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">
+        Save
+      </button>
+    </form>
 
-      <div className="w-screen flex items-center justify-center flex-col absolute bottom-10">
-        <button
-          onClick={handleSignOut}
-          className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
-        >
-          Sign Out
-        </button>
-        {/* <button
-          onClick={handledeleteUser}
-          className="rounded-lg bg-red-700 font-bold text-white p-3 mt-4 border border-red-700 hover:bg-transparent hover:text-red-700 hover:bg-white transition-all"
-        >
-          Delete Account
-        </button> */}
-      </div>
+    <div className="w-screen flex items-center justify-center flex-col absolute bottom-10">
+      <button
+        onClick={handleSignOut}
+        className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
+      >
+        Sign Out
+      </button>
+      {/* <button
+        onClick={handledeleteUser}
+        className="rounded-lg bg-red-700 font-bold text-white p-3 mt-4 border border-red-700 hover:bg-transparent hover:text-red-700 hover:bg-white transition-all"
+      >
+        Delete Account
+      </button> */}
     </div>
+  </div> : <Offline/>
   );
 };
 

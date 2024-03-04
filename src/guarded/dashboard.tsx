@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase/firestore";
 import InputLongLink from "../components/shortenInput/input";
 import * as Icon from "react-feather";
+import Offline from "../pages/offline";
 
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -68,6 +69,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
+    navigator.onLine ? 
     <div className="flex flex-col items-center mt-7">
       <h1 className="self-start md:self-center text-2xl font-bold pl-4">
         Welcome <span className="text-xl">{userName}</span>,
@@ -131,8 +133,8 @@ const Dashboard: React.FC = () => {
             ))
           )}
         </ul>
-      </div>
-    </div>
+        </div>
+      </div>: <Offline />
   );
 };
 
