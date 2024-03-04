@@ -5,7 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase/firestore";
 import InputLongLink from "../components/shortenInput/input";
 import * as Icon from "react-feather";
-import Offline from "../pages/offline";
+import Offline from "../components/offline";
 
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");

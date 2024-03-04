@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, updateProfile, signOut } from "firebase/auth";
-import Offline from "../pages/offline";
+import Offline from "../components/offline";
 
 const Settings: React.FC = () => {
   // get auth instance
