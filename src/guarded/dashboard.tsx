@@ -27,6 +27,7 @@ const Dashboard: React.FC = () => {
     return truncatedString;
   };
 
+  // trigger edit mode for urls
   const handleEditUrls = (id: string) => {
     setArr((prevArr) => {
       return prevArr.map((item) => {
@@ -41,6 +42,22 @@ const Dashboard: React.FC = () => {
     });
   };
 
+  // cancel edit mode for urls
+  const handleCancelEditUrls = (id: string) => {
+    setArr((prevArr) => {
+      return prevArr.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            editUrls: !item.editUrls,
+          };
+        }
+        return item;
+      });
+    });
+  }
+
+  // save edited urls
   const handleSaveUrls = async (id: string) => {
     const user = auth.currentUser;
     const userId = user?.uid;
@@ -64,7 +81,7 @@ const Dashboard: React.FC = () => {
         if (item.id === id) {
           return {
             ...item,
-            editUrls: !item.editUrls, // Toggle edit mode for the specific card
+            editUrls: !item.editUrls,
           };
         }
         console.log(item.id);
@@ -197,15 +214,20 @@ const Dashboard: React.FC = () => {
                   </div>
                 )}
                 {!item.editUrls ? (
-                  <Icon.Edit3
-                    className="cursor-pointer"
+                  <div className="mt-6">
+                    <Icon.Edit3
+                    className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
                     onClick={() => handleEditUrls(item.id)}
                   />
+                  </div>
                 ) : (
-                  <Icon.Save
-                    className="cursor"
+                  <div className="w-full flex justify-between mt-6">
+                    <Icon.Save
+                    className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1"
                     onClick={() => handleSaveUrls(item.id)}
                   />
+                  <Icon.X className="cursor-pointer text-red-600 border border-red-600 w-10 h-10 rounded-lg p-1" onClick={() => handleCancelEditUrls(item.id)}/>
+                  </div>
                 )}
               </li>
             ))
