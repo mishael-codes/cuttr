@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, setDoc, doc } from "firebase/firestore";
 import db from "../../firebase/firestore";
 import auth from "../../firebase/auth";
 import { useState } from "react";
@@ -42,7 +42,8 @@ const InputLongLink = ({ text }: { text: string }) => {
     if (!user) {
       setIsLoading(true);
       try {
-        await addDoc(colRefs, {
+        const docRef = doc(colRefs, slug); // Create a DocumentReference using the slug as the document ID
+        await setDoc(docRef, { // Use the DocumentReference instead of the CollectionReference
           url: input,
           slug: slug,
         });
@@ -53,9 +54,11 @@ const InputLongLink = ({ text }: { text: string }) => {
         setIsLoading(false);
       }
     } else if (user && userId) {
+      const docId = nanoid(15)
       setIsLoading(true);
+      const docRef = doc(colRefs, docId); // Create a DocumentReference using the slug as the document ID
       try {
-        await addDoc(colRefs, {
+        await setDoc(docRef, {
           url: input,
           slug: slug,
           userId: userId,
@@ -69,8 +72,9 @@ const InputLongLink = ({ text }: { text: string }) => {
       );
 
       if (userDocRef) {
+        const DocRef = doc(userDocRef, docId);
         try {
-          await addDoc(userDocRef, {
+          await setDoc(DocRef, { // Change userDocRef to doc(userDocRef)
             slug: slug,
             url: input,
             shortLink: `${window.location.origin}/${slug}`,

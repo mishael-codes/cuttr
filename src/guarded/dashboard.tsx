@@ -1,18 +1,24 @@
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../firebase/auth";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import db from "../firebase/firestore";
 import InputLongLink from "../components/shortenInput/input";
 import * as Icon from "react-feather";
 import Offline from "../components/offline";
-
+import { useNavigate } from "react-router-dom";
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
-  const [editUrls, setEditUrls] = useState(false);
   const [arr, setArr] = useState<
-    Array<{ id: string; url: string; shortLink: string; qrCodeData: string }>
+    Array<{
+      id: string;
+      url: string;
+      shortLink: string;
+      qrCodeData: string;
+      editUrls: boolean;
+    }>
   >([]);
+  const navigate = useNavigate();
 
   // shorten link length in their respective containers
   const truncate = (str: string, n: number) => {
@@ -21,8 +27,51 @@ const Dashboard: React.FC = () => {
     return truncatedString;
   };
 
-  const handleEditUrls = () => {
-    setEditUrls(!editUrls);
+  const handleEditUrls = (id: string) => {
+    setArr((prevArr) => {
+      return prevArr.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            editUrls: !item.editUrls, // Toggle edit mode for the specific card
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  const handleSaveUrls = async (id: string) => {
+    const user = auth.currentUser;
+    const userId = user?.uid;
+    const colRef = doc(db, "urls", id);
+    const docRef = userId
+      ? doc(db, "user-collection", userId, "slug", id)
+      : null;
+    const newUrl = document.getElementById("long-url") as HTMLAnchorElement;
+    if (colRef) {
+      await updateDoc(colRef, {
+        url: newUrl.textContent,
+      });
+    }
+    if (docRef) {
+      await updateDoc(docRef, {
+        url: newUrl.textContent,
+      });
+    }
+    setArr((prevArr) => {
+      return prevArr.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            editUrls: !item.editUrls, // Toggle edit mode for the specific card
+          };
+        }
+        console.log(item.id);
+        return item;
+      });
+    });
+    navigate("/dashboard");
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
@@ -64,6 +113,7 @@ const Dashboard: React.FC = () => {
                   url: string;
                   shortLink: string;
                   qrCodeData: string;
+                  editUrls: boolean;
                 }> = []; // Define the type of the 'urls' array
                 querySnapshot.docs.forEach((doc) => {
                   const { url, shortLink, qrCodeData } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
@@ -73,6 +123,7 @@ const Dashboard: React.FC = () => {
                     url,
                     shortLink,
                     qrCodeData,
+                    editUrls: false, // Initialize edit mode as false for each card
                   }); // Include the 'url' and 'slug' and 'qrCodeData' properties in the object being pushed to 'urls' array
                 });
                 setArr(urls);
@@ -109,14 +160,15 @@ const Dashboard: React.FC = () => {
                   <div>
                     Long Url:{" "}
                     <a
+                      id="long-url"
                       href={item.url}
                       className="font-medium"
                       target="_blank"
                       rel="noreferrer"
-                      contentEditable={editUrls ? true : false}
-                      autoFocus={editUrls ? true : false}
+                      contentEditable={item.editUrls ? true : false}
+                      autoFocus={item.editUrls ? true : false}
                     >
-                      {!editUrls ? truncate(item.url, 20) : item.url}
+                      {!item.editUrls ? truncate(item.url, 20) : item.url}
                     </a>
                   </div>
                 </span>
@@ -128,7 +180,7 @@ const Dashboard: React.FC = () => {
                       className="font-medium"
                       target="_blank"
                       rel="noreferrer"
-                      contentEditable={editUrls ? true : false}
+                      contentEditable={item.editUrls ? true : false}
                     >
                       {truncate(item.shortLink, 20)}
                     </a>
@@ -144,10 +196,17 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                 )}
-                <Icon.Edit3
-                  className="cursor-pointer"
-                  onClick={handleEditUrls}
-                />
+                {!item.editUrls ? (
+                  <Icon.Edit3
+                    className="cursor-pointer"
+                    onClick={() => handleEditUrls(item.id)}
+                  />
+                ) : (
+                  <Icon.Save
+                    className="cursor"
+                    onClick={() => handleSaveUrls(item.id)}
+                  />
+                )}
               </li>
             ))
           )}
