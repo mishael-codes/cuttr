@@ -1,4 +1,5 @@
 import * as Icon from "react-feather";
+import { Link } from "react-router-dom";
 
 const WhyUs: React.FC = () => {
   const reasons = [
@@ -47,12 +48,12 @@ const WhyUs: React.FC = () => {
           </div>
         ))}
       </div>
-      <a href="">
+      <Link to="/signup">
         <button className="flex items-center justify-center mt-10 rounded-lg w-80 bg-shadow font-bold text-accent p-3 border border-accent hover:bg-transparent hover:translate-x-[20px] hover:text-accent transition-all">
           Get Started
           <Icon.ChevronsRight className="ml-2" />
         </button>
-      </a>
+      </Link>
     </div>
   );
 };

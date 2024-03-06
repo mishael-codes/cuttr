@@ -3,9 +3,11 @@ import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 import closeMenu from "../assets/icons/close.svg";
 import hamMenu from "../assets/icons/burger-menu.svg";
+import auth from "../firebase/auth"
 
 const Nav: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const user = auth.currentUser
   const links = [
     { name: "Home", url: "/" },
     { name: "Why Cuttr", url: "#whyUs" },
@@ -15,6 +17,7 @@ const Nav: React.FC = () => {
   const showNav = () => {
     !open ? setOpen(true) : setOpen(false);
   };
+
 
   return (
     <nav className="w-full flex items-center justify-start md:justify-evenly p-3 shadow-md shadow-accent rounded-lg md:backdrop-blur-sm">
@@ -45,6 +48,22 @@ const Nav: React.FC = () => {
                 </a>
               </li>
             ))}
+            {user ? <div>
+              <li>
+                <Link 
+                  to="/dashboard"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/settings"
+                >
+                  Settings
+                </Link>
+              </li>
+            </div> : ""} 
           </ul>
           <div className="buttons flex items-center justify-center flex-col mt-24">
             {/* <button>Sign In</button> */}
@@ -69,6 +88,22 @@ const Nav: React.FC = () => {
               <a href={link.url}>{link.name}</a>
             </li>
           ))}
+          {user ? <div className="md:flex">
+              <li className="mx-1 px-3">
+                <Link 
+                  to="/dashboard"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li className="mx-1 px-3">
+                <Link 
+                  to="/settings"
+                >
+                  Settings
+                </Link>
+              </li>
+            </div> : ""} 
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">
           <Link
