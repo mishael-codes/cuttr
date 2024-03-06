@@ -1,7 +1,14 @@
 import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import auth from "../firebase/auth";
 
 const WhyUs: React.FC = () => {
+  const [getStartedLink, setGetStartedLink] = useState<string>("");
+  useEffect(() => {
+    const user = auth.currentUser;
+    user ? setGetStartedLink("/dashboard") : setGetStartedLink("/signup");
+  }, [])
   const reasons = [
     {
       icon: <Icon.Share2 size="50px" />,
@@ -48,7 +55,7 @@ const WhyUs: React.FC = () => {
           </div>
         ))}
       </div>
-      <Link to="/signup">
+      <Link to={getStartedLink}>
         <button className="flex items-center justify-center mt-10 rounded-lg w-80 bg-shadow font-bold text-accent p-3 border border-accent hover:bg-transparent hover:translate-x-[20px] hover:text-accent transition-all">
           Get Started
           <Icon.ChevronsRight className="ml-2" />
