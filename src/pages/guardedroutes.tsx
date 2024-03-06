@@ -66,7 +66,7 @@ const GuardedRoutes: React.FC = () => {
         </div>
       </div>
 
-      <div className="hidden w-screen md:w-[20%] md:min-h-screen p-7 px-3 shadow-md shadow-accent rounded-lg mb-5 md:flex flex-col">
+      <div className="hidden w-screen md:w-64 md:min-h-screen p-7 px-3 shadow-md shadow-accent rounded-lg md:flex flex-col">
         <NavLink
           to="/dashboard"
           className="p-3 font-bold text-text border-b border-accent"

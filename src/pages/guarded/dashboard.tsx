@@ -1,11 +1,11 @@
 import { onAuthStateChanged } from "firebase/auth";
-import auth from "../firebase/auth";
+import auth from "../../firebase/auth";
 import { useEffect, useState } from "react";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import db from "../firebase/firestore";
-import InputLongLink from "../components/shortenInput/input";
+import db from "../../firebase/firestore";
+import InputLongLink from "../../components/shortenInput/input";
 import * as Icon from "react-feather";
-import Offline from "../components/offline";
+import Offline from "../../components/offline";
 import { useNavigate } from "react-router-dom";
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -167,7 +167,7 @@ const Dashboard: React.FC = () => {
       <InputLongLink text="Shorten a link" />{" "}
       <div className="w-full flex flex-col items-center mt-7 mb-12">
         <h3 className="self-start font-semibold mb-5 text-xl pl-4">My Links</h3>
-        <ul className="grid md:grid-cols-3 gap-5">
+        <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
           {arr.length === 0 ? (
             <li key="no-links-yet">You have no links yet</li>
           ) : (
