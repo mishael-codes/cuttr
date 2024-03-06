@@ -43,7 +43,7 @@ const InputLongLink = ({ text }: { text: string }) => {
       setIsLoading(true);
       try {
         const docRef = doc(colRefs, slug); // Create a DocumentReference using the slug as the document ID
-        await setDoc(docRef, { // Use the DocumentReference instead of the CollectionReference
+        await setDoc(docRef, {
           url: input,
           slug: slug,
         });
@@ -54,31 +54,33 @@ const InputLongLink = ({ text }: { text: string }) => {
         setIsLoading(false);
       }
     } else if (user && userId) {
-      const docId = nanoid(15)
+      const docId = nanoid(15);
       setIsLoading(true);
-      const docRef = doc(colRefs, docId); // Create a DocumentReference using the slug as the document ID
+      const docRef = doc(colRefs, docId); // Create a DocumentReference using the docId as the document ID
+      const qrCodeDataUrl = await generateQrCode(
+        `${window.location.origin}/${slug}`
+      );
       try {
         await setDoc(docRef, {
-          url: input,
           slug: slug,
-          userId: userId,
+          url: input,
+          shortLink: `${window.location.origin}/${slug}`,
+          qrCodeData: qrCodeDataUrl,
+          timesClicked: 0,
         });
       } catch (error) {
         console.log(error);
       }
 
-      const qrCodeDataUrl = await generateQrCode(
-        `${window.location.origin}/${slug}`
-      );
-
       if (userDocRef) {
         const DocRef = doc(userDocRef, docId);
         try {
-          await setDoc(DocRef, { // Change userDocRef to doc(userDocRef)
+          await setDoc(DocRef, {
             slug: slug,
             url: input,
             shortLink: `${window.location.origin}/${slug}`,
             qrCodeData: qrCodeDataUrl,
+            timesClicked: 0,
           });
           setShortLink(`${window.location.origin}/${slug}`);
           if (qrCodeDataUrl) {

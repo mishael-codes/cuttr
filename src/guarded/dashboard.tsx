@@ -15,6 +15,7 @@ const Dashboard: React.FC = () => {
       url: string;
       shortLink: string;
       qrCodeData: string;
+      timesClicked: number;
       editUrls: boolean;
     }>
   >([]);
@@ -117,12 +118,14 @@ const Dashboard: React.FC = () => {
         } else {
           setUserName("");
         }
+
+        const colRef = collection(db, "urls");
         const userId = user.uid;
         const userDocRef = userId
           ? collection(db, "user-collection", userId, "slug")
           : "";
         if (userDocRef) {
-          getDocs(userDocRef)
+          getDocs(colRef)
             .then((querySnapshot) => {
               if (querySnapshot) {
                 const urls: Array<{
@@ -131,15 +134,17 @@ const Dashboard: React.FC = () => {
                   shortLink: string;
                   qrCodeData: string;
                   editUrls: boolean;
+                  timesClicked: number;
                 }> = []; // Define the type of the 'urls' array
                 querySnapshot.docs.forEach((doc) => {
-                  const { url, shortLink, qrCodeData } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
+                  const { url, shortLink, qrCodeData, timesClicked } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
                   urls.push({
                     ...doc.data(),
                     id: doc.id,
                     url,
                     shortLink,
                     qrCodeData,
+                    timesClicked,
                     editUrls: false, // Initialize edit mode as false for each card
                   }); // Include the 'url' and 'slug' and 'qrCodeData' properties in the object being pushed to 'urls' array
                 });
@@ -213,6 +218,7 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                 )}
+                <span>{item.timesClicked}</span>
                 {!item.editUrls ? (
                   <div className="mt-6">
                     <Icon.Edit3

@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import db from "../../firebase/firestore";
 // import auth from "../../firebase/auth";
 import { useParams } from "react-router-dom";
@@ -10,15 +17,21 @@ const Redirect = () => {
   useEffect(() => {
     const fetchData = async () => {
       const colRef = collection(db, "urls");
-
+      
       try {
         const q = query(colRef, where("slug", "==", slug)); // Create a query for the slug
         const querySnapshot = await getDocs(q); // Execute the query
+        const docRef = doc(db, "urls", querySnapshot.docs[0].id);
 
         if (!querySnapshot.empty) {
           // If documents are found
           const data = querySnapshot.docs[0].data(); // Get the first document's data
+          // update the timesClicked field in the document
+          await updateDoc(docRef, {
+            timesClicked: data.timesClicked + 1,
+          });
           window.location.href = data.url; // Redirect to the URL associated with the slug
+
         } else {
           console.log("No document found!");
         }
