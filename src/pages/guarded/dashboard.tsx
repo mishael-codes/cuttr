@@ -12,7 +12,6 @@ import db from "../../firebase/firestore";
 import InputLongLink from "../../components/shortenInput/input";
 import * as Icon from "react-feather";
 import Offline from "../../components/offline";
-import { useNavigate } from "react-router-dom";
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [arr, setArr] = useState<
@@ -25,7 +24,6 @@ const Dashboard: React.FC = () => {
       editUrls: boolean;
     }>
   >([]);
-  const navigate = useNavigate();
 
   // shorten link length in their respective containers
   const truncate = (str: string, n: number) => {
@@ -64,7 +62,7 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  // save edited urls
+  //**************************** save edited urls ****************************************//
   const handleSaveUrls = async (id: string) => {
     const user = auth.currentUser;
     const userId = user?.uid;
@@ -95,8 +93,10 @@ const Dashboard: React.FC = () => {
         return item;
       });
     });
-    navigate("/dashboard");
+    location.reload();
   };
+  //**************************** end ****************************************//
+  //**************************** card hover animation ****************************************//
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -115,6 +115,7 @@ const Dashboard: React.FC = () => {
   const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.transform = "rotateX(0deg) rotateY(0deg)";
   };
+  //**************************** end card hover animation ****************************************//
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
