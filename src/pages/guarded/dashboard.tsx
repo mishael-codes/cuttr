@@ -242,7 +242,9 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                 )}
-                <span>{item.timesClicked}</span>
+                <div className="w-fit h-[20%]  mt-5 self-center">
+                  <span className="flex"><Icon.Activity className="text-accent"/>: {item.timesClicked}</span>
+                </div>
                 {!item.editUrls ? (
                   <div className="mt-6">
                     <Icon.Edit3
