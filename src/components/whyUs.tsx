@@ -1,6 +1,7 @@
 import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import qrCode from "../assets/icons/qrcode.svg";
 import auth from "../firebase/auth";
 
 const WhyUs: React.FC = () => {
@@ -31,9 +32,13 @@ const WhyUs: React.FC = () => {
       desc: "Cuttr provides analytic tools with which you can track the performance of your links with. Figure out what's working and what's not.",
     },
     {
+      title: "QR Codes",
+      desc: "Cuttr provides QR codes for your links, making it easier for your audience to access your content.",
+    },
+    {
       icon: <Icon.DollarSign size="50px" />,
-      title: "Free",
-      desc: "Cuttr is free to use and doesn't require any sign-up. Just shorten your link and share! However, you need to sign up to access analytics.",
+      title: "Affordable",
+      desc: "Cuttr has different pricing plans to suit your needs. You can choose between free and paid plans.",
     },
     // TODO: ADD QR CODE AS A REASON TO CHOOSE CUTTR AND MAKE FREE, PAID
   ];
@@ -50,7 +55,7 @@ const WhyUs: React.FC = () => {
             key={reason.title}
             className="flex items-center justify-center flex-col w-80 h-80 p-4 bg-accent rounded-lg shadow-md text-background"
           >
-            {reason.icon}
+            {reason.icon ? reason.icon : <img src={qrCode} className="w-[50px] h-[50px]" />}
             <h2 className="my-3 text-2xl font-bold">{reason.title}</h2>
             <p className="text-center">{reason.desc}</p>
           </div>
