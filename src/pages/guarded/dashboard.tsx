@@ -119,13 +119,13 @@ const Dashboard: React.FC = () => {
           setUserName("");
         }
 
-        const colRef = collection(db, "urls");
+        // const colRef = collection(db, "urls");
         const userId = user.uid;
         const userDocRef = userId
           ? collection(db, "user-collection", userId, "slug")
           : "";
         if (userDocRef) {
-          getDocs(colRef)
+          getDocs(userDocRef)
             .then((querySnapshot) => {
               if (querySnapshot) {
                 const urls: Array<{
@@ -174,7 +174,7 @@ const Dashboard: React.FC = () => {
             arr.map((item) => (
               <li
                 key={item.id}
-                className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden"
+                className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden bg-background"
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
               >

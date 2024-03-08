@@ -20,13 +20,13 @@ const Nav: React.FC = () => {
 
 
   return (
-    <nav className="w-full flex items-center justify-start md:justify-evenly p-3 shadow-md shadow-accent rounded-lg md:backdrop-blur-sm">
-      <h1 className="md:w-[25%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2 flex items-baseline">
+    <nav className="w-full flex items-center justify-start lg:justify-evenly p-3 shadow-md shadow-accent rounded-lg lg:backdrop-blur-sm">
+      <h1 className="md:w-[15%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2 flex items-baseline self-start">
         Cuttr <Icon.Link size="30px" />
       </h1>
 
       {/* Mobile nav */}
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <div onClick={showNav} className="fixed z-20 right-3 top-1">
           {!open ? <img src={hamMenu} /> : <img src={closeMenu} />}
         </div>
@@ -81,7 +81,7 @@ const Nav: React.FC = () => {
       </div>
 
       {/* desktop nav */}
-      <div className="w-[75%] hidden text-text md:flex justify-around items-start text-xl">
+      <div className="w-[80%] hidden text-text lg:flex justify-around items-start text-xl">
         <ul className="text-text text-center flex items-center justify-evenly leading-loose">
           {links.map((link) => (
             <li key={link.url} className="mx-1 px-3">

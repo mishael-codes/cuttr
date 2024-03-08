@@ -7,6 +7,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import auth from "../firebase/auth";
+import LinkIconAnimation from "../components/animations/linkIcon";
 // import { getAnalytics } from "firebase/analytics";
 
 // My web app's Firebase configuration
@@ -112,7 +113,8 @@ const SignUp: React.FC = () => {
     return false;
   };
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-evenly">
+    <div className="w-screen min-h-screen flex flex-col items-center justify-evenly relative overflow-hidden">
+      <LinkIconAnimation index="-z-0" marginTop="mt-32" />
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign Up
       </h2>
@@ -120,7 +122,7 @@ const SignUp: React.FC = () => {
         {errorModal ? <p className="text-red-400">{modalMessage}</p> : ""}
       </div>
       <form
-        className="w-full flex flex-col items-center justify-center"
+        className="w-full flex flex-col items-center justify-center relative"
         onSubmit={registerUser}
       >
         <label
@@ -137,7 +139,7 @@ const SignUp: React.FC = () => {
             onChange={handleEmailChange}
             autoComplete="email"
             autoFocus
-            className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {emailError ? emailError : ""}
@@ -156,7 +158,7 @@ const SignUp: React.FC = () => {
             value={password}
             onChange={handlePasswordChange}
             autoComplete="current-password"
-            className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {passwordError ? passwordError : ""}
@@ -176,7 +178,7 @@ const SignUp: React.FC = () => {
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             autoComplete="current-password"
-            className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {confirmPasswordError ? confirmPasswordError : ""}

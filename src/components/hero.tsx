@@ -1,12 +1,13 @@
 import * as Icon from "react-feather";
 import { TypeAnimation } from "react-type-animation";
 import InputLongLink from "./shortenInput/input";
-
+import LinkIconAnimation from "./animations/linkIcon";
 const Hero: React.FC = () => {
   return (
-    <div className="w-full h-screen text-center text-text relative z-0 pt-14 px-5 flex flex-col items-center">
+    <div className="hero w-full min-h-fit text-center text-text relative z-0 pt-14 px-5 flex flex-col items-center">
+      <LinkIconAnimation index="-z-10" marginTop="mt-16" />
       <div>
-        <h1 className="font-bold text-4xl md:text-5xl md:w-[800px]">
+        <h1 className="font-bold text-4xl md:text-5xl lg:w-[800px]">
           Unleash the Power of <span className="text-accent">Conciseness</span>{" "}
           with <span className="text-accent">Cuttr</span>
         </h1>

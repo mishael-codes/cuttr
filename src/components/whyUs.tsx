@@ -28,13 +28,14 @@ const WhyUs: React.FC = () => {
     {
       icon: <Icon.Activity size="50px" />,
       title: "Analytics",
-      desc: "Cuttr provides analytic toolswithh which you can track the performance of your links with. Figure out what's working and what's not.",
+      desc: "Cuttr provides analytic tools with which you can track the performance of your links with. Figure out what's working and what's not.",
     },
     {
       icon: <Icon.DollarSign size="50px" />,
       title: "Free",
       desc: "Cuttr is free to use and doesn't require any sign-up. Just shorten your link and share! However, you need to sign up to access analytics.",
     },
+    // TODO: ADD QR CODE AS A REASON TO CHOOSE CUTTR AND MAKE FREE, PAID
   ];
 
   return (

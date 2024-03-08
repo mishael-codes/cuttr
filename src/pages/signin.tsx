@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader/loader";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase/auth";
-
+import LinkIconAnimation from "../components/animations/linkIcon";
 const SignIn: React.FC = () => {
   // State variables
   const [email, setEmail] = useState("");
@@ -87,6 +87,7 @@ const SignIn: React.FC = () => {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-evenly relative">
+      <LinkIconAnimation index="-z-0" marginTop="mt-32"/>
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign In
       </h2>
@@ -109,7 +110,7 @@ const SignIn: React.FC = () => {
             placeholder="johndoe@gmail.com"
             autoComplete="email"
             autoFocus
-            className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {emailError ? emailError : ""}
@@ -128,7 +129,7 @@ const SignIn: React.FC = () => {
             onChange={handlePasswordChange}
             placeholder="********"
             autoComplete="current-password"
-            className="bg-transparent border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {passwordError ? passwordError : ""}
@@ -143,7 +144,7 @@ const SignIn: React.FC = () => {
           {isLoading ? <Loader /> : "Sign In"}
         </button>
       </form>
-      <p className="text-text">
+      <p className="text-text z-20">
         Don&apos;t have an account?{" "}
         <Link to="/signup" className="text-accent underline underline-offset-2">
           Sign Up here
