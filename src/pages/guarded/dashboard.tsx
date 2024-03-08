@@ -1,7 +1,13 @@
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../../firebase/auth";
 import { useEffect, useState } from "react";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import db from "../../firebase/firestore";
 import InputLongLink from "../../components/shortenInput/input";
 import * as Icon from "react-feather";
@@ -56,7 +62,7 @@ const Dashboard: React.FC = () => {
         return item;
       });
     });
-  }
+  };
 
   // save edited urls
   const handleSaveUrls = async (id: string) => {
@@ -118,15 +124,32 @@ const Dashboard: React.FC = () => {
         } else {
           setUserName("");
         }
-
-        // const colRef = collection(db, "urls");
         const userId = user.uid;
         const userDocRef = userId
           ? collection(db, "user-collection", userId, "slug")
           : "";
+
         if (userDocRef) {
           getDocs(userDocRef)
             .then((querySnapshot) => {
+              if (!querySnapshot.empty) {
+                const promises = querySnapshot.docs.map(async (document) => {
+                  const colRef = doc(db, "urls", document.id);
+                  const colDocSnapshot = await getDoc(colRef);
+                  const timesClicked = colDocSnapshot.data()?.timesClicked; // Add null check
+
+                  if (timesClicked !== undefined) {
+                    // Add null check
+                    await updateDoc(document.ref, { timesClicked }); // Update userDocRef with timesClicked
+                  }
+                });
+
+                Promise.all(promises)
+                  .then(() => console.log("Times clicked updated successfully"))
+                  .catch((error) =>
+                    console.error("Error updating times clicked:", error)
+                  );
+              }
               if (querySnapshot) {
                 const urls: Array<{
                   id: string;
@@ -137,7 +160,8 @@ const Dashboard: React.FC = () => {
                   timesClicked: number;
                 }> = []; // Define the type of the 'urls' array
                 querySnapshot.docs.forEach((doc) => {
-                  const { url, shortLink, qrCodeData, timesClicked } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
+                  const { url, shortLink, qrCodeData, timesClicked } =
+                    doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
                   urls.push({
                     ...doc.data(),
                     id: doc.id,
@@ -222,17 +246,20 @@ const Dashboard: React.FC = () => {
                 {!item.editUrls ? (
                   <div className="mt-6">
                     <Icon.Edit3
-                    className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
-                    onClick={() => handleEditUrls(item.id)}
-                  />
+                      className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
+                      onClick={() => handleEditUrls(item.id)}
+                    />
                   </div>
                 ) : (
                   <div className="w-full flex justify-between mt-6">
                     <Icon.Save
-                    className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1"
-                    onClick={() => handleSaveUrls(item.id)}
-                  />
-                  <Icon.X className="cursor-pointer text-red-600 border border-red-600 w-10 h-10 rounded-lg p-1" onClick={() => handleCancelEditUrls(item.id)}/>
+                      className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1"
+                      onClick={() => handleSaveUrls(item.id)}
+                    />
+                    <Icon.X
+                      className="cursor-pointer text-red-600 border border-red-600 w-10 h-10 rounded-lg p-1"
+                      onClick={() => handleCancelEditUrls(item.id)}
+                    />
                   </div>
                 )}
               </li>
