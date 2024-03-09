@@ -33,7 +33,7 @@ const Dashboard: React.FC = () => {
     return truncatedString;
   };
 
-  // trigger edit mode for urls
+  //*******************************  trigger edit mode for urls *******************************//
   const handleEditUrls = (id: string) => {
     setArr((prevArr) => {
       return prevArr.map((item) => {
@@ -48,7 +48,7 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  // cancel edit mode for urls
+  //*********************************  cancel edit mode for urls  ***********************************************************//
   const handleCancelEditUrls = (id: string) => {
     setArr((prevArr) => {
       return prevArr.map((item) => {
