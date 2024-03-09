@@ -1,4 +1,4 @@
-import { collection, setDoc, doc } from "firebase/firestore";
+import { collection, setDoc, doc, getDocs } from "firebase/firestore";
 import db from "../../firebase/firestore";
 import auth from "../../firebase/auth";
 import { useState } from "react";
@@ -12,6 +12,9 @@ const InputLongLink = ({ text }: { text: string }) => {
   const [shortLink, setShortLink] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [qrCodeData, setQrCodeData] = useState("");
+  const [inputError, setInputError] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [aliasError, setAliasError] = useState("");
 
   const user = auth.currentUser;
   const userId = user?.uid;
@@ -23,12 +26,34 @@ const InputLongLink = ({ text }: { text: string }) => {
 
   const handleLinkName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nameOfLink = e.target.value;
-    setLinkName(nameOfLink);
+    if (!nameOfLink) {
+      setNameError("Name is required");
+    } else {
+      setLinkName(nameOfLink.trim());
+    }
   };
 
-  const handleAlias = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAlias = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const linkAlias = e.target.value;
-    setAlias(linkAlias);
+    if (userDocRef && linkAlias) {
+      try {
+        getDocs(userDocRef).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const { slug } = doc.data();
+            if (slug === linkAlias.trim()) {
+              setAliasError("Alias already exists");
+            } else {
+              setAliasError("Alias is available");
+            }
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (!linkAlias) {
+      setAliasError("");
+    }
+    setAlias(linkAlias.trim());
   };
 
   const generateQrCode = async (url: string) => {
@@ -43,79 +68,44 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;  
+    setInput(url.trim());
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const slug = nanoid(5); //generates a random 5 character string
-    if (!user) {
-      setIsLoading(true);
-      try {
-        const docRef = doc(colRefs, slug); // Create a DocumentReference using the slug as the document ID
-        await setDoc(docRef, {
-          url: input,
-          slug: slug,
-        });
-        setShortLink(`${window.location.origin}/${slug}`);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    } else if (user && userId) {
-      const docId = nanoid(15);
-      setIsLoading(true);
-      const docRef = doc(colRefs, docId); // Create a DocumentReference using the docId as the document ID
-      if (alias) {
-        const qrCodeDataUrl = await generateQrCode(
-          `${window.location.origin}/${alias}`
-        );
+    if (input && linkName) {
+      const slug = nanoid(5); //generates a random 5 character string
+      if (!user) {
+        setIsLoading(true);
         try {
+          const docRef = doc(colRefs, slug); // Create a DocumentReference using the slug as the document ID
           await setDoc(docRef, {
-            linkName: linkName,
-            qrCodeData: qrCodeDataUrl,
-            shortLink: `${window.location.origin}/${alias}`,
-            slug: alias,
-            timesClicked: 0,
             url: input,
+            slug: slug,
           });
+          setShortLink(`${window.location.origin}/${slug}`);
+          setIsLoading(false);
         } catch (error) {
           console.log(error);
+          setIsLoading(false);
         }
-
-        if (userDocRef) {
-          const DocRef = doc(userDocRef, docId);
-          try {
-            await setDoc(DocRef, {
-              linkName: linkName,
-              qrCodeData: qrCodeDataUrl,
-              shortLink: `${window.location.origin}/${alias}`,
-              slug: alias,
-              timesClicked: 0,
-              url: input,
-            });
-            setShortLink(`${window.location.origin}/${alias}`);
-            if (qrCodeDataUrl) {
-              setQrCodeData(qrCodeDataUrl);
-            }
-            setIsLoading(false);
-          } catch (error) {
-            console.log(error);
-            setIsLoading(false);
-          }
-        } else {
+      } else if (user && userId) {
+        setIsLoading(true);
+        const docId = nanoid(15);
+        const docRef = doc(colRefs, docId); // Create a DocumentReference using the docId as the document ID
+        if (alias) {
           const qrCodeDataUrl = await generateQrCode(
-            `${window.location.origin}/${slug}`
+            `${window.location.origin}/${alias}`
           );
           try {
             await setDoc(docRef, {
               linkName: linkName,
               qrCodeData: qrCodeDataUrl,
-              shortLink: `${window.location.origin}/${slug}`,
-              slug: slug,
+              shortLink: `${window.location.origin}/${alias}`,
+              slug: alias,
               timesClicked: 0,
               url: input,
             });
@@ -129,12 +119,12 @@ const InputLongLink = ({ text }: { text: string }) => {
               await setDoc(DocRef, {
                 linkName: linkName,
                 qrCodeData: qrCodeDataUrl,
-                shortLink: `${window.location.origin}/${slug}`,
-                slug: slug,
+                shortLink: `${window.location.origin}/${alias}`,
+                slug: alias,
                 timesClicked: 0,
                 url: input,
               });
-              setShortLink(`${window.location.origin}/${slug}`);
+              setShortLink(`${window.location.origin}/${alias}`);
               if (qrCodeDataUrl) {
                 setQrCodeData(qrCodeDataUrl);
               }
@@ -143,8 +133,54 @@ const InputLongLink = ({ text }: { text: string }) => {
               console.log(error);
               setIsLoading(false);
             }
+          } else {
+            const qrCodeDataUrl = await generateQrCode(
+              `${window.location.origin}/${slug}`
+            );
+            try {
+              await setDoc(docRef, {
+                linkName: linkName,
+                qrCodeData: qrCodeDataUrl,
+                shortLink: `${window.location.origin}/${slug}`,
+                slug: slug,
+                timesClicked: 0,
+                url: input,
+              });
+            } catch (error) {
+              console.log(error);
+            }
+
+            if (userDocRef) {
+              const DocRef = doc(userDocRef, docId);
+              try {
+                await setDoc(DocRef, {
+                  linkName: linkName,
+                  qrCodeData: qrCodeDataUrl,
+                  shortLink: `${window.location.origin}/${slug}`,
+                  slug: slug,
+                  timesClicked: 0,
+                  url: input,
+                });
+                setShortLink(`${window.location.origin}/${slug}`);
+                if (qrCodeDataUrl) {
+                  setQrCodeData(qrCodeDataUrl);
+                }
+                setIsLoading(false);
+              } catch (error) {
+                console.log(error);
+                setIsLoading(false);
+              }
+            }
           }
         }
+      }
+    } else {
+      setIsLoading(false);
+      if (!input) {
+        setInputError("Please enter a valid URL");
+      }
+      if (!linkName) {
+        setNameError("Name is required");
       }
     }
   };
@@ -158,20 +194,26 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
   return (
-    <div className="mt-10 flex items-center justify-center flex-col">
-      <p>{text}</p>
+    <div className="mt-10 flex items-center justify-center flex-col bg-background p-14 rounded-lg">
+      <p className="font-semibold mb-10">{text}</p>
       <form onSubmit={handleSubmit} className="flex flex-col w-fit">
-        <input
-          type="url"
-          name="url"
-          id="url"
-          value={input}
-          onChange={handleChange}
-          className="w-80 h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
-          placeholder="https://www.example.com"
-        />
+        <label htmlFor="url" className="flex flex-col items-start">
+          Enter a link
+          <input
+            type="url"
+            name="url"
+            id="url"
+            value={input}
+            onChange={handleInputChange}
+            className="w-80 h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
+            placeholder="https://www.example.com"
+          />
+          {inputError && (
+            <p className="text-red-600 font-light text-xs">{inputError}</p>
+          )}
+        </label>
         <div className="w-full flex items-center justify-between mt-3">
-          <label htmlFor="name" className="flex flex-col">
+          <label htmlFor="name" className="flex flex-col items-start">
             Name{" "}
             <input
               type="text"
@@ -179,8 +221,11 @@ const InputLongLink = ({ text }: { text: string }) => {
               onChange={handleLinkName}
               className="w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
             />
+            {nameError && (
+              <p className="text-red-600 font-light text-xs">{nameError}</p>
+            )}
           </label>
-          <label htmlFor="alias" className="flex flex-col">
+          <label htmlFor="alias" className="flex flex-col items-start">
             Alias
             <input
               type="text"
@@ -188,6 +233,17 @@ const InputLongLink = ({ text }: { text: string }) => {
               onChange={handleAlias}
               className=" w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
             />
+            {aliasError && (
+              <p
+                className={`${
+                  aliasError === "Alias already exists"
+                    ? "text-red-600 font-light text-xs"
+                    : "text-green-600 font-thin text-xs"
+                }`}
+              >
+                {aliasError}
+              </p>
+            )}
           </label>
         </div>
         <button
