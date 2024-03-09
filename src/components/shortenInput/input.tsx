@@ -7,6 +7,8 @@ import { nanoid } from "nanoid";
 
 const InputLongLink = ({ text }: { text: string }) => {
   const [input, setInput] = useState("");
+  const [linkName, setLinkName] = useState("");
+  const [alias, setAlias] = useState("");
   const [shortLink, setShortLink] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [qrCodeData, setQrCodeData] = useState("");
@@ -18,6 +20,16 @@ const InputLongLink = ({ text }: { text: string }) => {
     : "";
 
   const colRefs = collection(db, "urls");
+
+  const handleLinkName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nameOfLink = e.target.value;
+    setLinkName(nameOfLink);
+  };
+
+  const handleAlias = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const linkAlias = e.target.value;
+    setAlias(linkAlias);
+  };
 
   const generateQrCode = async (url: string) => {
     try {
@@ -57,39 +69,81 @@ const InputLongLink = ({ text }: { text: string }) => {
       const docId = nanoid(15);
       setIsLoading(true);
       const docRef = doc(colRefs, docId); // Create a DocumentReference using the docId as the document ID
-      const qrCodeDataUrl = await generateQrCode(
-        `${window.location.origin}/${slug}`
-      );
-      try {
-        await setDoc(docRef, {
-          slug: slug,
-          url: input,
-          shortLink: `${window.location.origin}/${slug}`,
-          qrCodeData: qrCodeDataUrl,
-          timesClicked: 0,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-
-      if (userDocRef) {
-        const DocRef = doc(userDocRef, docId);
+      if (alias) {
+        const qrCodeDataUrl = await generateQrCode(
+          `${window.location.origin}/${alias}`
+        );
         try {
-          await setDoc(DocRef, {
-            slug: slug,
-            url: input,
-            shortLink: `${window.location.origin}/${slug}`,
+          await setDoc(docRef, {
+            linkName: linkName,
             qrCodeData: qrCodeDataUrl,
+            shortLink: `${window.location.origin}/${alias}`,
+            slug: alias,
             timesClicked: 0,
+            url: input,
           });
-          setShortLink(`${window.location.origin}/${slug}`);
-          if (qrCodeDataUrl) {
-            setQrCodeData(qrCodeDataUrl);
-          }
-          setIsLoading(false);
         } catch (error) {
           console.log(error);
-          setIsLoading(false);
+        }
+
+        if (userDocRef) {
+          const DocRef = doc(userDocRef, docId);
+          try {
+            await setDoc(DocRef, {
+              linkName: linkName,
+              qrCodeData: qrCodeDataUrl,
+              shortLink: `${window.location.origin}/${alias}`,
+              slug: alias,
+              timesClicked: 0,
+              url: input,
+            });
+            setShortLink(`${window.location.origin}/${alias}`);
+            if (qrCodeDataUrl) {
+              setQrCodeData(qrCodeDataUrl);
+            }
+            setIsLoading(false);
+          } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+          }
+        } else {
+          const qrCodeDataUrl = await generateQrCode(
+            `${window.location.origin}/${slug}`
+          );
+          try {
+            await setDoc(docRef, {
+              linkName: linkName,
+              qrCodeData: qrCodeDataUrl,
+              shortLink: `${window.location.origin}/${slug}`,
+              slug: slug,
+              timesClicked: 0,
+              url: input,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+
+          if (userDocRef) {
+            const DocRef = doc(userDocRef, docId);
+            try {
+              await setDoc(DocRef, {
+                linkName: linkName,
+                qrCodeData: qrCodeDataUrl,
+                shortLink: `${window.location.origin}/${slug}`,
+                slug: slug,
+                timesClicked: 0,
+                url: input,
+              });
+              setShortLink(`${window.location.origin}/${slug}`);
+              if (qrCodeDataUrl) {
+                setQrCodeData(qrCodeDataUrl);
+              }
+              setIsLoading(false);
+            } catch (error) {
+              console.log(error);
+              setIsLoading(false);
+            }
+          }
         }
       }
     }
@@ -106,7 +160,7 @@ const InputLongLink = ({ text }: { text: string }) => {
   return (
     <div className="mt-10 flex items-center justify-center flex-col">
       <p>{text}</p>
-      <form onSubmit={handleSubmit} className="flex flex-col">
+      <form onSubmit={handleSubmit} className="flex flex-col w-fit">
         <input
           type="url"
           name="url"
@@ -116,6 +170,26 @@ const InputLongLink = ({ text }: { text: string }) => {
           className="w-80 h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
           placeholder="https://www.example.com"
         />
+        <div className="w-full flex items-center justify-between mt-3">
+          <label htmlFor="name" className="flex flex-col">
+            Name{" "}
+            <input
+              type="text"
+              id="name"
+              onChange={handleLinkName}
+              className="w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
+            />
+          </label>
+          <label htmlFor="alias" className="flex flex-col">
+            Alias
+            <input
+              type="text"
+              id="alias"
+              onChange={handleAlias}
+              className=" w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
+            />
+          </label>
+        </div>
         <button
           className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-3 mb-5 border border-accent hover:bg-transparent hover:text-accent transition-all active:translate-y-1 ${
             isLoading ? "cursor-not-allowed bg-transparent" : ""

@@ -22,6 +22,7 @@ const Dashboard: React.FC = () => {
       qrCodeData: string;
       timesClicked: number;
       editUrls: boolean;
+      linkName: string
     }>
   >([]);
 
@@ -159,9 +160,10 @@ const Dashboard: React.FC = () => {
                   qrCodeData: string;
                   editUrls: boolean;
                   timesClicked: number;
+                  linkName: string;
                 }> = []; // Define the type of the 'urls' array
                 querySnapshot.docs.forEach((doc) => {
-                  const { url, shortLink, qrCodeData, timesClicked } =
+                  const { url, shortLink, qrCodeData, timesClicked, linkName } =
                     doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
                   urls.push({
                     ...doc.data(),
@@ -170,6 +172,7 @@ const Dashboard: React.FC = () => {
                     shortLink,
                     qrCodeData,
                     timesClicked,
+                    linkName,
                     editUrls: false, // Initialize edit mode as false for each card
                   }); // Include the 'url' and 'slug' and 'qrCodeData' properties in the object being pushed to 'urls' array
                 });
@@ -203,6 +206,7 @@ const Dashboard: React.FC = () => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
               >
+                <h3 className="font-bold self-center">{item.linkName ? item.linkName : ""}</h3>
                 <span className="font-semibold text-md flex items-center justify-between">
                   <div>
                     Long Url:{" "}
