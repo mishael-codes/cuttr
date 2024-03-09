@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
       qrCodeData: string;
       timesClicked: number;
       editUrls: boolean;
-      linkName: string
+      linkName: string;
     }>
   >([]);
 
@@ -146,37 +146,39 @@ const Dashboard: React.FC = () => {
                   }
                 });
 
-                Promise.all(promises)
-                  .then(() => console.log("Times clicked updated successfully"))
-                  .catch((error) =>
-                    console.error("Error updating times clicked:", error)
-                  );
-              }
-              if (querySnapshot) {
-                const urls: Array<{
-                  id: string;
-                  url: string;
-                  shortLink: string;
-                  qrCodeData: string;
-                  editUrls: boolean;
-                  timesClicked: number;
-                  linkName: string;
-                }> = []; // Define the type of the 'urls' array
-                querySnapshot.docs.forEach((doc) => {
-                  const { url, shortLink, qrCodeData, timesClicked, linkName } =
-                    doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
-                  urls.push({
-                    ...doc.data(),
-                    id: doc.id,
-                    url,
-                    shortLink,
-                    qrCodeData,
-                    timesClicked,
-                    linkName,
-                    editUrls: false, // Initialize edit mode as false for each card
-                  }); // Include the 'url' and 'slug' and 'qrCodeData' properties in the object being pushed to 'urls' array
+                Promise.all(promises).then(() => {
+                  if (querySnapshot) {
+                    const urls: Array<{
+                      id: string;
+                      url: string;
+                      shortLink: string;
+                      qrCodeData: string;
+                      editUrls: boolean;
+                      timesClicked: number;
+                      linkName: string;
+                    }> = []; // Define the type of the 'urls' array
+                    querySnapshot.docs.forEach((doc) => {
+                      const {
+                        url,
+                        shortLink,
+                        qrCodeData,
+                        timesClicked,
+                        linkName,
+                      } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
+                      urls.push({
+                        ...doc.data(),
+                        id: doc.id,
+                        url,
+                        shortLink,
+                        qrCodeData,
+                        timesClicked,
+                        linkName,
+                        editUrls: false, // Initialize edit mode as false for each card
+                      }); // Include the 'url' and 'slug' and 'qrCodeData' properties in the object being pushed to 'urls' array
+                    });
+                    setArr(urls);
+                  }
                 });
-                setArr(urls);
               }
             })
             .catch((error) => {
@@ -206,7 +208,9 @@ const Dashboard: React.FC = () => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
               >
-                <h3 className="font-bold self-center">{item.linkName ? item.linkName : ""}</h3>
+                <h3 className="font-bold self-center">
+                  {item.linkName ? item.linkName : ""}
+                </h3>
                 <span className="font-semibold text-md flex items-center justify-between">
                   <div>
                     Long Url:{" "}
@@ -248,7 +252,10 @@ const Dashboard: React.FC = () => {
                   </div>
                 )}
                 <div className="w-fit h-[20%]  mt-5 self-center">
-                  <span className="flex"><Icon.Activity className="text-accent"/>: {item.timesClicked}</span>
+                  <span className="flex">
+                    <Icon.Activity className="text-accent" />:{" "}
+                    {item.timesClicked}
+                  </span>
                 </div>
                 {!item.editUrls ? (
                   <div className="mt-6">
