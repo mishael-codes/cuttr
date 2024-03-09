@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 import closeMenu from "../assets/icons/close.svg";
 import hamMenu from "../assets/icons/burger-menu.svg";
-import auth from "../firebase/auth"
+import auth from "../firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Nav: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const user = auth.currentUser
+  const [isUser, setIsUser] = useState(false);
   const links = [
     { name: "Home", url: "/" },
     { name: "Why Cuttr", url: "#whyUs" },
@@ -18,7 +19,11 @@ const Nav: React.FC = () => {
     !open ? setOpen(true) : setOpen(false);
   };
 
-
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      user ? setIsUser(true) : setIsUser(false);
+    });
+  });
   return (
     <nav className="w-full flex items-center justify-start lg:justify-evenly p-3 shadow-md shadow-accent rounded-lg lg:backdrop-blur-sm">
       <h1 className="md:w-[15%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2 flex items-baseline self-start">
@@ -48,22 +53,18 @@ const Nav: React.FC = () => {
                 </a>
               </li>
             ))}
-            {user ? <div>
-              <li>
-                <Link 
-                  to="/dashboard"
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/settings"
-                >
-                  Settings
-                </Link>
-              </li>
-            </div> : ""} 
+            {isUser ? (
+              <div>
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+                <li>
+                  <Link to="/settings">Settings</Link>
+                </li>
+              </div>
+            ) : (
+              ""
+            )}
           </ul>
           <div className="buttons flex items-center justify-center flex-col mt-24">
             {/* <button>Sign In</button> */}
@@ -88,22 +89,18 @@ const Nav: React.FC = () => {
               <a href={link.url}>{link.name}</a>
             </li>
           ))}
-          {user ? <div className="md:flex">
+          {isUser ? (
+            <div className="md:flex">
               <li className="mx-1 px-3">
-                <Link 
-                  to="/dashboard"
-                >
-                  Dashboard
-                </Link>
+                <Link to="/dashboard">Dashboard</Link>
               </li>
               <li className="mx-1 px-3">
-                <Link 
-                  to="/settings"
-                >
-                  Settings
-                </Link>
+                <Link to="/settings">Settings</Link>
               </li>
-            </div> : ""} 
+            </div>
+          ) : (
+            ""
+          )}
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">
           <Link
