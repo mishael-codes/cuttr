@@ -12,6 +12,7 @@ import db from "../../firebase/firestore";
 import InputLongLink from "../../components/shortenInput/input";
 import * as Icon from "react-feather";
 import Offline from "../../components/offline";
+
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -225,7 +226,7 @@ const Dashboard: React.FC = () => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
               >
-                <h3 className="font-bold self-center">
+                <h3 className="font-bold self-center mb-4 relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-5 after:rounded-lg">
                   {item.linkName ? item.linkName : ""}
                 </h3>
                 <span className="font-semibold text-md flex items-center justify-between">
@@ -269,10 +270,10 @@ const Dashboard: React.FC = () => {
                   </div>
                 )}
                 <div className="w-fit h-[20%]  mt-5 self-center">
-                  <span className="flex">
-                    <Icon.Activity className="text-accent" />:{" "}
-                    {item.timesClicked}
-                  </span>
+                    <span className="flex">
+                      <Icon.Activity className="text-accent" />:{" "}
+                      {item.timesClicked}
+                    </span>
                 </div>
                 {!item.editUrls ? (
                   <div className="mt-6">
