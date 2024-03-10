@@ -110,7 +110,7 @@ const SignIn: React.FC = () => {
             placeholder="johndoe@gmail.com"
             autoComplete="email"
             autoFocus
-            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {emailError ? emailError : ""}
@@ -129,7 +129,7 @@ const SignIn: React.FC = () => {
             onChange={handlePasswordChange}
             placeholder="********"
             autoComplete="current-password"
-            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {passwordError ? passwordError : ""}

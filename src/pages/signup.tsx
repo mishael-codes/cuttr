@@ -158,7 +158,7 @@ const SignUp: React.FC = () => {
             value={password}
             onChange={handlePasswordChange}
             autoComplete="current-password"
-            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {passwordError ? passwordError : ""}
@@ -178,7 +178,7 @@ const SignUp: React.FC = () => {
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             autoComplete="current-password"
-            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
           <p className="text-red-500 font-thin text-xs">
             {confirmPasswordError ? confirmPasswordError : ""}

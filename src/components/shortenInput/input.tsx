@@ -194,7 +194,7 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
   return (
-    <div className="mt-10 flex items-center justify-center flex-col bg-background p-14 rounded-lg">
+    <div className="mt-10 flex items-center justify-center flex-col bg-background p-4 md:p-14 rounded-lg">
       <p className="font-semibold mb-10">{text}</p>
       <form onSubmit={handleSubmit} className="flex flex-col w-fit">
         <label htmlFor="url" className="flex flex-col items-start">
