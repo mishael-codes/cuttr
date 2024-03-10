@@ -33,19 +33,26 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
 
+  // **************************** Alias check ************************* //
   const handleAlias = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const linkAlias = e.target.value;
-    if (userDocRef && linkAlias) {
+    if (colRefs && linkAlias) {
       try {
-        getDocs(userDocRef).then((querySnapshot) => {
+        let aliasAvailable = true; 
+
+        getDocs(colRefs).then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             const { slug } = doc.data();
-            if (slug === linkAlias.trim()) {
-              setAliasError("Alias already exists");
-            } else {
-              setAliasError("Alias is available");
+            if (slug === linkAlias) {
+              aliasAvailable = false; 
             }
           });
+  
+          if (aliasAvailable) {
+            setAliasError("Alias is available");
+          } else {
+            setAliasError("Alias already exists");
+          }
         });
       } catch (error) {
         console.log(error);
@@ -69,16 +76,16 @@ const InputLongLink = ({ text }: { text: string }) => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const url = e.target.value;  
+    const url = e.target.value;
     setInput(url.trim());
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (input && linkName) {
-      const slug = nanoid(5); //generates a random 5 character string
-      if (!user) {
+    const slug = nanoid(5); //generates a random 5 character string
+    if (!user) {
+      if (input) {
         setIsLoading(true);
         try {
           const docRef = doc(colRefs, slug); // Create a DocumentReference using the slug as the document ID
@@ -92,11 +99,53 @@ const InputLongLink = ({ text }: { text: string }) => {
           console.log(error);
           setIsLoading(false);
         }
-      } else if (user && userId) {
+      } else {
+        setInputError("Link is required");
+      }
+    } else if (user && userId) {
+      if (input && linkName) {
         setIsLoading(true);
         const docId = nanoid(15);
         const docRef = doc(colRefs, docId); // Create a DocumentReference using the docId as the document ID
-        if (alias) {
+        if (!alias || alias.trim() === "") {
+          const qrCodeDataUrl = await generateQrCode(
+            `${window.location.origin}/${slug}`
+          );
+          try {
+            await setDoc(docRef, {
+              linkName: linkName,
+              qrCodeData: qrCodeDataUrl,
+              shortLink: `${window.location.origin}/${slug}`,
+              slug: slug,
+              timesClicked: 0,
+              url: input,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+
+          if (userDocRef) {
+            const DocRef = doc(userDocRef, docId);
+            try {
+              await setDoc(DocRef, {
+                linkName: linkName,
+                qrCodeData: qrCodeDataUrl,
+                shortLink: `${window.location.origin}/${slug}`,
+                slug: slug,
+                timesClicked: 0,
+                url: input,
+              });
+              setShortLink(`${window.location.origin}/${slug}`);
+              if (qrCodeDataUrl) {
+                setQrCodeData(qrCodeDataUrl);
+              }
+              setIsLoading(false);
+            } catch (error) {
+              console.log(error);
+              setIsLoading(false);
+            }
+          }
+        } else if (alias) {
           const qrCodeDataUrl = await generateQrCode(
             `${window.location.origin}/${alias}`
           );
@@ -133,53 +182,10 @@ const InputLongLink = ({ text }: { text: string }) => {
               console.log(error);
               setIsLoading(false);
             }
-          } else {
-            const qrCodeDataUrl = await generateQrCode(
-              `${window.location.origin}/${slug}`
-            );
-            try {
-              await setDoc(docRef, {
-                linkName: linkName,
-                qrCodeData: qrCodeDataUrl,
-                shortLink: `${window.location.origin}/${slug}`,
-                slug: slug,
-                timesClicked: 0,
-                url: input,
-              });
-            } catch (error) {
-              console.log(error);
-            }
-
-            if (userDocRef) {
-              const DocRef = doc(userDocRef, docId);
-              try {
-                await setDoc(DocRef, {
-                  linkName: linkName,
-                  qrCodeData: qrCodeDataUrl,
-                  shortLink: `${window.location.origin}/${slug}`,
-                  slug: slug,
-                  timesClicked: 0,
-                  url: input,
-                });
-                setShortLink(`${window.location.origin}/${slug}`);
-                if (qrCodeDataUrl) {
-                  setQrCodeData(qrCodeDataUrl);
-                }
-                setIsLoading(false);
-              } catch (error) {
-                console.log(error);
-                setIsLoading(false);
-              }
-            }
           }
         }
-      }
-    } else {
-      setIsLoading(false);
-      if (!input) {
-        setInputError("Please enter a valid URL");
-      }
-      if (!linkName) {
+      } else {
+        setInputError("Link is required");
         setNameError("Name is required");
       }
     }
