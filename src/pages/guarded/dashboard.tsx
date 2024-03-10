@@ -14,6 +14,7 @@ import * as Icon from "react-feather";
 import Offline from "../../components/offline";
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [arr, setArr] = useState<
     Array<{
       id: string;
@@ -120,6 +121,18 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      // ***********************Check if device is online *********************** //
+      const handleOnline = () => {
+        setIsOnline(true);
+      };
+
+      const handleOffline = () => {
+        setIsOnline(false);
+      };
+
+      window.addEventListener("online", handleOnline);
+      window.addEventListener("offline", handleOffline);
+
       if (user) {
         if (user.displayName) {
           setUserName(user.displayName);
@@ -186,10 +199,14 @@ const Dashboard: React.FC = () => {
             });
         }
       }
+      return () => {
+        window.removeEventListener("online", handleOnline);
+        window.removeEventListener("offline", handleOffline);
+      };
     });
   }, []);
 
-  return navigator.onLine ? (
+  return isOnline ? (
     <div className="flex flex-col items-center mt-7">
       <h1 className="self-start md:self-center text-2xl font-bold pl-4">
         Welcome <span className="text-xl">{userName}</span>,
