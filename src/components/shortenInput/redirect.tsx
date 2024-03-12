@@ -8,12 +8,11 @@ import {
   doc,
 } from "firebase/firestore";
 import db from "../../firebase/firestore";
-// import auth from "../../firebase/auth";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Redirect = () => {
   const { slug } = useParams(); // Extract slug from URL params
-
+  const navigate = useNavigate(); // Get the navigate function from the useNavigate hook
   useEffect(() => {
     const fetchData = async () => {
       const colRef = collection(db, "urls");
@@ -30,18 +29,17 @@ const Redirect = () => {
           await updateDoc(docRef, {
             timesClicked: data.timesClicked + 1,
           });
-          window.location.href = data.url; // Redirect to the URL associated with the slug
+          location.href = data.url; // Redirect to the URL associated with the slug
 
-        } else {
-          console.log("No document found!");
-        }
+        } 
       } catch (error) {
+        navigate("notFound");
         console.error("Error fetching document: ", error);
       }
     };
 
     fetchData(); // Call the fetchData function
-  }, [slug]); // useEffect dependency: slug
+  }, [navigate, slug]); // useEffect dependency: slug
 
   return null; // Return null since this component does not render anything
 };
