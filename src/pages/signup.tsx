@@ -154,7 +154,7 @@ const SignUp: React.FC = () => {
             type="password"
             name="password"
             id="password"
-            placeholder="********"
+            placeholder="password"
             value={password}
             onChange={handlePasswordChange}
             autoComplete="current-password"
@@ -174,7 +174,7 @@ const SignUp: React.FC = () => {
             type="password"
             name="confirmPassword"
             id="confirmPassword"
-            placeholder="********"
+            placeholder="Re-enter Password"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             autoComplete="current-password"

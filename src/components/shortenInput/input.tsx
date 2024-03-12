@@ -104,13 +104,12 @@ const InputLongLink = ({ text }: { text: string }) => {
           setShortLink(`${window.location.origin}/${slug}`);
           setIsLoading(false);
           setInput("");
+          console.log(input);
         } catch (error) {
           console.log(error);
           setIsLoading(false);
         }
       } else {
-        console.log(input);
-        
         setInputError("Link is required");
       }
     } else if (user && userId) {
@@ -151,6 +150,9 @@ const InputLongLink = ({ text }: { text: string }) => {
                 setQrCodeData(qrCodeDataUrl);
               }
               setIsLoading(false);
+              setInput("")
+              setAlias("");
+              setLinkName("");
             } catch (error) {
               console.log(error);
               setIsLoading(false);
@@ -189,15 +191,15 @@ const InputLongLink = ({ text }: { text: string }) => {
                 setQrCodeData(qrCodeDataUrl);
               }
               setIsLoading(false);
+              setInput("")
+              setAlias("");
+              setLinkName("");
             } catch (error) {
               console.log(error);
               setIsLoading(false);
             }
           }
         }
-        setInput("");
-        setAlias("");
-        setLinkName("");
       } else {
         setInputError("Link is required");
         setNameError("Name is required");
@@ -243,6 +245,7 @@ const InputLongLink = ({ text }: { text: string }) => {
                 onChange={handleLinkName}
                 className="w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
                 placeholder="Link Name"
+                value={input}
               />
               {nameError && (
                 <p className="text-red-600 font-light text-xs">{nameError}</p>
