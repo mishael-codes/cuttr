@@ -8,6 +8,7 @@ const NotFound: React.FC = () => {
     const navigate = useNavigate();
     setTimeout(() => {
       navigate("/");
+      location.href ="/";
     }, 4000);
 
     setInterval(() => {

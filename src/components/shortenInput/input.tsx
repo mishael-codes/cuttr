@@ -1,9 +1,10 @@
 import { collection, setDoc, doc, getDocs } from "firebase/firestore";
 import db from "../../firebase/firestore";
 import auth from "../../firebase/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Loader from "../loader/loader";
 import { nanoid } from "nanoid";
+import { onAuthStateChanged } from "firebase/auth";
 
 const InputLongLink = ({ text }: { text: string }) => {
   const [input, setInput] = useState("");
@@ -15,6 +16,13 @@ const InputLongLink = ({ text }: { text: string }) => {
   const [inputError, setInputError] = useState("");
   const [nameError, setNameError] = useState("");
   const [aliasError, setAliasError] = useState("");
+  const [isUser, setIsUser] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      user ? setIsUser(true) : setIsUser(false);
+    });
+  });
 
   const user = auth.currentUser;
   const userId = user?.uid;
@@ -38,16 +46,16 @@ const InputLongLink = ({ text }: { text: string }) => {
     const linkAlias = e.target.value;
     if (colRefs && linkAlias) {
       try {
-        let aliasAvailable = true; 
+        let aliasAvailable = true;
 
         getDocs(colRefs).then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             const { slug } = doc.data();
             if (slug === linkAlias) {
-              aliasAvailable = false; 
+              aliasAvailable = false;
             }
           });
-  
+
           if (aliasAvailable) {
             setAliasError("Alias is available");
           } else {
@@ -95,11 +103,14 @@ const InputLongLink = ({ text }: { text: string }) => {
           });
           setShortLink(`${window.location.origin}/${slug}`);
           setIsLoading(false);
+          setInput("");
         } catch (error) {
           console.log(error);
           setIsLoading(false);
         }
       } else {
+        console.log(input);
+        
         setInputError("Link is required");
       }
     } else if (user && userId) {
@@ -184,6 +195,9 @@ const InputLongLink = ({ text }: { text: string }) => {
             }
           }
         }
+        setInput("");
+        setAlias("");
+        setLinkName("");
       } else {
         setInputError("Link is required");
         setNameError("Name is required");
@@ -218,40 +232,47 @@ const InputLongLink = ({ text }: { text: string }) => {
             <p className="text-red-600 font-light text-xs">{inputError}</p>
           )}
         </label>
-        <div className="w-full flex items-center justify-between mt-3">
-          <label htmlFor="name" className="flex flex-col items-start">
-            Name{" "}
-            <input
-              type="text"
-              id="name"
-              onChange={handleLinkName}
-              className="w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
-            />
-            {nameError && (
-              <p className="text-red-600 font-light text-xs">{nameError}</p>
-            )}
-          </label>
-          <label htmlFor="alias" className="flex flex-col items-start">
-            Alias
-            <input
-              type="text"
-              id="alias"
-              onChange={handleAlias}
-              className=" w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
-            />
-            {aliasError && (
-              <p
-                className={`${
-                  aliasError === "Alias already exists"
-                    ? "text-red-600 font-light text-xs"
-                    : "text-green-600 font-thin text-xs"
-                }`}
-              >
-                {aliasError}
-              </p>
-            )}
-          </label>
-        </div>
+        {/* ******************************************************************************************************************** */}
+        {isUser ? (
+          <div className="w-full flex items-center justify-between mt-3">
+            <label htmlFor="name" className="flex flex-col items-start">
+              Name{" "}
+              <input
+                type="text"
+                id="name"
+                onChange={handleLinkName}
+                className="w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
+                placeholder="Link Name"
+              />
+              {nameError && (
+                <p className="text-red-600 font-light text-xs">{nameError}</p>
+              )}
+            </label>
+            <label htmlFor="alias" className="flex flex-col items-start">
+              Alias
+              <input
+                type="text"
+                id="alias"
+                onChange={handleAlias}
+                className=" w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
+                placeholder="Link suffix"
+              />
+              {aliasError && (
+                <p
+                  className={`${
+                    aliasError === "Alias already exists"
+                      ? "text-red-600 font-light text-xs"
+                      : "text-green-600 font-thin text-xs"
+                  }`}
+                >
+                  {aliasError}
+                </p>
+              )}
+            </label>
+          </div>
+        ) : (
+          ""
+        )}
         <button
           className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-3 mb-5 border border-accent hover:bg-transparent hover:text-accent transition-all active:translate-y-1 ${
             isLoading ? "cursor-not-allowed bg-transparent" : ""
