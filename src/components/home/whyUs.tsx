@@ -1,8 +1,8 @@
 import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import qrCode from "../assets/icons/qrcode.svg";
-import auth from "../firebase/auth";
+import qrCode from "../../assets/icons/qrcode.svg";
+import auth from "../../firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 
 const WhyUs: React.FC = () => {

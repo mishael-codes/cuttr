@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // pages
-import Home from "./pages/home";
-import SignUp from "./pages/signup";
-import SignIn from "./pages/signin";
-import NotFound from "./pages/notfound";
+import Home from "./pages/general/home";
+import SignUp from "./pages/general/signup";
+import SignIn from "./pages/general/signin";
+import NotFound from "./pages/general/notfound";
 import GuardedRoutes from "./pages/guardedroutes";
 import Dashboard from "./pages/guarded/dashboard";
 import Settings from "./pages/guarded/settings";

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Loader from "../components/loader/loader";
+import Loader from "../../components/loader/loader";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../firebase/auth";
-import LinkIconAnimation from "../components/animations/linkIcon";
-import ErrorModal from "../components/modals/errorModal";
+import auth from "../../firebase/auth";
+import LinkIconAnimation from "../../components/animations/linkIcon";
+import ErrorModal from "../../components/modals/errorModal";
 
 const SignIn: React.FC = () => {
   // State variables

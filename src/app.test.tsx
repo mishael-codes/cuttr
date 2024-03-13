@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Dashboard from "./pages/guarded/dashboard";
 import InputLongLink from "./components/shortenInput/input";
-import SignUp from "./pages/signup";
+import SignUp from "./pages/general/signup";
 import { BrowserRouter as Router } from "react-router-dom";
-import SignIn from "./pages/signin";
+import SignIn from "./pages/general/signin";
 
 //1. Welcome text is visible
 it("Should have Welcome Text", () => {

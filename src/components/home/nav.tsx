@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
-import closeMenu from "../assets/icons/close.svg";
-import hamMenu from "../assets/icons/burger-menu.svg";
-import auth from "../firebase/auth";
+import closeMenu from "../../assets/icons/close.svg";
+import hamMenu from "../../assets/icons/burger-menu.svg";
+import auth from "../../firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 
 const Nav: React.FC = () => {

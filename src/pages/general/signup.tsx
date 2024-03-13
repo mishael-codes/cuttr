@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Loader from "../components/loader/loader";
+import Loader from "../../components/loader/loader";
 // Import the functions you need from the SDKs you need
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import auth from "../firebase/auth";
-import LinkIconAnimation from "../components/animations/linkIcon";
-import ErrorModal from "../components/modals/errorModal";
+import auth from "../../firebase/auth";
+import LinkIconAnimation from "../../components/animations/linkIcon";
+import ErrorModal from "../../components/modals/errorModal";
 // import { getAnalytics } from "firebase/analytics";
 
 // My web app's Firebase configuration
