@@ -5,7 +5,7 @@ import Loader from "../components/loader/loader";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase/auth";
 import LinkIconAnimation from "../components/animations/linkIcon";
-import ErrorModal from "../components/errorModal";
+import ErrorModal from "../components/modals/errorModal";
 
 const SignIn: React.FC = () => {
   // State variables

@@ -12,10 +12,14 @@ import db from "../../firebase/firestore";
 import InputLongLink from "../../components/shortenInput/input";
 import * as Icon from "react-feather";
 import Offline from "../../components/offline";
+import SuccessModal from "../../components/modals/successModal";
 
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [successModal, setSuccessModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
   const [arr, setArr] = useState<
     Array<{
       id: string;
@@ -134,7 +138,21 @@ const Dashboard: React.FC = () => {
       window.addEventListener("online", handleOnline);
       window.addEventListener("offline", handleOffline);
 
+      
       if (user) {
+        // **************** Shows success message
+        setTimeout(() => {
+          setSuccessModal(true);
+          setModalMessage("Signed In Successfully");
+        }, 50);
+
+        // *************** Clears success message
+        setTimeout(() => {
+          setSuccessModal(false);
+          setModalMessage("");
+        }, 3000)
+
+        // *************** Checks for username
         if (user.displayName) {
           setUserName(user.displayName);
         } else {
@@ -145,6 +163,7 @@ const Dashboard: React.FC = () => {
           ? collection(db, "user-collection", userId, "slug")
           : "";
 
+        // *************** Gets user shortened links. It fetches the timesClicked property from the urls collection and maps its value to its counterpart in user-collection > userID > slug 
         if (userDocRef) {
           getDocs(userDocRef)
             .then((querySnapshot) => {
@@ -188,7 +207,7 @@ const Dashboard: React.FC = () => {
                         timesClicked,
                         linkName,
                         editUrls: false, // Initialize edit mode as false for each card
-                      }); // Include the 'url' and 'slug' and 'qrCodeData' properties in the object being pushed to 'urls' array
+                      });
                     });
                     setArr(urls);
                   }
@@ -208,7 +227,14 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return isOnline ? (
-    <div className="flex flex-col items-center mt-7">
+    <div className="flex flex-col items-center mt-7 relative">
+      <div
+        className={`absolute transition-all ${
+          successModal ? "top-5 md:top-10" : "-top-36"
+        }`}
+      >
+        {successModal ? <SuccessModal success={modalMessage} /> : ""}
+      </div>
       <h1 className="self-start md:self-center text-2xl font-bold pl-4">
         Welcome <span className="text-xl">{userName}</span>,
       </h1>
@@ -270,10 +296,10 @@ const Dashboard: React.FC = () => {
                   </div>
                 )}
                 <div className="w-fit h-[20%]  mt-5 self-center">
-                    <span className="flex">
-                      <Icon.Activity className="text-accent" />:{" "}
-                      {item.timesClicked}
-                    </span>
+                  <span className="flex">
+                    <Icon.Activity className="text-accent" />:{" "}
+                    {item.timesClicked}
+                  </span>
                 </div>
                 {!item.editUrls ? (
                   <div className="mt-6">

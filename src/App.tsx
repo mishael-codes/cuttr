@@ -14,15 +14,15 @@ import Redirect from "./components/shortenInput/redirect";
 import "./App.css";
 
 // firebase imports
-import { onAuthStateChanged } from "firebase/auth";
-import auth from "./firebase/auth";
+// import { onAuthStateChanged } from "firebase/auth";
+// import auth from "./firebase/auth";
 
 // react hooks import
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 function App() {
   // checking if user is signed in
-  useEffect(() => {
+ /*  useEffect(() => {
     if (navigator.onLine) {
       onAuthStateChanged(auth, (user) => {
         if (!user) {
@@ -33,7 +33,7 @@ function App() {
         }
       });
     } else console.log("You are offline");
-  });
+  }); */
 
   return (
     <Router>
