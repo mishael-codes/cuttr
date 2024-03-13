@@ -1,10 +1,16 @@
-import { Outlet, useNavigate, NavLink } from "react-router-dom";
-// import useAuth from "../hooks/useAuth";
-import { onAuthStateChanged } from "firebase/auth";
+// ****************** firebase imports
 import auth from "../firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+
+// ****************** React Hooks
 import { useEffect, useState } from "react";
-import hamMenu from "../assets/icons/burger-menu.svg";
+
+// ****************** React Router
+import { Outlet, useNavigate, NavLink } from "react-router-dom";
+
+// ****************** Icons Imports
 import closeMenu from "../assets/icons/close.svg";
+import hamMenu from "../assets/icons/burger-menu.svg";
 
 const GuardedRoutes: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -24,6 +30,7 @@ const GuardedRoutes: React.FC = () => {
       setTitle("Settings");
     } else setTitle("Dashboard");
 
+    // ****************** Checks if user is signed in and decides what pages to render based on the the result
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         navigate("/signin");

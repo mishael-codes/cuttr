@@ -1,12 +1,22 @@
-import * as Icon from "react-feather";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import qrCode from "../../assets/icons/qrcode.svg";
+// ****************** firebase imports
 import auth from "../../firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 
+// ****************** React Feather
+import * as Icon from "react-feather";
+
+// ******************  React Router
+import { Link } from "react-router-dom";
+
+// ****************** React Hooks
+import { useState, useEffect } from "react";
+
+// ****************** Icon Imports
+import qrCode from "../../assets/icons/qrcode.svg";
+
 const WhyUs: React.FC = () => {
   const [getStartedLink, setGetStartedLink] = useState<string>("");
+  // ****************** Checks if user is signed in and sets the link of the get stated button based on that
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       user ? setGetStartedLink("/dashboard") : setGetStartedLink("/signup");

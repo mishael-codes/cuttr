@@ -1,10 +1,17 @@
-import { collection, setDoc, doc, getDocs } from "firebase/firestore";
-import db from "../../firebase/firestore";
+// ****************** firebase imports
 import auth from "../../firebase/auth";
-import { useState, useEffect } from "react";
-import Loader from "../loader/loader";
-import { nanoid } from "nanoid";
+import db from "../../firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { collection, setDoc, doc, getDocs } from "firebase/firestore";
+
+// ****************** React Hooks
+import { useState, useEffect } from "react";
+
+// ****************** Component Input
+import Loader from "../loader/loader";
+
+// ****************** NPM Imports
+import { nanoid } from "nanoid";
 
 const InputLongLink = ({ text }: { text: string }) => {
   const [input, setInput] = useState("");
@@ -32,6 +39,7 @@ const InputLongLink = ({ text }: { text: string }) => {
 
   const colRefs = collection(db, "urls");
 
+  // ****************** Checks for link name
   const handleLinkName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nameOfLink = e.target.value;
     if (!nameOfLink) {
@@ -41,7 +49,7 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
 
-  // **************************** Alias check ************************* //
+  // ****************** Alias check 
   const handleAlias = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const linkAlias = e.target.value;
     if (colRefs && linkAlias) {
@@ -83,15 +91,17 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
 
+  // ****************** Watches the link input field for changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value;
     setInput(url.trim());
   };
 
+  // ****************** Handles submission logic
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const slug = nanoid(5); //generates a random 5 character string
+    const slug = nanoid(5); // generates a random 5 character string
     if (!user) {
       if (input) {
         setIsLoading(true);
@@ -207,6 +217,7 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
 
+  // ****************** Copies the shortened link
   const handleCopy = () => {
     try {
       navigator.clipboard.writeText(shortLink);

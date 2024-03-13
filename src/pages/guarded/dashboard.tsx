@@ -1,6 +1,7 @@
-import { onAuthStateChanged } from "firebase/auth";
+// ********************** firebase imports
 import auth from "../../firebase/auth";
-import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import db from "../../firebase/firestore";
 import {
   collection,
   doc,
@@ -8,10 +9,16 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import db from "../../firebase/firestore";
-import InputLongLink from "../../components/shortenInput/input";
+
+// ******************** React Hooks
+import { useEffect, useState } from "react";
+
+// ******************** React Feather
 import * as Icon from "react-feather";
+
+// ******************** Components imports 
 import Offline from "../../components/offline";
+import InputLongLink from "../../components/shortenInput/input";
 import SuccessModal from "../../components/modals/successModal";
 
 const Dashboard: React.FC = () => {
@@ -39,7 +46,7 @@ const Dashboard: React.FC = () => {
     return truncatedString;
   };
 
-  //*******************************  trigger edit mode for urls *******************************//
+  //*******************************  trigger edit mode for urls 
   const handleEditUrls = (id: string) => {
     setArr((prevArr) => {
       return prevArr.map((item) => {
@@ -54,7 +61,7 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  //*********************************  cancel edit mode for urls  ***********************************************************//
+  //*********************************  cancel edit mode for urls  
   const handleCancelEditUrls = (id: string) => {
     setArr((prevArr) => {
       return prevArr.map((item) => {
@@ -69,7 +76,7 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  //**************************** save edited urls ****************************************//
+  //**************************** save edited urls 
   const handleSaveUrls = async (id: string) => {
     const user = auth.currentUser;
     const userId = user?.uid;
@@ -102,8 +109,8 @@ const Dashboard: React.FC = () => {
     });
     location.reload();
   };
-  //**************************** end ****************************************//
-  //**************************** card hover animation ****************************************//
+  //**************************** End 
+  //**************************** Card hover animation 
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -122,11 +129,11 @@ const Dashboard: React.FC = () => {
   const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.transform = "rotateX(0deg) rotateY(0deg)";
   };
-  //**************************** end card hover animation ****************************************//
+  //**************************** End card hover animation 
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      // ***********************Check if device is online *********************** //
+      // *********************** Check if device is online
       const handleOnline = () => {
         setIsOnline(true);
       };
@@ -197,7 +204,7 @@ const Dashboard: React.FC = () => {
                         qrCodeData,
                         timesClicked,
                         linkName,
-                      } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' properties from 'doc.data()'
+                      } = doc.data(); // Destructure the 'url' and 'slug' 'qrCodeData' and other properties from 'doc.data()'
                       urls.push({
                         ...doc.data(),
                         id: doc.id,

@@ -1,18 +1,22 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Loader from "../../components/loader/loader";
-// Import the functions you need from the SDKs you need
+// ****************** firebase imports
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
 import auth from "../../firebase/auth";
+
+// ****************** React Hook
+import { useState } from "react";
+
+// ****************** React Router
+import { Link, useNavigate } from "react-router-dom";
+
+// ****************** Components Import
+import Loader from "../../components/loader/loader";
 import LinkIconAnimation from "../../components/animations/linkIcon";
 import ErrorModal from "../../components/modals/errorModal";
 // import { getAnalytics } from "firebase/analytics";
 
-// My web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
@@ -26,6 +30,7 @@ const SignUp: React.FC = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
+  // ****************** Checks for changes in the email input field
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
@@ -33,12 +38,14 @@ const SignUp: React.FC = () => {
     setErrorModal(false);
   };
 
+  // ****************** Checks for changes in the password input field
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setPasswordError("");
   };
 
+  // ****************** Checks for changes in the confirm pasword input field
   const handleConfirmPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -47,11 +54,12 @@ const SignUp: React.FC = () => {
     setConfirmPasswordError("");
   };
 
+  // ****************** Function to register new user
   const registerUser = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // validating email
+    // ****************** validating email
     if (!email) {
       setIsLoading(false);
       setEmailError("Email is required");
@@ -62,7 +70,7 @@ const SignUp: React.FC = () => {
       return false;
     }
 
-    // validating password
+    // ****************** validating password
     if (!password) {
       setIsLoading(false);
       setPasswordError("Password is required");
@@ -73,7 +81,7 @@ const SignUp: React.FC = () => {
       return;
     }
 
-    // validating confirm password
+    // ****************** validating confirm password
     if (!confirmPassword) {
       setIsLoading(false);
       setConfirmPasswordError("Confirm Password  is required");
@@ -84,21 +92,23 @@ const SignUp: React.FC = () => {
       return;
     }
 
+    // ****************** If all checks, create user
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        // ...
-        console.log(user);
+        user
         setIsLoading(false);
+        // ****************** Sends the user a verification email when the user's account is created
         if (auth.currentUser) {
           sendEmailVerification(auth.currentUser).then(() => {
-            // Email verification sent!
+            // ****************** After email verification sent!
             navigate("/dashboard");
           });
         }
       })
       .catch((error) => {
+        // ****************** Checks for any error
         const errorCode = error.code;
         if (errorCode === "auth/email-already-in-use") {
           setIsLoading(false);
@@ -115,7 +125,7 @@ const SignUp: React.FC = () => {
   };
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-evenly relative overflow-hidden">
-      <LinkIconAnimation index="-z-0" marginTop="mt-32" />
+      <LinkIconAnimation index="-z-0" marginTop="mt-[15vh]" />
       <div className={`absolute transition-all ${errorModal ? "top-[5.65rem] md:top-24" : "-top-36"}`}>{errorModal ? <ErrorModal error={modalMessage} /> : ""}</div>
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign Up
@@ -192,7 +202,7 @@ const SignUp: React.FC = () => {
           {isLoading ? <Loader /> : "Sign Up"}
         </button>
       </form>
-      <p className="text-text">
+      <p className="text-text relative z-10">
         Already have an account?{" "}
         <Link to="/signin" className="text-accent underline underline-offset-2">
           Sign In here

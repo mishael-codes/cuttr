@@ -1,10 +1,19 @@
-import { useState, useEffect } from "react";
-import * as Icon from "react-feather";
-import { Link } from "react-router-dom";
-import closeMenu from "../../assets/icons/close.svg";
-import hamMenu from "../../assets/icons/burger-menu.svg";
+// ************ firebase imports
 import auth from "../../firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+
+// ************ React feather
+import * as Icon from "react-feather";
+
+// ************ React Hooks
+import { useState, useEffect } from "react";
+
+// ************ React Router Dom
+import { Link } from "react-router-dom";
+
+// ************ Icon Imports
+import closeMenu from "../../assets/icons/close.svg";
+import hamMenu from "../../assets/icons/burger-menu.svg";
 
 const Nav: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -19,6 +28,7 @@ const Nav: React.FC = () => {
     !open ? setOpen(true) : setOpen(false);
   };
 
+  // ******************* Checks for user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       user ? setIsUser(true) : setIsUser(false);
@@ -67,7 +77,6 @@ const Nav: React.FC = () => {
             )}
           </ul>
           <div className="buttons flex items-center justify-center flex-col mt-24">
-            {/* <button>Sign In</button> */}
             <Link to="/signin"> Sign In</Link>
             <Link
               to="/signup"
@@ -76,7 +85,6 @@ const Nav: React.FC = () => {
               {" "}
               Sign Up
             </Link>
-            {/* <button className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all">Sign Up</button> */}
           </div>
         </div>
       </div>

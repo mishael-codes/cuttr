@@ -1,10 +1,14 @@
+// ****************** React Hook
 import { useState } from "react";
+
+// ****************** React Router
 import { useNavigate } from "react-router-dom";
+
 const NotFound: React.FC = () => {
   const [count, setCount] = useState(5);
   const [seconds, setSeconds] = useState("seconds");
 
-  const Redirect: React.FC = () => {
+  const Redirect = () => {
     const navigate = useNavigate();
     setTimeout(() => {
       navigate("/");

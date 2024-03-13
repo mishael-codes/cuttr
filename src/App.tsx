@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// pages
+// ******************** pages
 import Home from "./pages/general/home";
 import SignUp from "./pages/general/signup";
 import SignIn from "./pages/general/signin";
@@ -10,7 +10,7 @@ import Dashboard from "./pages/guarded/dashboard";
 import Settings from "./pages/guarded/settings";
 import Redirect from "./components/shortenInput/redirect";
 
-// pure css file
+// ********************* pure css file
 import "./App.css";
 
 function App() {

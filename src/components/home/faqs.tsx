@@ -1,3 +1,4 @@
+// ****************** React Feather
 import * as Icon from "react-feather";
 
 const Faqs: React.FC = () => {

@@ -1,11 +1,18 @@
+// ****************** firebase imports
+import auth from "../../firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+// ****************** React Hooks
 import { useState } from "react";
+
+// ****************** React Router
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
+// ****************** Components Import
 import Loader from "../../components/loader/loader";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../../firebase/auth";
-import LinkIconAnimation from "../../components/animations/linkIcon";
 import ErrorModal from "../../components/modals/errorModal";
+import LinkIconAnimation from "../../components/animations/linkIcon";
 
 const SignIn: React.FC = () => {
   // State variables
@@ -18,7 +25,7 @@ const SignIn: React.FC = () => {
   const [modalMessage, setModalMessage] = useState("");
 
   const navigate = useNavigate();
-  // Handle email input change
+  // ****************** Handle email input change
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
@@ -26,7 +33,7 @@ const SignIn: React.FC = () => {
     setErrorModal(false);
   };
 
-  // Handle password input change
+  // ****************** Handle password input change
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -34,12 +41,12 @@ const SignIn: React.FC = () => {
     setErrorModal(false);
   };
 
-  // Sign in user
+  // ****************** Sign in user
   const signInUser = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Validating email
+    // ****************** Validating email
     if (!email) {
       setIsLoading(false);
       setEmailError("Email is required");
@@ -50,7 +57,7 @@ const SignIn: React.FC = () => {
       return false;
     }
 
-    // Validating password
+    // ****************** Validating password
     if (!password) {
       setIsLoading(false);
       setPasswordError("Password is required");
@@ -61,17 +68,17 @@ const SignIn: React.FC = () => {
       return false;
     }
 
+    // ****************** If all checks proceed to sign in user
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         navigate("/dashboard");
-        // ...
-        console.log(user);
         user;
         setIsLoading(false);
       })
       .catch((error) => {
+        // ****************** Error Handling
         const errorCode = error.code;
 
         if (errorCode === "auth/invalid-credential") {
@@ -87,8 +94,8 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-evenly relative">
-      <LinkIconAnimation index="-z-0" marginTop="mt-32"/>
+    <div className="w-screen min-h-screen flex flex-col items-center justify-evenly relative">
+      <LinkIconAnimation index="-z-0" marginTop="mt-[15vh]"/>
       <div className={`absolute transition-all ${errorModal ? "top-32 md:top-36" : "-top-36"}`}>{errorModal ? <ErrorModal error={modalMessage} /> : ""}</div>
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign In

@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+// ****************** firebase imports
+import { updateProfile, signOut } from "firebase/auth";
+import auth from "../../firebase/auth";
+
+// ****************** React Hooks
+import { useState } from "react";
+
+// ****************** React Router
 import { useNavigate } from "react-router-dom";
-import { getAuth, updateProfile, signOut } from "firebase/auth";
+
+// ****************** Component Import
 import Offline from "../../components/offline";
 
 const Settings: React.FC = () => {
-  // get auth instance
-  const auth = getAuth();
-
-  // state variable
   const [userName, setUserName] = useState("");
 
-  // handle input change
+  // ****************** handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setUserName(name);
   };
 
-  // update user profile
+  // ****************** update user profile
   const handleUpdateProfile = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -35,7 +39,7 @@ const Settings: React.FC = () => {
     }
   };
 
-  // sign out user
+  // ****************** sign out user
   const navigate = useNavigate();
   const handleSignOut = () => {
     signOut(auth).then(() => {

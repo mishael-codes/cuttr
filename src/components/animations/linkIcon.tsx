@@ -1,8 +1,9 @@
+// ****************** React Feather
 import * as Icon from "react-feather"
 const LinkIconAnimation = ({index, marginTop}: {index: string, marginTop: string}) => {
 
   return (
-    <div className={`absolute h-full w-full ${index} ${marginTop} hidden md:block`}>
+    <div className={`absolute h-[80vh] w-full ${index} ${marginTop} hidden md:block`}>
         <Icon.Link className="absolute text-accent top-0 left-[10%] scale-150 linkIcon1" />
         <Icon.Link className="absolute text-accent top-0 right-[10%] scale-150 linkIcon1" />
         <Icon.Link className="absolute text-accent top-[20%] left-[10%] scale-150 linkIcon2" />
