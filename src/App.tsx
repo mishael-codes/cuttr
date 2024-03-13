@@ -13,28 +13,7 @@ import Redirect from "./components/shortenInput/redirect";
 // pure css file
 import "./App.css";
 
-// firebase imports
-// import { onAuthStateChanged } from "firebase/auth";
-// import auth from "./firebase/auth";
-
-// react hooks import
-// import { useEffect } from "react";
-
 function App() {
-  // checking if user is signed in
- /*  useEffect(() => {
-    if (navigator.onLine) {
-      onAuthStateChanged(auth, (user) => {
-        if (!user) {
-          console.log("User is not signed in");
-        } else {
-          // const uid = user.uid;
-          console.log("User is signed in");
-        }
-      });
-    } else console.log("You are offline");
-  }); */
-
   return (
     <Router>
       <Routes>

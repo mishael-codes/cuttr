@@ -40,12 +40,14 @@ const GuardedRoutes: React.FC = () => {
       <h1 className="text-accent p-5 font-bold border-b border-accent rounded-lg md:hidden">
         {title}
       </h1>
-      <div className="md:hidden">
-        <div onClick={showNav} className="fixed z-20 right-3 top-1">
+
+      {/* mobile Nav */}
+      <div className="lg:hidden">
+        <div onClick={showNav} className="fixed z-50 right-3 top-1">
           {!open ? <img src={hamMenu} /> : <img src={closeMenu} />}
         </div>
         <div
-          className={`bg-[rgba(0,0,0,0.3)] fixed z-10 w-screen h-screen shadow-inset rounded-lg text-2xl text-text flex items-center justify-center flex-col backdrop-blur-sm transition-all ${
+          className={`bg-[rgba(0,0,0,0.3)] fixed z-40 w-screen h-screen shadow-inset rounded-lg text-2xl text-text flex items-center justify-center flex-col backdrop-blur-sm transition-all ${
             open ? "left-0 top-0" : "left-[100vw] -top-[100vw]"
           }`}
         >
@@ -66,7 +68,7 @@ const GuardedRoutes: React.FC = () => {
         </div>
       </div>
 
-      <div className="hidden w-screen md:w-64 md:min-h-screen p-7 px-3 shadow-md shadow-accent rounded-lg md:flex flex-col fixed bg-background">
+      <div className="hidden w-screen lg:w-64 lg:min-h-screen p-7 px-3 shadow-md shadow-accent rounded-lg lg:flex flex-col fixed bg-background">
         <NavLink
           to="/dashboard"
           className="p-3 font-bold text-text border-b border-accent"
@@ -77,7 +79,7 @@ const GuardedRoutes: React.FC = () => {
           Settings
         </NavLink>
       </div>
-      <div className="grow md:ml-64">
+      <div className="grow lg:ml-64">
         <Outlet />
       </div>
     </div>

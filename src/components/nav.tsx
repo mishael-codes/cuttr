@@ -32,11 +32,11 @@ const Nav: React.FC = () => {
 
       {/* Mobile nav */}
       <div className="lg:hidden">
-        <div onClick={showNav} className="fixed z-20 right-3 top-1">
+        <div onClick={showNav} className="fixed z-50 right-3 top-1">
           {!open ? <img src={hamMenu} /> : <img src={closeMenu} />}
         </div>
         <div
-          className={`bg-[rgba(0,0,0,0.3)] fixed z-10 w-screen h-screen shadow-inset rounded-lg text-2xl text-text flex items-center justify-center flex-col backdrop-blur-sm transition-all ${
+          className={`bg-[rgba(0,0,0,0.3)] fixed z-40 w-screen h-screen shadow-inset rounded-lg text-2xl text-text flex items-center justify-center flex-col backdrop-blur-sm transition-all ${
             open ? "left-0 top-0" : "left-[100vw] -top-[100vw]"
           }`}
         >
