@@ -99,7 +99,7 @@ const Nav: React.FC = () => {
               </li>
             </div>
           ) : (
-            ""
+            <div className="hidden"></div>
           )}
         </ul>
         <div className="buttons flex items-center justify-center leading-loose">

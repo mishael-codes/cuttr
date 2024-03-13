@@ -5,6 +5,8 @@ import Loader from "../components/loader/loader";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase/auth";
 import LinkIconAnimation from "../components/animations/linkIcon";
+import ErrorModal from "../components/errorModal";
+
 const SignIn: React.FC = () => {
   // State variables
   const [email, setEmail] = useState("");
@@ -71,7 +73,6 @@ const SignIn: React.FC = () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        console.log(errorCode);
 
         if (errorCode === "auth/invalid-credential") {
           setIsLoading(false);
@@ -88,10 +89,10 @@ const SignIn: React.FC = () => {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-evenly relative">
       <LinkIconAnimation index="-z-0" marginTop="mt-32"/>
+      <div className={`absolute transition-all ${errorModal ? "top-32 md:top-36" : "-top-36"}`}>{errorModal ? <ErrorModal error={modalMessage} /> : ""}</div>
       <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Sign In
       </h2>
-      <div>{errorModal ? <p className="text-text">{modalMessage}</p> : ""}</div>
       <form
         className="w-full flex flex-col items-center justify-center"
         onSubmit={signInUser}
