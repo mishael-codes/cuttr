@@ -8,6 +8,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 // ******************** React Hooks
@@ -16,7 +17,7 @@ import { useEffect, useState } from "react";
 // ******************** React Feather
 import * as Icon from "react-feather";
 
-// ******************** Components imports 
+// ******************** Components imports
 import Offline from "../../components/offline";
 import InputLongLink from "../../components/shortenInput/input";
 import SuccessModal from "../../components/modals/successModal";
@@ -39,6 +40,9 @@ const Dashboard: React.FC = () => {
     }>
   >([]);
 
+  const user = auth.currentUser;
+  const userId = user?.uid;
+
   // shorten link length in their respective containers
   const truncate = (str: string, n: number) => {
     const truncatedString: string =
@@ -46,7 +50,7 @@ const Dashboard: React.FC = () => {
     return truncatedString;
   };
 
-  //*******************************  trigger edit mode for urls 
+  //*******************************  trigger edit mode for urls
   const handleEditUrls = (id: string) => {
     setArr((prevArr) => {
       return prevArr.map((item) => {
@@ -61,7 +65,7 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  //*********************************  cancel edit mode for urls  
+  //*********************************  cancel edit mode for urls
   const handleCancelEditUrls = (id: string) => {
     setArr((prevArr) => {
       return prevArr.map((item) => {
@@ -76,10 +80,33 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  //**************************** Save edited urls 
+  const handleDeleteUrls = async (id: string) => {
+    const colRef = doc(db, "urls", id);
+    const docRef = userId
+      ? doc(db, "user-collection", userId, "slug", id)
+      : null;
+    if (colRef) {
+      await deleteDoc(colRef);
+    }
+    if (docRef) {
+      await deleteDoc(docRef);
+    }
+    setArr((prevArr) => {
+      return prevArr.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+          };
+        }
+        console.log(item.id);
+        return item;
+      });
+    });
+    location.reload();
+  };
+
+  //**************************** Save edited urls
   const handleSaveUrls = async (id: string) => {
-    const user = auth.currentUser;
-    const userId = user?.uid;
     const colRef = doc(db, "urls", id);
     const docRef = userId
       ? doc(db, "user-collection", userId, "slug", id)
@@ -109,8 +136,8 @@ const Dashboard: React.FC = () => {
     });
     location.reload();
   };
-  //**************************** End 
-  //**************************** Card hover animation 
+  //**************************** End
+  //**************************** Card hover animation
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -129,7 +156,7 @@ const Dashboard: React.FC = () => {
   const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.transform = "rotateX(0deg) rotateY(0deg)";
   };
-  //**************************** End card hover animation 
+  //**************************** End card hover animation
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -145,7 +172,6 @@ const Dashboard: React.FC = () => {
       window.addEventListener("online", handleOnline);
       window.addEventListener("offline", handleOffline);
 
-      
       if (user) {
         // **************** Shows success message
         setTimeout(() => {
@@ -157,7 +183,7 @@ const Dashboard: React.FC = () => {
         setTimeout(() => {
           setSuccessModal(false);
           setModalMessage("");
-        }, 3000)
+        }, 3000);
 
         // *************** Checks for username
         if (user.displayName) {
@@ -170,7 +196,7 @@ const Dashboard: React.FC = () => {
           ? collection(db, "user-collection", userId, "slug")
           : "";
 
-        // *************** Gets user shortened links. It fetches the timesClicked property from the urls collection and maps its value to its counterpart in user-collection > userID > slug 
+        // *************** Gets user shortened links. It fetches the timesClicked property from the urls collection and maps its value to its counterpart in user-collection > userID > slug
         if (userDocRef) {
           getDocs(userDocRef)
             .then((querySnapshot) => {
@@ -309,11 +335,19 @@ const Dashboard: React.FC = () => {
                   </span>
                 </div>
                 {!item.editUrls ? (
-                  <div className="mt-6">
-                    <Icon.Edit3
-                      className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
-                      onClick={() => handleEditUrls(item.id)}
-                    />
+                  <div className="flex items-center justify-between">
+                    <div className="mt-6">
+                      <Icon.Edit3
+                        className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
+                        onClick={() => handleEditUrls(item.id)}
+                      />
+                    </div>
+                    <div className="mt-6">
+                      <Icon.Trash
+                        className="cursor-pointer text-red-600 border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
+                        onClick={() => handleDeleteUrls(item.id)}
+                      />
+                    </div>
                   </div>
                 ) : (
                   <div className="w-full flex justify-between mt-6">

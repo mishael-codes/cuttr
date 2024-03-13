@@ -257,7 +257,7 @@ const InputLongLink = ({ text }: { text: string }) => {
                 onChange={handleLinkName}
                 className="w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
                 placeholder="Link Name"
-                value={input}
+                value={linkName}
               />
               {nameError && (
                 <p className="text-red-600 font-light text-xs">{nameError}</p>
