@@ -44,11 +44,11 @@ const GuardedRoutes: React.FC = () => {
 
   return (
     <div className="min-h-screen text-text flex flex-col md:flex-row">
-      <h1 className="text-accent p-5 font-bold border-b border-accent rounded-lg md:hidden">
+      {/* mobile Nav */}
+      <h1 className="text-accent p-5 font-bold border-b border-accent rounded-lg lg:hidden fixed w-screen backdrop-blur-sm z-40">
         {title}
       </h1>
 
-      {/* mobile Nav */}
       <div className="lg:hidden">
         <div onClick={showNav} className="fixed z-50 right-3 top-1">
           {!open ? <img src={hamMenu} /> : <img src={closeMenu} />}
@@ -86,7 +86,7 @@ const GuardedRoutes: React.FC = () => {
           Settings
         </NavLink>
       </div>
-      <div className="grow lg:ml-64">
+      <div className="grow lg:ml-64 pt-10 lg:p-0">
         <Outlet />
       </div>
     </div>

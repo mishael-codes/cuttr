@@ -35,12 +35,15 @@ const Nav: React.FC = () => {
     });
   });
   return (
-    <nav className="w-full flex items-center justify-start lg:justify-evenly p-3 shadow-md shadow-accent rounded-lg lg:backdrop-blur-sm">
-      <h1 className="md:w-[15%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2 flex items-baseline self-start">
+    <nav className="w-full flex items-center justify-start lg:justify-evenly lg:shadow-md lg:shadow-accent lg:p-3 lg:rounded-lg lg:backdrop-blur-sm">
+      <h1 className="hidden md:w-[15%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2 lg:flex items-baseline self-start">
         Cuttr <Icon.Link size="30px" />
       </h1>
 
       {/* Mobile nav */}
+      <h1 className="shadow-md shadow-accent p-3 rounded-lg lg:hidden fixed w-screen backdrop-blur-sm z-40 font-bold tracking-tighter text-accent text-3xl flex items-baseline self-start">
+        Cuttr <Icon.Link size="30px" />
+      </h1>
       <div className="lg:hidden">
         <div onClick={showNav} className="fixed z-50 right-3 top-1">
           {!open ? <img src={hamMenu} /> : <img src={closeMenu} />}

@@ -49,7 +49,7 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
 
-  // ****************** Alias check 
+  // ****************** Alias check
   const handleAlias = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const linkAlias = e.target.value;
     if (colRefs && linkAlias) {
@@ -95,6 +95,7 @@ const InputLongLink = ({ text }: { text: string }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value;
     setInput(url.trim());
+    setInputError("");
   };
 
   // ****************** Handles submission logic
@@ -103,7 +104,7 @@ const InputLongLink = ({ text }: { text: string }) => {
 
     const slug = nanoid(5); // generates a random 5 character string
     if (!user) {
-      if (input) {
+      if (input.startsWith("https://") || input.startsWith("http://")) {
         setIsLoading(true);
         try {
           const docRef = doc(colRefs, slug); // Create a DocumentReference using the slug as the document ID
@@ -119,9 +120,9 @@ const InputLongLink = ({ text }: { text: string }) => {
           console.log(error);
           setIsLoading(false);
         }
-      } else {
+      } else if (!input) {
         setInputError("Link is required");
-      }
+      } else setInputError("Please enter a valid link");
     } else if (user && userId) {
       if (input && linkName) {
         setIsLoading(true);
@@ -160,7 +161,7 @@ const InputLongLink = ({ text }: { text: string }) => {
                 setQrCodeData(qrCodeDataUrl);
               }
               setIsLoading(false);
-              setInput("")
+              setInput("");
               setAlias("");
               setLinkName("");
             } catch (error) {
@@ -201,7 +202,7 @@ const InputLongLink = ({ text }: { text: string }) => {
                 setQrCodeData(qrCodeDataUrl);
               }
               setIsLoading(false);
-              setInput("")
+              setInput("");
               setAlias("");
               setLinkName("");
             } catch (error) {

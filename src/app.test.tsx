@@ -5,23 +5,23 @@ import SignUp from "./pages/general/signup";
 import { BrowserRouter as Router } from "react-router-dom";
 import SignIn from "./pages/general/signin";
 
-//1. Welcome text is visible
+// ****************** 1. Welcome text is visible
 it("Should have Welcome Text", () => {
   render(<Dashboard />);
   const message = screen.getByText(/Welcome/i);
   expect(message).toBeVisible();
 });
 
-//2. Tests the input component
+/// ****************** 2. Tests the input component
 describe("InputLongLink Test", () => {
-  //2.1 checks if the text prop content is showing
+  // ****************** 2.1 checks if the text prop content is showing
   it("Should always have text display", () => {
     render(<InputLongLink text="Testing" />);
     const text = screen.getByText(/Testing/i);
     expect(text).toBeVisible();
   });
 
-  //2.2 checks  if the input resets
+  // ****************** 2.2 checks  if the input resets
   it("Should be reset", () => {
     render(<InputLongLink text="Testing" />);
     const linkInput = screen.getByPlaceholderText(
@@ -41,7 +41,7 @@ describe("InputLongLink Test", () => {
     }, 5000);
   });
 
-  //2.3 checks if there's a short url
+  // ****************** 2.3 checks if there's a short url
   it("Should display short Url", () => {
     setTimeout(() => {
       const url = screen.getByText(/https:\/\/cuttr.vercel.app/i);
@@ -50,7 +50,7 @@ describe("InputLongLink Test", () => {
   });
 });
 
-// 3 should redirect to dashboard after sign up
+// ****************** 3 should redirect to dashboard after sign up
 it("Should redirect to dashboard after sign up", () => {
   render(
     <Router>
@@ -79,7 +79,7 @@ it("Should redirect to dashboard after sign up", () => {
   }
 });
 
-// 4 should redirect to dashboard after sign in
+// ****************** 4 should redirect to dashboard after sign in
 it("Should redirect to dashboard after sign in", () => {
   render(
     <Router>
