@@ -3,7 +3,7 @@ import Dashboard from "./pages/guarded/dashboard";
 import InputLongLink from "./components/shortenInput/input";
 import SignUp from "./pages/signup";
 import { BrowserRouter as Router } from "react-router-dom";
-// import SignIn from "./pages/signin";
+import SignIn from "./pages/signin";
 
 //1. Welcome text is visible
 it("Should have Welcome Text", () => {
@@ -51,7 +51,7 @@ describe("InputLongLink Test", () => {
 });
 
 // 3 should redirect to dashboard after sign up
-it("should redirect to dashboard", () => {
+it("Should redirect to dashboard after sign up", () => {
   render(
     <Router>
       <SignUp />
@@ -76,5 +76,30 @@ it("should redirect to dashboard", () => {
       fireEvent.click(btn);
       expect(window.location.pathname).toBe("/dashboard");
     }
+  }
+});
+
+// 4 should redirect to dashboard after sign in
+it("Should redirect to dashboard after sign in", () => {
+  render(
+    <Router>
+      <SignIn />
+    </Router>
+  );
+
+  const emailField = screen.getByPlaceholderText(
+    /johndoe@gmail.com/
+  ) as HTMLInputElement;
+  const passwordField = screen.getByPlaceholderText(
+    /^password$/i
+  ) as HTMLInputElement;
+  emailField.value = "johndoe@gmail.com";
+  passwordField.value = "password";
+  const btn = screen.getByRole("button");
+  if (emailField && passwordField) {
+    fireEvent.click(btn);
+    setTimeout(() => {
+      expect(window.location.pathname).toBe("/dashboard");
+    }, 5000);
   }
 });
