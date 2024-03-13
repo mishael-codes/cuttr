@@ -159,6 +159,7 @@ const Dashboard: React.FC = () => {
   //**************************** End card hover animation
 
   useEffect(() => {
+    const successMessageShown = sessionStorage.getItem("successMessageShown");
     onAuthStateChanged(auth, (user) => {
       // *********************** Check if device is online
       const handleOnline = () => {
@@ -169,22 +170,25 @@ const Dashboard: React.FC = () => {
         setIsOnline(false);
       };
 
-      window.addEventListener("online", handleOnline);
-      window.addEventListener("offline", handleOffline);
-
-      if (user) {
+      if (user && !successMessageShown) {
         // **************** Shows success message
-        setTimeout(() => {
-          setSuccessModal(true);
-          setModalMessage("Signed In Successfully");
-        }, 50);
+        setSuccessModal(true);
+        setModalMessage("Signed In Successfully");
 
-        // *************** Clears success message
+        // Set the flag in session storage to indicate that the message has been shown
+        sessionStorage.setItem("successMessageShown", "true");
+
+        // *************** Clears success message after 3 seconds
         setTimeout(() => {
           setSuccessModal(false);
           setModalMessage("");
         }, 3000);
+      }
 
+      window.addEventListener("online", handleOnline);
+      window.addEventListener("offline", handleOffline);
+
+      if (user) {
         // *************** Checks for username
         if (user.displayName) {
           setUserName(user.displayName);
