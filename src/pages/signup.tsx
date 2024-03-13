@@ -153,7 +153,7 @@ const SignUp: React.FC = () => {
             type="password"
             name="password"
             id="password"
-            placeholder="password"
+            placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
             autoComplete="current-password"

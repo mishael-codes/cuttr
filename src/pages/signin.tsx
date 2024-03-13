@@ -128,7 +128,7 @@ const SignIn: React.FC = () => {
             id="password"
             value={password}
             onChange={handlePasswordChange}
-            placeholder="password"
+            placeholder="Password"
             autoComplete="current-password"
             className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
           />
