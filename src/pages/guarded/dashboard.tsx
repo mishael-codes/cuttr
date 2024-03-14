@@ -135,7 +135,6 @@ const Dashboard: React.FC = () => {
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const userScreen = screen.width;
-    console.log(userScreen);
     
     if (userScreen >= 1024) {
       const rect = e.currentTarget.getBoundingClientRect();
