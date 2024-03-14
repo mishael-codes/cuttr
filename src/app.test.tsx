@@ -4,6 +4,7 @@ import InputLongLink from "./components/shortenInput/input";
 import SignUp from "./pages/general/signup";
 import { BrowserRouter as Router } from "react-router-dom";
 import SignIn from "./pages/general/signin";
+import truncate from "./components/dashboard/truncate"
 
 // ****************** 1. Welcome text is visible
 it("Should have Welcome Text", () => {
@@ -102,4 +103,10 @@ it("Should redirect to dashboard after sign in", () => {
       expect(window.location.pathname).toBe("/dashboard");
     }, 5000);
   }
+});
+
+describe("Should return truncated string", () => {
+  it('Should truncate to specified length with ellipsis', () => {
+    expect(truncate("superman", 5)).toEqual("supe...");
+  });
 });

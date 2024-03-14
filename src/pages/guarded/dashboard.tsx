@@ -19,6 +19,7 @@ import * as Icon from "react-feather";
 
 // ******************** Components imports
 import Offline from "../../components/offline";
+import Truncate from "../../components/dashboard/truncate";
 import InputLongLink from "../../components/shortenInput/input";
 import SuccessModal from "../../components/modals/successModal";
 
@@ -42,13 +43,6 @@ const Dashboard: React.FC = () => {
 
   const user = auth.currentUser;
   const userId = user?.uid;
-
-  // shorten link length in their respective containers
-  const truncate = (str: string, n: number) => {
-    const truncatedString: string =
-      str.length > n ? str.substring(0, n - 1) + "..." : str;
-    return truncatedString;
-  };
 
   //*******************************  trigger edit mode for urls
   const handleEditUrls = (id: string) => {
@@ -304,7 +298,7 @@ const Dashboard: React.FC = () => {
                       contentEditable={item.editUrls ? true : false}
                       autoFocus={item.editUrls ? true : false}
                     >
-                      {!item.editUrls ? truncate(item.url, 20) : item.url}
+                      {!item.editUrls ? Truncate(item.url, 20) : item.url}
                     </a>
                   </div>
                 </span>
@@ -318,7 +312,7 @@ const Dashboard: React.FC = () => {
                       rel="noreferrer"
                       contentEditable={item.editUrls ? true : false}
                     >
-                      {truncate(item.shortLink, 20)}
+                      {Truncate(item.shortLink, 20)}
                     </a>
                   </div>
                 </span>
