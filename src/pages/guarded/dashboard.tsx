@@ -134,17 +134,22 @@ const Dashboard: React.FC = () => {
   //**************************** Card hover animation
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const userScreen = screen.width;
+    console.log(userScreen);
+    
+    if (userScreen >= 1024) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
 
-    const rotateX = (centerY - y) / 10;
-    const rotateY = (centerX - x) / 10;
+      const rotateX = (centerY - y) / 10;
+      const rotateY = (centerX - x) / 10;
 
-    e.currentTarget.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      e.currentTarget.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
