@@ -56,17 +56,22 @@ At least 2 unit tests and 3 component tests should be present in the codebase.
 ### What I Learned
 During the course of attempting this project, I learnt a lot and I probably won&apos;t be able to mention it all here but these are some of them below: 
 - Firebase
+
     Because of this project, I was finally able to  work with firebase. I learnt how user authentication works, how to get user data like email, photo, email and so on from a user. I also gained some knowledge in working with firestore, using it as my database to  store user data. I was able to create, read, update and delete user shortened links, making it my first CRUD app with user authentication.
 - Vitest
+
     Though I&apos;m still geting the hang of it, I was able to add vitest to my app and test some components and functions with it. I will get beter at it though and add better tests to this in due time.
 - React + TypeScript
+
     Of course, the main tools cannot be ignored, I learned a lot about the React library and the typescript language. It&apos;s not perfect, but give me some credit. This is the very first app I built with typescript and I believe I did a very good job. Still, there&apos;s room for improvement which I am open to and will embrace.
+
 There are a lot more, but like I said, I won&apos;t be able to cover them.
 
 ## Author
 If you&apos;ve read to this point, thank you very much for your time and I appreciate you reading this. If you want to know more about me, maybe learn together, be friends, offer some advice on how I can do better, offer some feedback on this project or any of my work, or you know, offer me a job🙃, or refer me to omeone that&apos;ll offer me a job, this is me...below
-    [My Website](https://mishaelenyi.netlify.app)
-    [My Email](mailto:enyimishael22@gmail.com)
-    [WhatsApp - Min - 민 💙](https://wa.me/+2348167177172)
-    [Twitter - @mishael_codes](https://www.twitter.com/mishael_codes)
-    [Instagram - @mishael_codes](https://www.instagram.com/mishael_codes)
+
+  - [My Website](https://mishaelenyi.netlify.app)
+  - [My Email](mailto:enyimishael22@gmail.com)
+  - [WhatsApp - Min - 민 💙](https://wa.me/+2348167177172)
+  - [Twitter - @mishael_codes](https://www.twitter.com/mishael_codes)
+  - [Instagram - @mishael_codes](https://www.instagram.com/mishael_codes)
