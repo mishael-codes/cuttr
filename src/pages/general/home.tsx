@@ -2,6 +2,7 @@
 import Nav from "../../components/home/nav.tsx";
 import Hero from "../../components/home/hero.tsx";
 import WhyUs from "../../components/home/whyUs.tsx";
+import Pricing from "../../components/home/pricing.tsx";
 import Faqs from "../../components/home/faqs.tsx";
 import Footer from "../../components/home/footer.tsx";
 
@@ -11,6 +12,7 @@ const Home: React.FC = () => {
       <Nav />
       <Hero />
       <WhyUs />
+      <Pricing />
       <Faqs />
       <Footer />
     </div>
