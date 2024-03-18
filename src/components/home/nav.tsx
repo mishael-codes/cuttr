@@ -21,6 +21,7 @@ const Nav: React.FC = () => {
   const links = [
     { name: "Home", url: "/" },
     { name: "Why Cuttr", url: "#whyUs" },
+    { name: "Pricing", url: "#pricing" },
     { name: "FAQs", url: "#faqs" },
   ];
 
