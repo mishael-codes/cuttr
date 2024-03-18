@@ -177,10 +177,12 @@ const Dashboard: React.FC = () => {
         sessionStorage.setItem("successMessageShown", "true");
 
         // *************** Clears success message after 3 seconds
-        setTimeout(() => {
+        const offModal = setTimeout(() => {
           setSuccessModal(false);
           setModalMessage("");
         }, 3000);
+
+        offModal
       }
 
       window.addEventListener("online", handleOnline);

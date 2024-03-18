@@ -104,6 +104,7 @@ const Settings: React.FC = () => {
     <div className="w-screen flex items-center justify-center flex-col absolute bottom-10">
       <button
         onClick={handleSignOut}
+        data-testid="signout"
         className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
       >
         Sign Out
