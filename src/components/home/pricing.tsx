@@ -10,7 +10,7 @@ const Pricing: React.FC = () => {
       <div className="w-[70%] md:flex items-center justify-evenly mt-14">
         <div className="w-[300px] md:w-[320px] flex flex-col bg-transparent border-2 border-accent py-12 px-5 rounded-lg">
           <h4 className="font-bold text-accent uppercase">Basic</h4>
-          <p className="text-text">0$/mo</p>
+          <p className="text-text">$0/mo</p>
           <div className="text-text">
             <p className="mt-3">On our basic plan, you can...</p>
             <ul className="mt-5 font-medium">
@@ -23,7 +23,7 @@ const Pricing: React.FC = () => {
         </div>
         <div className="w-[320px] flex flex-col bg-accent border-2 border-background py-12 px-5 rounded-lg">
           <h4 className="font-bold text-background uppercase">Premium</h4>
-          <p>5$/mo</p>
+          <p>$5/mo</p>
           <div>
             <p className="mt-3">On our premium plan, you can...</p>
             <ul className="mt-5 font-medium">

@@ -2,7 +2,12 @@
 import auth from "../../firebase/auth";
 import db from "../../firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, setDoc, doc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  setDoc,
+  doc,
+  getDocs
+} from "firebase/firestore";
 
 // ****************** React Hooks
 import { useState, useEffect } from "react";
