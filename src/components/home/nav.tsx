@@ -80,16 +80,20 @@ const Nav: React.FC = () => {
               ""
             )}
           </ul>
-          <div className="buttons flex items-center justify-center flex-col mt-24">
-            <Link to="/signin"> Sign In</Link>
-            <Link
-              to="/signup"
-              className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
-            >
-              {" "}
-              Sign Up
-            </Link>
-          </div>
+          {isUser ? (
+            ""
+          ) : (
+            <div className="buttons flex items-center justify-center flex-col mt-24">
+              <Link to="/signin"> Sign In</Link>
+              <Link
+                to="/signup"
+                className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
+              >
+                {" "}
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
@@ -111,23 +115,27 @@ const Nav: React.FC = () => {
               </li>
             </div>
           ) : (
-            <div className="hidden"></div>
+            ""
           )}
         </ul>
-        <div className="buttons flex items-center justify-center leading-loose">
-          <Link
-            to="/signin"
-            className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all"
-          >
-            Sign In
-          </Link>
-          <Link
-            to="/signup"
-            className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all"
-          >
-            Sign Up
-          </Link>
-        </div>
+        {isUser ? (
+          ""
+        ) : (
+          <div className="buttons flex items-center justify-center leading-loose">
+            <Link
+              to="/signin"
+              className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all"
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/signup"
+              className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all"
+            >
+              Sign Up
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );
