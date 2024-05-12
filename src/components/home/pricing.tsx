@@ -7,8 +7,8 @@ const Pricing: React.FC = () => {
       <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
         Pricing
       </h3>
-      <div className="w-[70%] md:flex items-center justify-evenly mt-14">
-        <div className="w-[300px] md:w-[320px] flex flex-col bg-transparent border-2 border-accent py-12 px-5 rounded-lg">
+      <div className="w-full md:w-[70%] flex items-center justify-evenly flex-col md:flex-row mt-14">
+        <div className="w-[300px] md:w-[320px] flex flex-col bg-transparent border-2 border-accent py-12 px-5 rounded-lg mb-5 md:mb-0">
           <h4 className="font-bold text-accent uppercase">Basic</h4>
           <p className="text-text">$0/mo</p>
           <div className="text-text">
