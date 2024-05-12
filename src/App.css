@@ -1,0 +1,166 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg: hsl(265, 11%, 22%);
+  --accent: hsl(45, 70%, 56%); /* DDB640 */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box !important;
+  font-family: "Montserrat", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+#root{
+  background-image: url("./assets/icons/link.svg");
+  z-index: -1;
+  background-repeat: space;
+}
+
+/* hero animation section */
+
+.bounce {
+  animation: myBounce 1.22s infinite;
+}
+
+/* linkIcon1 animation */
+@media screen and (min-width: 768px){
+  .linkIcon1{
+    animation: linkIcon1 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+  .linkIcon2{
+    animation: linkIcon2 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+  .linkIcon3{
+    animation: linkIcon3 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+  .linkIcon4{
+    animation: linkIcon4 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+  
+  @keyframes linkIcon1{
+    0%{
+      top: 0
+    }
+    15%{
+      top: 20%;
+    }
+    30%{
+      top: 40%;
+    }
+    45%{
+      top: 60%;
+    }
+    60%{
+      top: 40%;
+    }
+    75%{
+      top: 20%;
+    }
+    100%{
+      top: 0;
+    }
+  }
+  @keyframes linkIcon2{
+    0%{
+      top: 20%
+    }
+    15%{
+      top: 0%
+    }
+    30%{
+      top: 20%;
+    }
+    45%{
+      top: 40%;
+    }
+    60%{
+      top: 60%;
+    }
+    75%{
+      top: 40%;
+    }
+    100%{
+      top: 20%;
+    }
+  }
+  @keyframes linkIcon3{
+    0%{
+      top: 40%
+    }
+    15%{
+      top: 20%
+    }
+    30%{
+      top: 0%;
+    }
+    45%{
+      top: 20%;
+    }
+    60%{
+      top: 40%;
+    }
+    75%{
+      top: 60%;
+    }
+    100%{
+      top: 40%;
+    }
+  }
+  @keyframes linkIcon4{
+    0%{
+      top: 60%
+    }
+    15%{
+      top: 40%
+    }
+    30%{
+      top: 20%;
+    }
+    45%{
+      top: 0%;
+    }
+    60%{
+      top: 20%;
+    }
+    75%{
+      top: 40%;
+    }
+    100%{
+      top: 60%;
+    }
+  }
+}
+/* bounce animation */
+@keyframes myBounce {
+  0%,
+  100% {
+    transform: translateY(-25%) scale(155%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(15%) scale(125%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* webkit customisation */
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 10px;
+}
+
+a.active {
+  color: var(--accent);
+}
