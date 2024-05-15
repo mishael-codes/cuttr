@@ -43,7 +43,7 @@ const Settings: React.FC = () => {
   const navigate = useNavigate();
   const handleSignOut = () => {
     signOut(auth).then(() => {
-      navigate("/signin");
+      navigate("/");
     });
   };
 

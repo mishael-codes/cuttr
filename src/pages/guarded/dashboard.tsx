@@ -24,7 +24,6 @@ import InputLongLink from "../../components/shortenInput/input";
 import SuccessModal from "../../components/modals/successModal";
 
 const Dashboard: React.FC = () => {
-  // const [newUrl, setNewUrl] = useState("");
   const [userName, setUserName] = useState("");
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [successModal, setSuccessModal] = useState(false);
