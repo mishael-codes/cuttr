@@ -24,6 +24,7 @@ import InputLongLink from "../../components/shortenInput/input";
 import SuccessModal from "../../components/modals/successModal";
 
 const Dashboard: React.FC = () => {
+  // const [newUrl, setNewUrl] = useState("");
   const [userName, setUserName] = useState("");
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [successModal, setSuccessModal] = useState(false);
@@ -74,6 +75,7 @@ const Dashboard: React.FC = () => {
     });
   };
 
+  //********************************* delete created urls
   const handleDeleteUrls = async (id: string) => {
     const colRef = doc(db, "urls", id);
     const docRef = userId
@@ -92,28 +94,25 @@ const Dashboard: React.FC = () => {
             ...item,
           };
         }
-        console.log(item.id);
         return item;
       });
     });
-    location.reload();
   };
 
   //**************************** Save edited urls
-  const handleSaveUrls = async (id: string) => {
+  const handleSaveUrls = async (id: string, newUrl: string) => {
     const colRef = doc(db, "urls", id);
     const docRef = userId
       ? doc(db, "user-collection", userId, "slug", id)
       : null;
-    const newUrl = document.getElementById("long-url") as HTMLAnchorElement;
     if (colRef) {
       await updateDoc(colRef, {
-        url: newUrl.textContent,
+        url: newUrl,
       });
     }
     if (docRef) {
       await updateDoc(docRef, {
-        url: newUrl.textContent,
+        url: newUrl,
       });
     }
     setArr((prevArr) => {
@@ -121,40 +120,20 @@ const Dashboard: React.FC = () => {
         if (item.id === id) {
           return {
             ...item,
+            url: newUrl,
             editUrls: !item.editUrls,
           };
         }
-        console.log(item.id);
         return item;
       });
     });
-    location.reload();
+  };
+
+  const handleSave = (id: string) => {
+    const newLink = document.getElementById("new-link") as HTMLInputElement;
+    handleSaveUrls(id, newLink?.value);
   };
   //**************************** End
-  //**************************** Card hover animation
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const userScreen = screen.width;
-    
-    if (userScreen >= 1024) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = (centerY - y) / 10;
-      const rotateY = (centerX - x) / 10;
-
-      e.currentTarget.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    }
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = "rotateX(0deg) rotateY(0deg)";
-  };
-  //**************************** End card hover animation
 
   useEffect(() => {
     const successMessageShown = sessionStorage.getItem("successMessageShown");
@@ -182,7 +161,7 @@ const Dashboard: React.FC = () => {
           setModalMessage("");
         }, 3000);
 
-        offModal
+        offModal;
       }
 
       window.addEventListener("online", handleOnline);
@@ -286,8 +265,6 @@ const Dashboard: React.FC = () => {
               <li
                 key={item.id}
                 className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden bg-background"
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
               >
                 <h3 className="font-bold self-center mb-4 relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-5 after:rounded-lg">
                   {item.linkName ? item.linkName : ""}
@@ -354,11 +331,25 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="w-full flex justify-between mt-6">
-                    <Icon.Save
-                      className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1"
-                      onClick={() => handleSaveUrls(item.id)}
-                    />
+                  <div className="w-full flex justify-center mt-6">
+                    {/* edit modal */}
+                    <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 w- h-2/4 bg-background shadow-md shadow-accent flex items-center justify-evenly flex-col p-4 rounded-lg">
+                      <label htmlFor="">
+                        Enter new link
+                        <input
+                          type="url"
+                          id="new-link"
+                          className="bg-background opacity-80 border border-accent p-4 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
+                        />
+                      </label>
+                      <button
+                        type="submit"
+                        onClick={() => handleSave(item.id)}
+                        className="relative rounded-lg bg-accent font-bold text-background px-3 py-2 border border-accent hover:bg-transparent hover:text-accent transition-all"
+                      >
+                        Update
+                      </button>
+                    </div>
                     <Icon.X
                       className="cursor-pointer text-red-600 border border-red-600 w-10 h-10 rounded-lg p-1"
                       onClick={() => handleCancelEditUrls(item.id)}
