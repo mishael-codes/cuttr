@@ -82,6 +82,7 @@ const Dashboard: React.FC = () => {
       : null;
     if (colRef) {
       await deleteDoc(colRef);
+      setArr((prevArr) => prevArr.filter((item) => item.id !== id))
     }
     if (docRef) {
       await deleteDoc(docRef);
