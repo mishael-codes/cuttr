@@ -331,9 +331,9 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="w-full flex justify-center mt-6">
+                  <div className="relative w-full flex justify-center mt-6">
                     {/* edit modal */}
-                    <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 w- h-2/4 bg-background shadow-md shadow-accent flex items-center justify-evenly flex-col p-4 rounded-lg">
+                    <div className="absolute -top-[600%] h-52 bg-background shadow-md shadow-accent flex items-center justify-evenly flex-col p-4 rounded-lg">
                       <label htmlFor="">
                         Enter new link
                         <input
