@@ -162,6 +162,15 @@ const Settings: React.FC = () => {
             >
               Yes, delete
             </button>
+            <button
+              type="submit"
+              onClick={() => {
+                setDeleteModal(false)
+              }}
+              className="rounded-lg bg-background font-bold text-accent p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
+            >
+              No, cancel
+            </button>
           </form>
         </div>
       ) : (
