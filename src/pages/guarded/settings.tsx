@@ -141,7 +141,7 @@ const Settings: React.FC = () => {
         </button>
       </div>
 
-      {!deleteModal ? (
+      {deleteModal ? (
         <div className="h-fit absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 bg-background p-6 rounded-lg flex items-center justify-evenly flex-col shadow-md shadow-accent">
           <p className=" font-bold text-accent">You&apos;re leaving?</p>
           <p>Are you sure you want to go?</p>
@@ -149,6 +149,7 @@ const Settings: React.FC = () => {
             <input
               type="password"
               onChange={authenticatePassword}
+              placeholder="Please enter your password"
               className="h-3 w-72 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
             />
             <button
