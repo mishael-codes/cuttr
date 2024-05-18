@@ -22,7 +22,7 @@
   animation: animloader 2s linear infinite;
 }
 .loader::after {
-  animation-delay: 1s;
+  animation-delay: .5s;
 }
 
 @keyframes animloader {

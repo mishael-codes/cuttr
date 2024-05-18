@@ -2,7 +2,7 @@ import "./loader.css";
 
 const Loader: React.FC = () => {
   return (
-    <div>
+    <div className="z-[999]">
       <span className="loader"></span>
     </div>
   );
