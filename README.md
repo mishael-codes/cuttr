@@ -34,7 +34,7 @@ At least 2 unit tests and 3 component tests should be present in the codebase.
 
 ### Links
 
-- [GitHub Url](https://github.com/mishael-codes/cuttr)
+- [GitHub Url](https://github.com/mishaelcodes/cuttr)
 - [Live site](https://cuttr.vercel.app/)
 
 ## My process
