@@ -41,7 +41,7 @@ At least 2 unit tests and 3 component tests should be present in the codebase.
 
 ### Built with
 
-- [Firebase](https://firebase.google.com/) for user authentication, database and others
+- [Firebase](https://firebase.google.com/) for user authentication, database management
 - [Google fonts](https://fonts.google.com/specimen/Montserrat?query=mont)
 - [Nanoid](https://www.npmjs.com/package/nanoid) for generating unique ID&apos;s
 - [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
