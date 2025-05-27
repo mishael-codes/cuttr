@@ -148,8 +148,8 @@ There are a lot more, but like I said, I won&apos;t be able to cover them.
 ## Author
 If you&apos;ve read to this point, thank you very much for your time and I appreciate you reading this. If you want to know more about me, maybe learn together, be friends, offer some advice on how I can do better, offer some feedback on this project or any of my work, or you know, offer me a job🙃, or refer me to omeone that&apos;ll offer me a job, this is me...below
 
-  - [My Website](https://mishaelenyi.netlify.app)
   - [My Email](mailto:enyimishael22@gmail.com)
+  - [My Website](https://mishaelenyi.netlify.app)
+  - [X - @mishael_codes](https://www.x.com/mishael_codes)
   - [WhatsApp - Min - 민 💙](https://wa.me/+2348167177172)
-  - [Twitter - @mishael_codes](https://www.twitter.com/mishael_codes)
   - [Instagram - @mishael_codes](https://www.instagram.com/mishael_codes)
