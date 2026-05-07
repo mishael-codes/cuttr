@@ -2,38 +2,69 @@ import * as Icon from "react-feather"
 
 const Pricing: React.FC = () => {
   return (
-    <div className="w-screen h-fit p-5 flex flex-col items-center justify-around">
-      <div id="pricing" className="w-[50px] h-[50px]"></div>
-      <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
-        Pricing
-      </h3>
-      <div className="w-full md:w-[70%] flex items-center justify-evenly flex-col md:flex-row mt-14">
-        <div className="w-[300px] md:w-[320px] flex flex-col bg-transparent border-2 border-accent py-12 px-5 rounded-lg mb-5 md:mb-0">
-          <h4 className="font-bold text-accent uppercase">Basic</h4>
-          <p className="text-text">$0/mo</p>
-          <div className="text-text">
-            <p className="mt-3">On our basic plan, you can...</p>
-            <ul className="mt-5 font-medium">
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Create an account</li>
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Shorten up to 5+ links</li>
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Get basic analytics</li>
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Get QR Codes</li>
-            </ul>
+    <div className="w-full py-24 px-5 flex flex-col items-center relative">
+      <div id="pricing" className="absolute -top-24"></div>
+      
+      <div className="text-center mb-16">
+        <h3 className="font-display font-bold text-4xl mb-4">Pricing Plans</h3>
+        <div className="h-1 w-20 bg-gradient-to-r from-accent to-accent2 mx-auto rounded-full"></div>
+        <p className="text-text-muted mt-4 max-w-xl text-lg">Choose the perfect plan that fits your needs.</p>
+      </div>
+
+      <div className="w-full max-w-5xl grid md:grid-cols-2 gap-8 lg:gap-12 px-4">
+        {/* Basic Plan */}
+        <div className="glass-card rounded-3xl p-8 flex flex-col hover:-translate-y-2 transition-transform duration-300">
+          <div className="mb-8">
+            <h4 className="font-display font-bold text-2xl text-text-muted mb-2">Basic</h4>
+            <div className="flex items-baseline gap-1">
+              <span className="text-5xl font-extrabold">$0</span>
+              <span className="text-text-muted font-medium">/mo</span>
+            </div>
+            <p className="text-sm text-text-muted mt-4">Perfect for individuals getting started.</p>
           </div>
+          
+          <ul className="space-y-4 mb-8 flex-1">
+            {['Create an account', 'Shorten up to 5 links', 'Basic analytics', 'QR Codes generation'].map((feature, i) => (
+              <li key={i} className="flex items-center gap-3 text-text">
+                <Icon.CheckCircle className="text-accent shrink-0" size={20} />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+          
+          <button className="w-full py-4 rounded-xl border border-white/10 font-semibold hover:bg-surface-light transition-colors">
+            Get Started Free
+          </button>
         </div>
-        <div className="w-[320px] flex flex-col bg-accent border-2 border-background py-12 px-5 rounded-lg">
-          <h4 className="font-bold text-background uppercase">Premium</h4>
-          <p>$5/mo</p>
-          <div>
-            <p className="mt-3">On our premium plan, you can...</p>
-            <ul className="mt-5 font-medium">
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Create an account</li>
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Shorten links with no limits</li>
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Get enhanced analytics</li>
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Get QR Codes</li>
-              <li className="flex items-center justify-start my-5"><Icon.CheckCircle className="mr-2" size="25px" /> Get links with custom domains</li>
-            </ul>
+
+        {/* Premium Plan */}
+        <div className="glass-card rounded-3xl p-8 flex flex-col relative transform md:-translate-y-4 hover:-translate-y-6 transition-transform duration-300 border-accent/50 shadow-neon">
+          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-accent to-accent2 rounded-t-3xl"></div>
+          <div className="absolute -top-4 right-8 bg-gradient-to-r from-accent to-accent2 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+            Most Popular
           </div>
+          
+          <div className="mb-8">
+            <h4 className="font-display font-bold text-2xl text-accent mb-2">Premium</h4>
+            <div className="flex items-baseline gap-1">
+              <span className="text-5xl font-extrabold">$5</span>
+              <span className="text-text-muted font-medium">/mo</span>
+            </div>
+            <p className="text-sm text-text-muted mt-4">For power users and growing brands.</p>
+          </div>
+          
+          <ul className="space-y-4 mb-8 flex-1">
+            {['Everything in Basic', 'Unlimited link shortening', 'Advanced analytics dashboard', 'Custom link domains', 'Priority support'].map((feature, i) => (
+              <li key={i} className="flex items-center gap-3 text-text">
+                <Icon.CheckCircle className="text-accent2 shrink-0" size={20} />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+          
+          <button className="w-full py-4 rounded-xl bg-gradient-to-r from-accent to-accent2 text-white font-semibold shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all">
+            Upgrade Now
+          </button>
         </div>
       </div>
     </div>

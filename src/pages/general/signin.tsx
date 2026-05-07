@@ -6,13 +6,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
 // ****************** React Router
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import * as Icon from "react-feather";
 
 // ****************** Components Import
 import Loader from "../../components/loader/loader";
 import ErrorModal from "../../components/modals/errorModal";
-import LinkIconAnimation from "../../components/animations/linkIcon";
 
 const SignIn: React.FC = () => {
   // State variables
@@ -25,28 +24,23 @@ const SignIn: React.FC = () => {
   const [modalMessage, setModalMessage] = useState("");
 
   const navigate = useNavigate();
-  // ****************** Handle email input change
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
-    setEmail(newEmail);
+    setEmail(e.target.value);
     setEmailError("");
     setErrorModal(false);
   };
 
-  // ****************** Handle password input change
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
+    setPassword(e.target.value);
     setPasswordError("");
     setErrorModal(false);
   };
 
-  // ****************** Sign in user
   const signInUser = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // ****************** Validating email
     if (!email) {
       setIsLoading(false);
       setEmailError("Email is required");
@@ -57,7 +51,6 @@ const SignIn: React.FC = () => {
       return false;
     }
 
-    // ****************** Validating password
     if (!password) {
       setIsLoading(false);
       setPasswordError("Password is required");
@@ -68,96 +61,92 @@ const SignIn: React.FC = () => {
       return false;
     }
 
-    // ****************** If all checks proceed to sign in user
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
         navigate("/dashboard");
-        user;
         setIsLoading(false);
       })
       .catch((error) => {
-        // ****************** Error Handling
         const errorCode = error.code;
-
+        setIsLoading(false);
+        setErrorModal(true);
         if (errorCode === "auth/invalid-credential") {
-          setIsLoading(false);
-          setErrorModal(true);
           setModalMessage("Invalid login credentials");
         } else if (errorCode === "auth/network-request-failed") {
-          setIsLoading(false);
-          setErrorModal(true);
           setModalMessage("Network error, please try again later");
+        } else {
+          setModalMessage("An error occurred during sign in");
         }
       });
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-evenly relative">
-      <LinkIconAnimation index="-z-0" marginTop="mt-[15vh]"/>
-      <div className={`absolute transition-all ${errorModal ? "top-32 md:top-36" : "-top-36"}`}>{errorModal ? <ErrorModal error={modalMessage} /> : ""}</div>
-      <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
-        Sign In
-      </h2>
-      <form
-        className="w-full flex flex-col items-center justify-center"
-        onSubmit={signInUser}
-      >
-        <label
-          className="flex flex-col mt-4 text-text font-semibold"
-          htmlFor="email"
-        >
-          Email
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="johndoe@gmail.com"
-            autoComplete="email"
-            autoFocus
-            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
-          />
-          <p className="text-red-500 font-thin text-xs">
-            {emailError ? emailError : ""}
-          </p>
-        </label>
-        <label
-          className="flex flex-col mt-4 text-text font-semibold"
-          htmlFor="password"
-        >
-          Password
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Password"
-            autoComplete="current-password"
-            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
-          />
-          <p className="text-red-500 font-thin text-xs">
-            {passwordError ? passwordError : ""}
-          </p>
-        </label>
-        <button
-          type="submit"
-          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all ${
-            isLoading ? "cursor-not-allowed bg-transparent" : ""
-          }`}
-        >
-          {isLoading ? <Loader /> : "Sign In"}
-        </button>
-      </form>
-      <p className="text-text z-20">
-        Don&apos;t have an account?{" "}
-        <Link to="/signup" className="text-accent underline underline-offset-2">
-          Sign Up here
-        </Link>
-      </p>
+    <div className="w-full min-h-screen flex flex-col items-center justify-center relative px-5">
+      {/* Background Blobs */}
+      <div className="blob blob-1"></div>
+      <div className="blob blob-2"></div>
+      
+      <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-text-muted hover:text-white transition-colors group">
+        <Icon.ArrowLeft className="group-hover:-translate-x-1 transition-transform" />
+        <span className="font-semibold">Back to Home</span>
+      </Link>
+
+      <div className={`absolute top-24 transition-all duration-300 z-50 ${errorModal ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}>
+        <ErrorModal error={modalMessage} />
+      </div>
+
+      <div className="glass-card rounded-3xl p-8 md:p-12 w-full max-w-md relative z-10">
+        <div className="text-center mb-10">
+          <h2 className="font-display font-bold text-3xl mb-2 text-white">Welcome Back</h2>
+          <p className="text-text-muted">Sign in to manage your links</p>
+        </div>
+
+        <form className="flex flex-col gap-5" onSubmit={signInUser}>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-text-muted ml-1" htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="you@example.com"
+              autoComplete="email"
+              autoFocus
+              className="bg-surface/50 border border-white/10 p-4 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+            />
+            {emailError && <p className="text-red-400 text-xs mt-1 ml-1">{emailError}</p>}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-text-muted ml-1" htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="••••••••"
+              autoComplete="current-password"
+              className="bg-surface/50 border border-white/10 p-4 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+            />
+            {passwordError && <p className="text-red-400 text-xs mt-1 ml-1">{passwordError}</p>}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full h-14 rounded-xl bg-gradient-to-r from-accent to-accent2 font-bold text-white shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+          >
+            {isLoading ? <Loader /> : "Sign In"}
+          </button>
+        </form>
+
+        <p className="text-center text-text-muted mt-8">
+          Don&apos;t have an account?{" "}
+          <Link to="/signup" className="text-accent font-semibold hover:text-white transition-colors">
+            Sign Up
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

@@ -18,6 +18,8 @@ import hamMenu from "../../assets/icons/burger-menu.svg";
 const Nav: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [isUser, setIsUser] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
   const links = [
     { name: "Home", url: "/" },
     { name: "Why Cuttr", url: "#whyUs" },
@@ -26,116 +28,97 @@ const Nav: React.FC = () => {
   ];
 
   const showNav = () => {
-    !open ? setOpen(true) : setOpen(false);
+    setOpen(!open);
   };
 
-  // ******************* Checks for user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      user ? setIsUser(true) : setIsUser(false);
+      setIsUser(!!user);
     });
-  });
-  return (
-    <nav className="w-full flex items-center justify-start lg:justify-evenly lg:shadow-md lg:shadow-accent lg:p-3 lg:rounded-lg lg:backdrop-blur-sm">
-      <h1 className="hidden md:w-[15%] font-bold tracking-tighter text-accent text-4xl h-[50px] px-2 lg:flex items-baseline self-start">
-        Cuttr <Icon.Link size="30px" />
-      </h1>
 
-      {/* Mobile nav */}
-      <h1 className="shadow-md shadow-accent p-3 rounded-lg lg:hidden fixed w-screen backdrop-blur-sm z-40 font-bold tracking-tighter text-accent text-3xl flex items-baseline self-start">
-        Cuttr <Icon.Link size="30px" />
-      </h1>
-      <div className="lg:hidden">
-        <div onClick={showNav} className="fixed z-50 right-3 top-1">
-          {!open ? <img src={hamMenu} /> : <img src={closeMenu} />}
-        </div>
-        <div
-          className={`bg-[rgba(0,0,0,0.3)] fixed z-40 w-screen h-screen shadow-inset rounded-lg text-2xl text-text flex items-center justify-center flex-col backdrop-blur-sm transition-all ${
-            open ? "left-0 top-0" : "left-[100vw] -top-[100vw]"
-          }`}
-        >
-          <ul className="text-center leading-loose">
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass py-3 shadow-glass' : 'bg-transparent py-5'}`}>
+      <div className="max-w-7xl mx-auto px-5 flex items-center justify-between">
+        
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 group">
+          <span className="font-display font-bold tracking-tight text-3xl text-gradient">Cuttr</span>
+          <Icon.Link className="text-accent group-hover:rotate-12 transition-transform duration-300" size={28} />
+        </Link>
+
+        {/* Mobile Menu Button */}
+        <button onClick={showNav} className="lg:hidden z-50 p-2 rounded-lg bg-surface-light border border-white/10">
+          {!open ? <Icon.Menu className="text-accent" /> : <Icon.X className="text-accent" />}
+        </button>
+
+        {/* Mobile Overlay */}
+        <div className={`lg:hidden fixed inset-0 bg-background/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col items-center justify-center ${open ? "translate-x-0" : "translate-x-full"}`}>
+          <ul className="text-center space-y-8 text-2xl font-display font-medium text-text">
             {links.map((link) => (
               <li key={link.url}>
-                <a
-                  onClick={() => {
-                    setOpen(!open);
-                  }}
-                  href={link.url}
-                >
+                <a onClick={showNav} href={link.url} className="hover:text-accent transition-colors">
                   {link.name}
                 </a>
               </li>
             ))}
-            {isUser ? (
-              <div>
-                <li>
-                  <Link to="/dashboard">Dashboard</Link>
-                </li>
-                <li>
-                  <Link to="/settings">Settings</Link>
-                </li>
-              </div>
-            ) : (
-              ""
+            {isUser && (
+              <>
+                <li><Link to="/dashboard" onClick={showNav} className="hover:text-accent transition-colors">Dashboard</Link></li>
+                <li><Link to="/settings" onClick={showNav} className="hover:text-accent transition-colors">Settings</Link></li>
+              </>
             )}
           </ul>
-          {isUser ? (
-            ""
-          ) : (
-            <div className="buttons flex items-center justify-center flex-col mt-24">
-              <Link to="/signin"> Sign In</Link>
-              <Link
-                to="/signup"
-                className="rounded-lg bg-accent font-bold text-background p-3 mt-4 border border-accent hover:bg-transparent hover:text-accent transition-all"
-              >
-                {" "}
+          
+          {!isUser && (
+            <div className="flex flex-col gap-4 mt-12 w-3/4 max-w-xs">
+              <Link to="/signin" onClick={showNav} className="w-full py-3 text-center rounded-xl bg-surface border border-white/10 font-semibold hover:bg-surface-light transition-all">
+                Sign In
+              </Link>
+              <Link to="/signup" onClick={showNav} className="w-full py-3 text-center rounded-xl bg-gradient-to-r from-accent to-accent2 text-white font-semibold shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all">
                 Sign Up
               </Link>
             </div>
           )}
         </div>
-      </div>
 
-      {/* desktop nav */}
-      <div className="w-[80%] hidden text-text lg:flex justify-around items-start text-xl">
-        <ul className="text-text text-center flex items-center justify-evenly leading-loose">
-          {links.map((link) => (
-            <li key={link.url} className="mx-1 px-3">
-              <a href={link.url}>{link.name}</a>
-            </li>
-          ))}
-          {isUser ? (
-            <div className="md:flex">
-              <li className="mx-1 px-3">
-                <Link to="/dashboard">Dashboard</Link>
+        {/* Desktop Nav */}
+        <div className="hidden lg:flex items-center gap-8">
+          <ul className="flex items-center gap-6 font-medium text-text-muted">
+            {links.map((link) => (
+              <li key={link.url}>
+                <a href={link.url} className="hover:text-white transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-accent hover:after:w-full after:transition-all after:duration-300">
+                  {link.name}
+                </a>
               </li>
-              <li className="mx-1 px-3">
-                <Link to="/settings">Settings</Link>
-              </li>
+            ))}
+            {isUser && (
+              <>
+                <li><Link to="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
+                <li><Link to="/settings" className="hover:text-white transition-colors">Settings</Link></li>
+              </>
+            )}
+          </ul>
+
+          {!isUser && (
+            <div className="flex items-center gap-4">
+              <Link to="/signin" className="px-5 py-2.5 rounded-xl font-semibold text-text hover:text-white transition-colors">
+                Sign In
+              </Link>
+              <Link to="/signup" className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-accent to-accent2 text-white font-semibold shadow-lg shadow-accent/25 hover:shadow-accent/40 hover:-translate-y-0.5 transition-all duration-300">
+                Sign Up
+              </Link>
             </div>
-          ) : (
-            ""
           )}
-        </ul>
-        {isUser ? (
-          ""
-        ) : (
-          <div className="buttons flex items-center justify-center leading-loose">
-            <Link
-              to="/signin"
-              className="mr-2 px-5 rounded-lg bg-transparent font-bold text-accent border border-background hover:bg-accent hover:text-background transition-all"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/signup"
-              className="px-5 rounded-lg bg-accent font-bold text-background border border-accent hover:bg-transparent hover:text-accent transition-all"
-            >
-              Sign Up
-            </Link>
-          </div>
-        )}
+        </div>
+
       </div>
     </nav>
   );

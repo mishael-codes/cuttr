@@ -84,7 +84,7 @@ const Settings: React.FC = () => {
         await deleteUser(user).then(() => {
           navigate("/");
         });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         setIsLoading(false)
         const errorCode = error.code;
@@ -104,13 +104,12 @@ const Settings: React.FC = () => {
   return navigator.onLine ? (
     <>
       <div
-        className={`absolute transition-all w-screen flex items-center flex-col ${
-          errorModal ? "top-32 md:top-35" : "-top-36"
-        }`}
+        className={`absolute transition-all w-screen flex items-center flex-col ${errorModal ? "top-32 md:top-35" : "-top-36"
+          }`}
       >
         {errorModal ? <ErrorModal error={modalMessage} /> : ""}
       </div>
-      {isLoading && <Loader/>}
+      {isLoading && <Loader />}
       <h1 className="ps-4 pt-2">Welcome {auth.currentUser?.displayName},</h1>
       <form onSubmit={handleUpdateProfile} className="ps-8 pt-4">
         <label htmlFor="username" className="flex flex-col mb-5">

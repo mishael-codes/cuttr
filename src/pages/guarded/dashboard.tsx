@@ -37,6 +37,7 @@ const Dashboard: React.FC = () => {
       qrCodeData: string;
       timesClicked: number;
       editUrls: boolean;
+      deleteConfirm: boolean;
       linkName: string;
     }>
   >([]);
@@ -51,7 +52,8 @@ const Dashboard: React.FC = () => {
         if (item.id === id) {
           return {
             ...item,
-            editUrls: !item.editUrls, // Toggle edit mode for the specific card
+            editUrls: true,
+            deleteConfirm: false,
           };
         }
         return item;
@@ -66,7 +68,36 @@ const Dashboard: React.FC = () => {
         if (item.id === id) {
           return {
             ...item,
-            editUrls: !item.editUrls,
+            editUrls: false,
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  const handleDeleteConfirm = (id: string) => {
+    setArr((prevArr) => {
+      return prevArr.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            deleteConfirm: true,
+            editUrls: false,
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  const handleCancelDelete = (id: string) => {
+    setArr((prevArr) => {
+      return prevArr.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            deleteConfirm: false,
           };
         }
         return item;
@@ -101,6 +132,7 @@ const Dashboard: React.FC = () => {
 
   //**************************** Save edited urls
   const handleSaveUrls = async (id: string, newUrl: string) => {
+    if (!newUrl || !newUrl.trim()) return;
     const colRef = doc(db, "urls", id);
     const docRef = userId
       ? doc(db, "user-collection", userId, "slug", id)
@@ -121,7 +153,7 @@ const Dashboard: React.FC = () => {
           return {
             ...item,
             url: newUrl,
-            editUrls: !item.editUrls,
+            editUrls: false,
           };
         }
         return item;
@@ -130,8 +162,10 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSave = (id: string) => {
-    const newLink = document.getElementById("new-link") as HTMLInputElement;
-    handleSaveUrls(id, newLink?.value);
+    const newLinkInput = document.getElementById(`new-link-${id}`) as HTMLInputElement;
+    if (newLinkInput) {
+      handleSaveUrls(id, newLinkInput.value);
+    }
   };
   //**************************** End
 
@@ -222,7 +256,8 @@ const Dashboard: React.FC = () => {
                         qrCodeData,
                         timesClicked,
                         linkName,
-                        editUrls: false, // Initialize edit mode as false for each card
+                        editUrls: false,
+                        deleteConfirm: false,
                       });
                     });
                     setArr(urls);
@@ -251,109 +286,125 @@ const Dashboard: React.FC = () => {
       >
         {successModal ? <SuccessModal success={modalMessage} /> : ""}
       </div>
-      <h1 className="self-start md:self-center text-2xl font-bold pl-4">
-        Welcome <span className="text-xl">{userName}</span>,
+      <h1 className="self-start md:self-center text-3xl font-display font-bold pl-4 mb-8">
+        Welcome <span className="text-gradient">{userName}</span>,
       </h1>
       <InputLongLink text="Shorten a link" />{" "}
-      <div className="w-full flex flex-col items-center mt-7 mb-12">
-        <h3 className="self-start font-semibold mb-5 text-xl pl-4">My Links</h3>
-        <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+      <div className="w-full flex flex-col items-center mt-12 mb-12 px-5">
+        <h3 className="self-start font-display font-semibold mb-6 text-2xl pl-4 text-white">My Links</h3>
+        <ul className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {arr.length === 0 ? (
-            <li key="no-links-yet">You have no links yet</li>
+            <li key="no-links-yet" className="col-span-full text-center text-text-muted py-12 glass-card rounded-2xl">
+              You have no links yet
+            </li>
           ) : (
             arr.map((item) => (
               <li
                 key={item.id}
-                className="flex flex-col shadow shadow-accent p-5 rounded-lg w-80 overflow-hidden bg-background"
+                className="flex flex-col glass-card border border-white/5 p-6 rounded-2xl w-full hover:-translate-y-1 transition-transform duration-300"
               >
-                <h3 className="font-bold self-center mb-4 relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-5 after:rounded-lg">
-                  {item.linkName ? item.linkName : ""}
+                <h3 className="font-display font-bold text-xl text-white self-center mb-6 relative after:content-[''] after:absolute after:w-1/2 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent2 after:left-[25%] after:-bottom-2 after:rounded-lg">
+                  {item.linkName ? item.linkName : "Untitled Link"}
                 </h3>
-                <span className="font-semibold text-md flex items-center justify-between">
-                  <div>
-                    Long Url:{" "}
+                
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">Destination</span>
                     <a
                       id="long-url"
                       href={item.url}
-                      className="font-medium"
+                      className="text-white hover:text-accent transition-colors truncate"
                       target="_blank"
                       rel="noreferrer"
-                      contentEditable={item.editUrls ? true : false}
-                      autoFocus={item.editUrls ? true : false}
                     >
-                      {!item.editUrls ? Truncate(item.url, 20) : item.url}
+                      {item.url}
                     </a>
                   </div>
-                </span>
-                <span className="font-semibold text-md flex items-center justify-between">
-                  <div>
-                    Short Url:{" "}
+                  
+                  <div className="flex flex-col">
+                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">Short URL</span>
                     <a
                       href={item.shortLink}
-                      className="font-medium"
+                      className="text-accent hover:text-white transition-colors truncate font-medium"
                       target="_blank"
                       rel="noreferrer"
-                      contentEditable={item.editUrls ? true : false}
                     >
-                      {Truncate(item.shortLink, 20)}
+                      {item.shortLink.replace(/^https?:\/\//, '')}
                     </a>
                   </div>
-                </span>
+                </div>
                 {item.qrCodeData && (
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-lg">QR Code:</span>
-                    <img
-                      src={item.qrCodeData}
-                      alt={`QR Code for ${item.shortLink}`}
-                      className="mt-2 w-32 h-32 self-center shadow-[3px_3px_5px_#ddb640] rounded-lg p-1"
-                    />
+                  <div className="flex flex-col mt-4 items-center">
+                    <span className="text-sm text-text-muted mb-2">QR Code:</span>
+                    <div className="p-2 bg-white rounded-xl shadow-lg">
+                      <img
+                        src={item.qrCodeData}
+                        alt={`QR Code for ${item.shortLink}`}
+                        className="w-28 h-28"
+                      />
+                    </div>
                   </div>
                 )}
-                <div className="w-fit h-[20%]  mt-5 self-center">
-                  <span className="flex">
-                    <Icon.Activity className="text-accent" />:{" "}
-                    {item.timesClicked}
+                <div className="w-fit mt-6 self-center bg-surface/50 px-4 py-2 rounded-full border border-white/5">
+                  <span className="flex items-center gap-2 font-medium text-text-muted">
+                    <Icon.Activity className="text-accent" size={18} />
+                    {item.timesClicked} clicks
                   </span>
                 </div>
-                {!item.editUrls ? (
-                  <div className="flex items-center justify-between">
-                    <div className="mt-6">
-                      <Icon.Edit3
-                        className="cursor-pointer text-accent border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
-                        onClick={() => handleEditUrls(item.id)}
-                      />
-                    </div>
-                    <div className="mt-6">
-                      <Icon.Trash
-                        className="cursor-pointer text-red-600 border w-10 h-10 rounded-lg p-1 shadow-sm shadow-accent"
-                        onClick={() => handleDeleteUrls(item.id)}
-                      />
-                    </div>
+                {!item.editUrls && !item.deleteConfirm && (
+                  <div className="flex items-center justify-between mt-6 pt-6 border-t border-white/5">
+                    <button onClick={() => handleEditUrls(item.id)} className="p-2 rounded-lg hover:bg-white/5 text-text-muted hover:text-accent transition-colors">
+                      <Icon.Edit3 size={20} />
+                    </button>
+                    <button onClick={() => handleDeleteConfirm(item.id)} className="p-2 rounded-lg hover:bg-red-500/10 text-text-muted hover:text-red-500 transition-colors">
+                      <Icon.Trash size={20} />
+                    </button>
                   </div>
-                ) : (
-                  <div className="relative w-full flex justify-center mt-6">
-                    {/* edit modal */}
-                    <div className="absolute -top-[600%] h-52 bg-background shadow-md shadow-accent flex items-center justify-evenly flex-col p-4 rounded-lg">
-                      <label htmlFor="">
-                        Enter new link
-                        <input
-                          type="url"
-                          id="new-link"
-                          className="bg-background opacity-80 border border-accent p-4 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
-                        />
-                      </label>
+                )}
+                
+                {item.editUrls && (
+                  <div className="w-full flex flex-col mt-6 pt-6 border-t border-white/5 gap-3 animate-in fade-in zoom-in-95">
+                    <label className="text-sm font-semibold text-text-muted">Edit Destination URL</label>
+                    <input
+                      type="url"
+                      id={`new-link-${item.id}`}
+                      defaultValue={item.url}
+                      className="bg-surface/50 border border-white/10 p-3 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent w-full"
+                    />
+                    <div className="flex gap-2 mt-2">
                       <button
-                        type="submit"
                         onClick={() => handleSave(item.id)}
-                        className="relative rounded-lg bg-accent font-bold text-background px-3 py-2 border border-accent hover:bg-transparent hover:text-accent transition-all"
+                        className="flex-1 bg-accent text-white font-semibold py-2 rounded-xl hover:bg-accent2 transition-colors"
                       >
-                        Update
+                        Save
+                      </button>
+                      <button
+                        onClick={() => handleCancelEditUrls(item.id)}
+                        className="p-2 bg-surface border border-white/10 text-text-muted rounded-xl hover:text-white transition-colors"
+                      >
+                        <Icon.X size={20} />
                       </button>
                     </div>
-                    <Icon.X
-                      className="cursor-pointer text-red-600 border border-red-600 w-10 h-10 rounded-lg p-1"
-                      onClick={() => handleCancelEditUrls(item.id)}
-                    />
+                  </div>
+                )}
+
+                {item.deleteConfirm && (
+                  <div className="w-full flex flex-col mt-6 pt-6 border-t border-red-500/30 gap-3 animate-in fade-in zoom-in-95">
+                    <p className="text-sm font-semibold text-red-400 text-center">Delete this link permanently?</p>
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={() => handleDeleteUrls(item.id)}
+                        className="flex-1 bg-red-500/20 text-red-500 font-semibold py-2 rounded-xl hover:bg-red-500/40 hover:text-white transition-colors border border-red-500/50"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => handleCancelDelete(item.id)}
+                        className="flex-1 bg-surface border border-white/10 text-text-muted rounded-xl hover:text-white transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 )}
               </li>

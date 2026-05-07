@@ -1,13 +1,12 @@
 // ****************** React Feather
 import * as Icon from "react-feather";
+import { useState } from "react";
 
 const Faqs: React.FC = () => {
-  const toggleContent = (e: React.MouseEvent<HTMLDivElement>) => {
-    const arrow = e.currentTarget.querySelector(".arrow-icon");
-    const content = e.currentTarget.nextElementSibling as HTMLParagraphElement;
-    content.classList.toggle("h-0");
-    content.classList.toggle("overflow-hidden");
-    arrow?.classList.toggle("rotate-180");
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleContent = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   const faqs = [
@@ -44,27 +43,47 @@ const Faqs: React.FC = () => {
   ];
 
   return (
-    <div className="mt-10 flex items-center justify-center flex-col">
-      <div id="faqs" className="w-[50px] h-[50px]"></div>
-      <h3 className="text-text font-semibold text-2xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
-        Faqs
-      </h3>
-      <div className="text-text pt-5 md:w-[50%] cursor-pointer">
-        {faqs.map((faq) => (
-          <div key={faq.question} className="border-b p-3">
-            <div
-              onClick={toggleContent}
-              className="flex items-center justify-between"
+    <div className="w-full py-24 px-5 flex flex-col items-center relative">
+      <div id="faqs" className="absolute -top-24"></div>
+      
+      <div className="text-center mb-16">
+        <h3 className="font-display font-bold text-4xl mb-4">Frequently Asked Questions</h3>
+        <div className="h-1 w-20 bg-gradient-to-r from-accent to-accent2 mx-auto rounded-full"></div>
+        <p className="text-text-muted mt-4 max-w-xl text-lg">Got questions? We've got answers.</p>
+      </div>
+
+      <div className="w-full max-w-3xl space-y-4">
+        {faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
+          return (
+            <div 
+              key={faq.question} 
+              className={`glass-card rounded-2xl overflow-hidden transition-all duration-300 border ${isOpen ? 'border-accent/30 shadow-neon' : 'border-white/5'}`}
             >
-              <p className="py-4">{faq.question}</p>
-              <Icon.ChevronDown
-                className="arrow-icon transition-all"
-                size="30px"
-              />
+              <div
+                onClick={() => toggleContent(index)}
+                className="flex items-center justify-between p-6 cursor-pointer hover:bg-white/5 transition-colors"
+              >
+                <h4 className={`font-semibold text-lg transition-colors ${isOpen ? 'text-accent' : 'text-text'}`}>
+                  {faq.question}
+                </h4>
+                <div className={`p-2 rounded-full transition-transform duration-300 ${isOpen ? 'rotate-180 bg-accent/20 text-accent' : 'bg-surface text-text-muted'}`}>
+                  <Icon.ChevronDown size={20} />
+                </div>
+              </div>
+              
+              <div 
+                className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+              >
+                <div className="overflow-hidden">
+                  <p className="p-6 pt-0 text-text-muted leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
             </div>
-            <p className="h-0 overflow-hidden transition-all">{faq.answer}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

@@ -1,164 +1,118 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans antialiased overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+}
 
 :root {
-  --bg: hsl(265, 11%, 22%);
-  --accent: hsl(45, 70%, 56%); /* DDB640 */
+  --bg: #050505;
+  --accent: #ddb640;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box !important;
-  font-family: "Montserrat", sans-serif;
   scroll-behavior: smooth;
 }
 
-body {
-  overflow-x: hidden;
+#root {
+  z-index: 0;
+  position: relative;
+  min-height: 100vh;
 }
 
-#root{
-  background-image: url("./assets/icons/link.svg");
-  z-index: -1;
-  background-repeat: space;
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(17, 17, 17, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* hero animation section */
+.glass-card {
+  background: linear-gradient(135deg, rgba(31, 31, 31, 0.8) 0%, rgba(17, 17, 17, 0.9) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
 
+/* Gradient Text */
+.text-gradient {
+  background: linear-gradient(to right, #ddb640, #facc15);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animations */
 .bounce {
-  animation: myBounce 1.22s infinite;
+  animation: myBounce 2s infinite ease-in-out;
 }
 
-/* linkIcon1 animation */
-@media screen and (min-width: 768px){
-  .linkIcon1{
-    animation: linkIcon1 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
-  }
-  .linkIcon2{
-    animation: linkIcon2 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
-  }
-  .linkIcon3{
-    animation: linkIcon3 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
-  }
-  .linkIcon4{
-    animation: linkIcon4 5s infinite .5s cubic-bezier(0.47, 0, 0.745, 0.715);
-  }
-  
-  @keyframes linkIcon1{
-    0%{
-      top: 0
-    }
-    15%{
-      top: 20%;
-    }
-    30%{
-      top: 40%;
-    }
-    45%{
-      top: 60%;
-    }
-    60%{
-      top: 40%;
-    }
-    75%{
-      top: 20%;
-    }
-    100%{
-      top: 0;
-    }
-  }
-  @keyframes linkIcon2{
-    0%{
-      top: 20%
-    }
-    15%{
-      top: 0%
-    }
-    30%{
-      top: 20%;
-    }
-    45%{
-      top: 40%;
-    }
-    60%{
-      top: 60%;
-    }
-    75%{
-      top: 40%;
-    }
-    100%{
-      top: 20%;
-    }
-  }
-  @keyframes linkIcon3{
-    0%{
-      top: 40%
-    }
-    15%{
-      top: 20%
-    }
-    30%{
-      top: 0%;
-    }
-    45%{
-      top: 20%;
-    }
-    60%{
-      top: 40%;
-    }
-    75%{
-      top: 60%;
-    }
-    100%{
-      top: 40%;
-    }
-  }
-  @keyframes linkIcon4{
-    0%{
-      top: 60%
-    }
-    15%{
-      top: 40%
-    }
-    30%{
-      top: 20%;
-    }
-    45%{
-      top: 0%;
-    }
-    60%{
-      top: 20%;
-    }
-    75%{
-      top: 40%;
-    }
-    100%{
-      top: 60%;
-    }
-  }
-}
-/* bounce animation */
 @keyframes myBounce {
-  0%,
-  100% {
-    transform: translateY(-25%) scale(155%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  0%, 100% {
+    transform: translateY(-10%);
   }
   50% {
-    transform: translateY(15%) scale(125%);
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transform: translateY(10%);
   }
 }
 
-/* webkit customisation */
+/* Background blob animations */
+.blob {
+  position: absolute;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.5;
+  border-radius: 50%;
+  animation: pulse 8s infinite alternate;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: rgba(221, 182, 64, 0.15); /* muted gold */
+}
+
+.blob-2 {
+  bottom: -10%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: rgba(250, 204, 21, 0.1); /* light gold */
+}
+
+/* Scrollbar customization */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 8px;
   background-color: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--accent);
+  background-color: #334155;
   border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #475569;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(221, 182, 64, 0.3);
+  color: #fff;
 }
 
 a.active {

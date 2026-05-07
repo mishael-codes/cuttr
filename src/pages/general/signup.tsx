@@ -10,12 +10,11 @@ import { useState } from "react";
 
 // ****************** React Router
 import { Link, useNavigate } from "react-router-dom";
+import * as Icon from "react-feather";
 
 // ****************** Components Import
 import Loader from "../../components/loader/loader";
-import LinkIconAnimation from "../../components/animations/linkIcon";
 import ErrorModal from "../../components/modals/errorModal";
-// import { getAnalytics } from "firebase/analytics";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -30,36 +29,26 @@ const SignUp: React.FC = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
-  // ****************** Checks for changes in the email input field
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
-    setEmail(newEmail);
+    setEmail(e.target.value);
     setEmailError("");
     setErrorModal(false);
   };
 
-  // ****************** Checks for changes in the password input field
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
+    setPassword(e.target.value);
     setPasswordError("");
   };
 
-  // ****************** Checks for changes in the confirm pasword input field
-  const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const confirmPassword = e.target.value;
-    setConfirmPassword(confirmPassword);
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
     setConfirmPasswordError("");
   };
 
-  // ****************** Function to register new user
   const registerUser = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // ****************** validating email
     if (!email) {
       setIsLoading(false);
       setEmailError("Email is required");
@@ -70,144 +59,132 @@ const SignUp: React.FC = () => {
       return false;
     }
 
-    // ****************** validating password
     if (!password) {
       setIsLoading(false);
       setPasswordError("Password is required");
-      return;
+      return false;
     } else if (password.length < 6) {
       setIsLoading(false);
       setPasswordError("Password must be at least 6 characters");
-      return;
+      return false;
     }
 
-    // ****************** validating confirm password
     if (!confirmPassword) {
       setIsLoading(false);
-      setConfirmPasswordError("Confirm Password  is required");
-      return;
+      setConfirmPasswordError("Confirm Password is required");
+      return false;
     } else if (password !== confirmPassword) {
       setIsLoading(false);
       setConfirmPasswordError("Passwords do not match");
-      return;
+      return false;
     }
 
-    // ****************** If all checks, create user
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        user
         setIsLoading(false);
-        // ****************** Sends the user a verification email when the user's account is created
         if (auth.currentUser) {
           sendEmailVerification(auth.currentUser).then(() => {
-            // ****************** After email verification sent!
             navigate("/dashboard");
           });
         }
       })
       .catch((error) => {
-        // ****************** Checks for any error
         const errorCode = error.code;
+        setIsLoading(false);
+        setErrorModal(true);
         if (errorCode === "auth/email-already-in-use") {
-          setIsLoading(false);
-          setErrorModal(true);
           setModalMessage("Email is already in use");
         } else if (errorCode === "auth/network-request-failed") {
-          setIsLoading(false);
-          setErrorModal(true);
           setModalMessage("Network error, please try again later");
+        } else {
+          setModalMessage("An error occurred during sign up");
         }
       });
 
     return false;
   };
-  return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-evenly relative overflow-hidden">
-      <LinkIconAnimation index="-z-0" marginTop="mt-[15vh]" />
-      <div className={`absolute transition-all ${errorModal ? "top-[5.65rem] md:top-24" : "-top-36"}`}>{errorModal ? <ErrorModal error={modalMessage} /> : ""}</div>
-      <h2 className="font-bold text-text text-3xl relative z-30 after:content-[''] after:absolute after:w-1/4 after:h-[3px] after:bg-accent after:-z-10 after:left-[50%] after:translate-x-[-50%] after:top-8 after:rounded-lg">
-        Sign Up
-      </h2>
-      <form
-        className="w-full flex flex-col items-center justify-center relative"
-        onSubmit={registerUser}
-      >
-        <label
-          className="flex flex-col mt-4 text-text font-semibold"
-          htmlFor="email"
-        >
-          Email
-          <input
-            type="email"
-            name="password"
-            id="email"
-            value={email}
-            placeholder="johndoe@gmail.com"
-            onChange={handleEmailChange}
-            autoComplete="email"
-            autoFocus
-            className="bg-background opacity-60 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
-          />
-          <p className="text-red-500 font-thin text-xs">
-            {emailError ? emailError : ""}
-          </p>
-        </label>
-        <label
-          className="flex flex-col mt-4 text-text font-semibold"
-          htmlFor="password"
-        >
-          Password
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
-            autoComplete="current-password"
-            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
-          />
-          <p className="text-red-500 font-thin text-xs">
-            {passwordError ? passwordError : ""}
-          </p>
-        </label>
 
-        <label
-          className="flex flex-col mt-4 text-text font-semibold"
-          htmlFor="confirmPassword"
-        >
-          Confirm Password
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            placeholder="Re-enter Password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            autoComplete="current-password"
-            className="bg-background opacity-80 border border-accent my-2 p-6 w-80 rounded-lg text-text caret-accent focus:outline-none h-4 placeholder:text-gray-600"
-          />
-          <p className="text-red-500 font-thin text-xs">
-            {confirmPasswordError ? confirmPasswordError : ""}
-          </p>
-        </label>
-        <button
-          type="submit"
-          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-10 border border-accent hover:bg-transparent hover:text-accent transition-all ${
-            isLoading ? "cursor-not-allowed bg-transparent" : ""
-          }`}
-        >
-          {isLoading ? <Loader /> : "Sign Up"}
-        </button>
-      </form>
-      <p className="text-text relative z-10">
-        Already have an account?{" "}
-        <Link to="/signin" className="text-accent underline underline-offset-2">
-          Sign In here
-        </Link>
-      </p>
+  return (
+    <div className="w-full min-h-screen flex flex-col items-center justify-center relative px-5 py-12">
+      {/* Background Blobs */}
+      <div className="blob blob-1"></div>
+      <div className="blob blob-2"></div>
+      
+      <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-text-muted hover:text-white transition-colors group">
+        <Icon.ArrowLeft className="group-hover:-translate-x-1 transition-transform" />
+        <span className="font-semibold">Back to Home</span>
+      </Link>
+
+      <div className={`absolute top-24 transition-all duration-300 z-50 ${errorModal ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}>
+        <ErrorModal error={modalMessage} />
+      </div>
+
+      <div className="glass-card rounded-3xl p-8 md:p-12 w-full max-w-md relative z-10 my-auto">
+        <div className="text-center mb-10">
+          <h2 className="font-display font-bold text-3xl mb-2 text-white">Create Account</h2>
+          <p className="text-text-muted">Join Cuttr to start shortening links</p>
+        </div>
+
+        <form className="flex flex-col gap-5" onSubmit={registerUser}>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-text-muted ml-1" htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="you@example.com"
+              autoComplete="email"
+              autoFocus
+              className="bg-surface/50 border border-white/10 p-4 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+            />
+            {emailError && <p className="text-red-400 text-xs mt-1 ml-1">{emailError}</p>}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-text-muted ml-1" htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="••••••••"
+              autoComplete="new-password"
+              className="bg-surface/50 border border-white/10 p-4 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+            />
+            {passwordError && <p className="text-red-400 text-xs mt-1 ml-1">{passwordError}</p>}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-semibold text-text-muted ml-1" htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              placeholder="••••••••"
+              autoComplete="new-password"
+              className="bg-surface/50 border border-white/10 p-4 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+            />
+            {confirmPasswordError && <p className="text-red-400 text-xs mt-1 ml-1">{confirmPasswordError}</p>}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full h-14 rounded-xl bg-gradient-to-r from-accent to-accent2 font-bold text-white shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+          >
+            {isLoading ? <Loader /> : "Sign Up"}
+          </button>
+        </form>
+
+        <p className="text-center text-text-muted mt-8">
+          Already have an account?{" "}
+          <Link to="/signin" className="text-accent font-semibold hover:text-white transition-colors">
+            Sign In
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

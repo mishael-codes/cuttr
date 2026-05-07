@@ -17,6 +17,7 @@ import Loader from "../loader/loader";
 
 // ****************** NPM Imports
 import { nanoid } from "nanoid";
+import * as Icon from "react-feather";
 
 const InputLongLink = ({ text }: { text: string }) => {
   const [input, setInput] = useState("");
@@ -88,7 +89,7 @@ const InputLongLink = ({ text }: { text: string }) => {
     try {
       const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
         url
-      )}&color=ddb640&bgcolor=37323e&margin=10`;
+      )}&color=000000&bgcolor=ffffff&margin=10`;
       const res = await fetch(apiUrl);
       return res.url;
     } catch (error) {
@@ -233,102 +234,119 @@ const InputLongLink = ({ text }: { text: string }) => {
     }
   };
   return (
-    <div className="mt-10 flex items-center justify-center flex-col bg-background p-4 md:p-14 rounded-lg">
-      <p className="font-semibold mb-10">{text}</p>
-      <form onSubmit={handleSubmit} className="flex flex-col w-fit">
-        <label htmlFor="url" className="flex flex-col items-start">
-          Enter a link
-          <input
-            type="url"
-            name="url"
-            id="url"
-            value={input}
-            onChange={handleInputChange}
-            className="w-80 h-4 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2 mt-2"
-            placeholder="https://www.example.com"
-          />
-          {inputError && (
-            <p className="text-red-600 font-light text-xs">{inputError}</p>
-          )}
-        </label>
-        {/* ******************************************************************************************************************** */}
-        {isUser ? (
-          <div className="w-full flex items-center justify-between mt-3">
-            <label htmlFor="name" className="flex flex-col items-start">
-              Name{" "}
+    <div className="w-full flex flex-col items-center">
+      {text && <p className="font-display font-semibold text-xl mb-6 text-white">{text}</p>}
+      
+      <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="url" className="text-sm font-semibold text-text-muted ml-1">
+            Destination URL
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Icon.Link className="h-5 w-5 text-text-muted" />
+            </div>
+            <input
+              type="url"
+              name="url"
+              id="url"
+              value={input}
+              onChange={handleInputChange}
+              className="w-full bg-surface/50 border border-white/10 p-4 pl-12 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+              placeholder="https://example.com/very/long/url"
+            />
+          </div>
+          {inputError && <p className="text-red-400 text-xs mt-1 ml-1">{inputError}</p>}
+        </div>
+
+        {isUser && (
+          <div className="flex flex-col md:flex-row gap-4 w-full">
+            <div className="flex flex-col gap-1 w-full">
+              <label htmlFor="name" className="text-sm font-semibold text-text-muted ml-1">
+                Link Title
+              </label>
               <input
                 type="text"
                 id="name"
                 onChange={handleLinkName}
-                className="w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
-                placeholder="Link Name"
                 value={linkName}
+                className="w-full bg-surface/50 border border-white/10 p-4 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+                placeholder="My Awesome Link"
               />
-              {nameError && (
-                <p className="text-red-600 font-light text-xs">{nameError}</p>
-              )}
-            </label>
-            <label htmlFor="alias" className="flex flex-col items-start">
-              Alias
-              <input
-                type="text"
-                id="alias"
-                onChange={handleAlias}
-                value={alias}
-                className=" w-[150px] h-6 p-6 rounded-lg bg-transparent border border-accent focus:outline-none focus:border-2"
-                placeholder="Link suffix"
-              />
+              {nameError && <p className="text-red-400 text-xs mt-1 ml-1">{nameError}</p>}
+            </div>
+
+            <div className="flex flex-col gap-1 w-full">
+              <label htmlFor="alias" className="text-sm font-semibold text-text-muted ml-1">
+                Custom Alias (Optional)
+              </label>
+              <div className="relative flex items-center">
+                <span className="absolute left-4 text-text-muted">cuttr.app/</span>
+                <input
+                  type="text"
+                  id="alias"
+                  onChange={handleAlias}
+                  value={alias}
+                  className="w-full bg-surface/50 border border-white/10 p-4 pl-24 rounded-xl text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
+                  placeholder="custom-name"
+                />
+              </div>
               {aliasError && (
-                <p
-                  className={`${
-                    aliasError === "Alias already exists"
-                      ? "text-red-600 font-light text-xs"
-                      : "text-green-600 font-thin text-xs"
-                  }`}
-                >
+                <p className={`text-xs mt-1 ml-1 ${aliasError === "Alias already exists" ? "text-red-400" : "text-emerald-400"}`}>
                   {aliasError}
                 </p>
               )}
-            </label>
+            </div>
           </div>
-        ) : (
-          ""
         )}
+
         <button
-          className={`relative w-80 h-14 rounded-lg bg-accent font-bold text-background p-3 mt-3 mb-5 border border-accent hover:bg-transparent hover:text-accent transition-all active:translate-y-1 ${
-            isLoading ? "cursor-not-allowed bg-transparent" : ""
-          }`}
+          type="submit"
+          disabled={isLoading}
+          className="relative w-full h-14 mt-4 rounded-xl bg-gradient-to-r from-accent to-accent2 font-bold text-white shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center group"
         >
-          {isLoading ? <Loader /> : "Shorten"}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <span className="flex items-center gap-2">
+              Shorten Link <Icon.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </span>
+          )}
         </button>
       </form>
-      {/* render the short link if the input is not empty  */}
-      {shortLink ? (
-        <div className="flex flex-col items-center justify-center">
-          <div className="flex items-center justify-center mt-5">
+
+      {/* Result Section */}
+      {shortLink && (
+        <div className="mt-8 w-full glass-card rounded-2xl p-6 border border-accent/30 flex flex-col items-center animate-in fade-in slide-in-from-bottom-4">
+          <h4 className="text-sm font-medium text-text-muted mb-4 uppercase tracking-wider">Your short link is ready!</h4>
+          
+          <div className="flex flex-col md:flex-row items-center gap-4 w-full">
             <a
               href={shortLink}
-              className="p-3 hover:text-accent bg-shadow rounded-lg mr-3 shadow-sm shadow-accent"
               target="_blank"
               rel="noreferrer"
+              className="flex-1 bg-surface/80 px-6 py-4 rounded-xl text-accent font-medium text-lg border border-white/5 hover:border-accent/30 transition-colors truncate text-center md:text-left w-full"
             >
-              {shortLink ? shortLink : ""}
+              {shortLink}
             </a>
             <button
               onClick={handleCopy}
-              className="rounded-lg bg-accent font-bold text-background p-3 border border-accent hover:bg-transparent hover:text-accent transition-all active:translate-y-1"
+              className="w-full md:w-auto px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold transition-colors flex items-center justify-center gap-2 border border-white/10"
             >
+              <Icon.Copy size={18} />
               Copy
             </button>
           </div>
-          {qrCodeData ? (
-            <img src={qrCodeData} alt="qr code" className="mt-5 w-44 h-44" />
-          ) : (
-            ""
+
+          {qrCodeData && (
+            <div className="mt-8 flex flex-col items-center gap-3">
+              <span className="text-sm text-text-muted">Scan QR Code</span>
+              <div className="p-3 bg-white rounded-xl shadow-lg">
+                <img src={qrCodeData} alt="QR Code" className="w-32 h-32" />
+              </div>
+            </div>
           )}
         </div>
-      ) : (
-        ""
       )}
     </div>
   );
