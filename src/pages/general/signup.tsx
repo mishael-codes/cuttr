@@ -80,7 +80,7 @@ const SignUp: React.FC = () => {
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         setIsLoading(false);
         if (auth.currentUser) {
           sendEmailVerification(auth.currentUser).then(() => {

@@ -62,7 +62,7 @@ const SignIn: React.FC = () => {
     }
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         navigate("/dashboard");
         setIsLoading(false);
       })

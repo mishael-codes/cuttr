@@ -67,7 +67,7 @@ const WhyUs: React.FC = () => {
       </div>
 
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 px-4">
-        {reasons.map((reason, idx) => (
+        {reasons.map((reason) => (
           <div
             key={reason.title}
             className="group glass-card rounded-2xl p-8 flex flex-col hover:-translate-y-2 hover:shadow-neon transition-all duration-300 border border-white/5 hover:border-accent/30"

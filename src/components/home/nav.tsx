@@ -12,8 +12,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // ************ Icon Imports
-import closeMenu from "../../assets/icons/close.svg";
-import hamMenu from "../../assets/icons/burger-menu.svg";
+
 
 const Nav: React.FC = () => {
   const [open, setOpen] = useState(false);

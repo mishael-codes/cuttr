@@ -19,7 +19,6 @@ import * as Icon from "react-feather";
 
 // ******************** Components imports
 import Offline from "../../components/offline";
-import Truncate from "../../components/dashboard/truncate";
 import InputLongLink from "../../components/shortenInput/input";
 import SuccessModal from "../../components/modals/successModal";
 
@@ -237,6 +236,7 @@ const Dashboard: React.FC = () => {
                       shortLink: string;
                       qrCodeData: string;
                       editUrls: boolean;
+                      deleteConfirm: boolean;
                       timesClicked: number;
                       linkName: string;
                     }> = []; // Define the type of the 'urls' array
@@ -280,9 +280,8 @@ const Dashboard: React.FC = () => {
   return isOnline ? (
     <div className="flex flex-col items-center mt-7 relative">
       <div
-        className={`absolute transition-all ${
-          successModal ? "top-5 md:top-10" : "-top-36"
-        }`}
+        className={`absolute transition-all ${successModal ? "top-5 md:top-10" : "-top-36"
+          }`}
       >
         {successModal ? <SuccessModal success={modalMessage} /> : ""}
       </div>
@@ -306,7 +305,7 @@ const Dashboard: React.FC = () => {
                 <h3 className="font-display font-bold text-xl text-white self-center mb-6 relative after:content-[''] after:absolute after:w-1/2 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent2 after:left-[25%] after:-bottom-2 after:rounded-lg">
                   {item.linkName ? item.linkName : "Untitled Link"}
                 </h3>
-                
+
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">Destination</span>
@@ -320,7 +319,7 @@ const Dashboard: React.FC = () => {
                       {item.url}
                     </a>
                   </div>
-                  
+
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">Short URL</span>
                     <a
@@ -361,7 +360,7 @@ const Dashboard: React.FC = () => {
                     </button>
                   </div>
                 )}
-                
+
                 {item.editUrls && (
                   <div className="w-full flex flex-col mt-6 pt-6 border-t border-white/5 gap-3 animate-in fade-in zoom-in-95">
                     <label className="text-sm font-semibold text-text-muted">Edit Destination URL</label>
